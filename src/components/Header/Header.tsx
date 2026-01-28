@@ -5,11 +5,18 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <div>
+        <div className={styles.logoWrap}>
           <a href="#" className={styles.logo}>
             TechStore
           </a>
         </div>
+
+        <button className={styles.menuToggle}>
+          <span className={styles.burger}></span>
+          <span className={styles.burger}></span>
+          <span className={styles.burger}></span>
+        </button>
+
         <div className={styles.searchHolder}>
           <span className={styles.searchIcon}>
             <Search color="#909cb2" size={23} />
@@ -23,6 +30,7 @@ const Header = () => {
             <X color="#909cb2" size={23} />
           </button>
         </div>
+
         <div className={styles.buttons}>
           <button className={styles.button}>
             <Heart color="#4a5568" size={27} />

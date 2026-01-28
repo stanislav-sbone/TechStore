@@ -12,7 +12,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
+  gap: 1rem;
 }
 
 .logo {
@@ -72,4 +73,37 @@
 
 .button:hover {
   background-color: #eeeeee;
+}
+
+.menuToggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.burger {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #2563eb;
+  border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-wrap: wrap;
+  }
+
+  .searchHolder {
+    flex: 1 1 100%;
+  }
+
+  .buttons {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
+  }
 }
