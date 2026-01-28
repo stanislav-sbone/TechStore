@@ -12,7 +12,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
+  gap: 1rem;
 }
 
 .logo {
@@ -25,8 +26,84 @@
   cursor: pointer;
 }
 
-.searchBar {
+.searchHolder {
+  width: 600px;
+  position: relative;
+}
+
+.search {
+  width: 100%;
+  padding: 0.65rem 2.5rem;
+  border: 1px solid #bbbbbb;
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.search:focus {
+  outline: 1px solid var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.searchIcon,
+.closeButton {
+  position: absolute;
+  top: 10px;
+}
+
+.searchIcon {
+  left: 10px;
+}
+
+.closeButton {
+  right: 10px;
 }
 
 .buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.button {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 250ms ease-in-out;
+}
+
+.button:hover {
+  background-color: #eeeeee;
+}
+
+.menuToggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.burger {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #2563eb;
+  border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    flex-wrap: wrap;
+  }
+
+  .searchHolder {
+    flex: 1 1 100%;
+  }
+
+  .buttons {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
+  }
 }
