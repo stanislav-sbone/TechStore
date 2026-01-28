@@ -1,4 +1,4 @@
-import { Search, X } from 'lucide-react';
+import { Heart, Search, ShoppingCart, User, X } from 'lucide-react';
 import styles from './Header.module.css';
 
 const Header = () => {
@@ -6,7 +6,9 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <div>
-          <h1 className={styles.logo}>TechStore</h1>
+          <a href="#" className={styles.logo}>
+            TechStore
+          </a>
         </div>
         <div className={styles.searchHolder}>
           <span className={styles.searchIcon}>
@@ -21,7 +23,17 @@ const Header = () => {
             <X color="#909cb2" size={23} />
           </button>
         </div>
-        <div className={styles.buttons}>buttons</div>
+        <div className={styles.buttons}>
+          <button className={styles.button}>
+            <Heart color="#4a5568" size={27} />
+          </button>
+          <button className={styles.button}>
+            <ShoppingCart color="#4a5568" size={27} />
+          </button>
+          <button className={styles.button}>
+            <User color="#4a5568" size={27} />
+          </button>
+        </div>
       </div>
     </header>
   );

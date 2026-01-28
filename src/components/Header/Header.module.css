@@ -59,4 +59,17 @@
 }
 
 .buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.button {
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 250ms ease-in-out;
+}
+
+.button:hover {
+  background-color: #eeeeee;
 }
