@@ -7,6 +7,10 @@ const Header = () => {
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
   const dispatch = useAppDispatch();
 
+  const clearInput = () => {
+    dispatch(setSearchQuery(''));
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -33,9 +37,11 @@ const Header = () => {
             value={searchQuery}
             onChange={(event) => dispatch(setSearchQuery(event.target.value))}
           />
-          <button className={styles.closeButton}>
-            <X color="#909cb2" size={23} />
-          </button>
+          {searchQuery && (
+            <button className={styles.closeButton} onClick={clearInput}>
+              <X color="#909cb2" size={23} />
+            </button>
+          )}
         </div>
 
         <div className={styles.buttons}>
