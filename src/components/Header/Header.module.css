@@ -38,6 +38,7 @@
   border-radius: 8px;
   font-size: 16px;
   color: var(--color-text-secondary);
+  text-overflow: ellipsis;
 }
 
 .search:focus {
