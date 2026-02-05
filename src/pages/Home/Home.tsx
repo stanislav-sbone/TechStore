@@ -1,16 +1,43 @@
-import type { FC } from 'react';
-import styles from './Home.module.css';
-import { products } from '../../data/products';
+import { useEffect, useMemo, type FC } from 'react';
 import ProductCard from './ProductCard';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchProducts } from '../../services/api';
+import { setProducts } from '../../store/features/productsSlice';
+import styles from './Home.module.css';
 
 // TODO: Сделать фильтрацию товаров по категориям
+// TODO: Создать состояния загрузки и ошибки при фетче данных, обработка загрузки с помощью скелетонов
 
 const Home: FC = () => {
+  const products = useAppSelector((state) => state.products.items);
+  const searchQuery = useAppSelector((state) => state.products.searchQuery);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        dispatch(setProducts(data));
+      } catch (error) {
+        console.error(`Ошибка ${error}`);
+      }
+    };
+
+    getProducts();
+  }, [dispatch]);
+
+  const filteredProducts = useMemo(() => {
+    const query = searchQuery.toLowerCase();
+    return products.filter((product) =>
+      product.title.toLowerCase().includes(query)
+    );
+  }, [products, searchQuery]);
+
   return (
     <section className={styles.home}>
       <h1 className={styles.title}>Каталог товаров</h1>
       <div className={styles.productsGrid}>
-        {products.map((p) => (
+        {filteredProducts.map((p) => (
           <ProductCard
             key={p.id}
             image={p.images[0]}
