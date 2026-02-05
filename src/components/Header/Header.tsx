@@ -1,7 +1,12 @@
 import { Heart, Search, ShoppingCart, User, X } from 'lucide-react';
 import styles from './Header.module.css';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setSearchQuery } from '../../store/features/productsSlice';
 
 const Header = () => {
+  const searchQuery = useAppSelector((state) => state.products.searchQuery);
+  const dispatch = useAppDispatch();
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -25,6 +30,8 @@ const Header = () => {
             className={styles.search}
             type="text"
             placeholder="Искать в TechStore"
+            value={searchQuery}
+            onChange={(event) => dispatch(setSearchQuery(event.target.value))}
           />
           <button className={styles.closeButton}>
             <X color="#909cb2" size={23} />
