@@ -15,12 +15,16 @@
   padding: 1rem 0;
 }
 
-.card {
+.card,
+.skeleton {
   display: flex;
   flex-direction: column;
   background-color: var(--color-surface);
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card {
   color: var(--color-text-primary);
   cursor: pointer;
   transition: all 250ms ease-in-out;
