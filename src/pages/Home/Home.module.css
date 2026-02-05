@@ -22,10 +22,12 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   color: var(--color-text-primary);
-  transition: box-shadow 250ms ease-in-out;
+  cursor: pointer;
+  transition: all 250ms ease-in-out;
 
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
   }
 }
 
