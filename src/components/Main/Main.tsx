@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import styles from './Main.module.css';
-import Home from '../../pages/Home/Home';
+import Home from '@/pages/Home/Home';
 
 const Main: FC = () => {
   return (

@@ -1,7 +1,7 @@
 import { Heart, Search, ShoppingCart, User, X } from 'lucide-react';
 import styles from './Header.module.css';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setSearchQuery } from '../../store/features/productsSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setSearchQuery } from '@/store/features/productsSlice';
 
 const Header = () => {
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
