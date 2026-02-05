@@ -1,25 +1,31 @@
-import { useEffect, useMemo, type FC } from 'react';
+import { useEffect, useMemo, useState, type FC } from 'react';
 import ProductCard from './ProductCard';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProducts } from '@/services/api';
 import { setProducts } from '@/store/features/productsSlice';
 import styles from './Home.module.css';
+import ProductCardSkeleton from './ProductCardSkeleton';
 
 // TODO: Сделать фильтрацию товаров по категориям
-// TODO: Создать состояния загрузки и ошибки при фетче данных, обработка загрузки с помощью скелетонов
+// TODO: Создать состояние  и обработку ошибки при фетче
 
 const Home: FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const products = useAppSelector((state) => state.products.items);
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const getProducts = async () => {
+      setIsLoading(true);
+
       try {
         const data = await fetchProducts();
         dispatch(setProducts(data));
       } catch (error) {
         console.error(`Ошибка ${error}`);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -36,17 +42,25 @@ const Home: FC = () => {
   return (
     <section className={styles.home}>
       <h1 className={styles.title}>Каталог товаров</h1>
-      <div className={styles.productsGrid}>
-        {filteredProducts.map((p) => (
-          <ProductCard
-            key={p.id}
-            image={p.images[0]}
-            name={p.title}
-            category={p.category}
-            price={p.price}
-          />
-        ))}
-      </div>
+      {isLoading ? (
+        <div className={styles.productsGrid}>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+        </div>
+      ) : (
+        <div className={styles.productsGrid}>
+          {filteredProducts.map((p) => (
+            <ProductCard
+              key={p.id}
+              image={p.images[0]}
+              name={p.title}
+              category={p.category}
+              price={p.price}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

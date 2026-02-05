@@ -5,6 +5,6 @@ export const fetchProducts = async (): Promise<Product[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(products);
-    }, 1000);
+    }, 1500);
   });
 };
