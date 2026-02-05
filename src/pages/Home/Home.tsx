@@ -1,8 +1,8 @@
 import { useEffect, useMemo, type FC } from 'react';
 import ProductCard from './ProductCard';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchProducts } from '../../services/api';
-import { setProducts } from '../../store/features/productsSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchProducts } from '@/services/api';
+import { setProducts } from '@/store/features/productsSlice';
 import styles from './Home.module.css';
 
 // TODO: Сделать фильтрацию товаров по категориям
