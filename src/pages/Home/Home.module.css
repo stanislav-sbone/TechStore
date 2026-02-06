@@ -100,3 +100,33 @@
     transform: scale(1.05);
   }
 }
+
+.noMatches {
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.noMatchesImage {
+  width: clamp(350px, 50vw, 500px);
+}
+
+.message,
+.submessage {
+  color: #1d5798;
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+}
+
+.submessage {
+  font-size: clamp(1rem, 2vw + 0.1rem, 1.35rem);
+}
+
+@media (max-width: 600px) {
+  .noMatches {
+    height: 40vh;
+  }
+}
