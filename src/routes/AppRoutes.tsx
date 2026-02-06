@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { Home } from '@/pages/Home';
+import { NotFound } from '@/pages/NotFound';
 
 const AppRoutes = () => {
   return (
@@ -10,7 +11,7 @@ const AppRoutes = () => {
       {/* <Route path={ROUTES.CART} element={<Cart />}></Route> */}
       {/* <Route path={ROUTES.PRODUCT} element={<Product />}></Route> */}
       {/* <Route path={ROUTES.PROFILE} element={<Profile />}></Route> */}
-      {/* <Route path="*" element={<NotFound />}></Route> */}
+      <Route path="*" element={<NotFound />}></Route>
     </Routes>
   );
 };
