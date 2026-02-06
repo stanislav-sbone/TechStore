@@ -1,9 +1,10 @@
-import { Heart, Search, ShoppingCart, User, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import styles from './Header.module.css';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSearchQuery } from '@/store/features/productsSlice';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
+import HeaderButtons from './HeaderButton';
 
 const Header = () => {
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
@@ -46,17 +47,7 @@ const Header = () => {
           )}
         </div>
 
-        <div className={styles.buttons}>
-          <button className={styles.button}>
-            <Heart color="#4a5568" size={27} />
-          </button>
-          <button className={styles.button}>
-            <ShoppingCart color="#4a5568" size={27} />
-          </button>
-          <button className={styles.button}>
-            <User color="#4a5568" size={27} />
-          </button>
-        </div>
+        <HeaderButtons />
       </div>
     </header>
   );
