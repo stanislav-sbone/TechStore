@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import HeaderButtons from './HeaderButtons';
 import HeaderSearch from './HeaderSearch';
@@ -7,6 +7,8 @@ import styles from './Header.module.css';
 // TODO: сделать бургер меню
 
 const Header = () => {
+  const location = useLocation();
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -22,7 +24,7 @@ const Header = () => {
           <span className={styles.burger}></span>
         </button>
 
-        <HeaderSearch />
+        {location.pathname === '/' && <HeaderSearch />}
         <HeaderButtons />
       </div>
     </header>
