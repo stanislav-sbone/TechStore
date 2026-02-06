@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 import styles from './Main.module.css';
-import Home from '@/pages/Home/Home';
+import AppRoutes from '@/routes/AppRoutes';
 
 const Main: FC = () => {
   return (
     <main className={styles.main}>
       <div className={styles.container}>
-        <Home />
+        <AppRoutes />
       </div>
     </main>
   );
