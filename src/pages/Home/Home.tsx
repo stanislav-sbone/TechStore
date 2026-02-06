@@ -5,6 +5,7 @@ import { fetchProducts } from '@/services/api';
 import { setProducts } from '@/store/features/productsSlice';
 import styles from './Home.module.css';
 import ProductCardSkeleton from './ProductCardSkeleton';
+import NoMatches from './NoMatches';
 
 // TODO: Сделать фильтрацию товаров по категориям
 // TODO: Создать состояние  и обработку ошибки при фетче
@@ -38,6 +39,14 @@ const Home: FC = () => {
       product.title.toLowerCase().includes(query)
     );
   }, [products, searchQuery]);
+
+  if (filteredProducts.length === 0 && !isLoading) {
+    return (
+      <section className={styles.home}>
+        <NoMatches />
+      </section>
+    );
+  }
 
   return (
     <section className={styles.home}>
