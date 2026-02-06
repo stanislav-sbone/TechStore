@@ -1,19 +1,12 @@
-import { Search, X } from 'lucide-react';
-import styles from './Header.module.css';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setSearchQuery } from '@/store/features/productsSlice';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import HeaderButtons from './HeaderButton';
+import HeaderSearch from './HeaderSearch';
+import styles from './Header.module.css';
+
+// TODO: сделать бургер меню
 
 const Header = () => {
-  const searchQuery = useAppSelector((state) => state.products.searchQuery);
-  const dispatch = useAppDispatch();
-
-  const clearInput = () => {
-    dispatch(setSearchQuery(''));
-  };
-
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -29,24 +22,7 @@ const Header = () => {
           <span className={styles.burger}></span>
         </button>
 
-        <div className={styles.searchHolder}>
-          <span className={styles.searchIcon}>
-            <Search color="#909cb2" size={23} />
-          </span>
-          <input
-            className={styles.search}
-            type="text"
-            placeholder="Искать в TechStore"
-            value={searchQuery}
-            onChange={(event) => dispatch(setSearchQuery(event.target.value))}
-          />
-          {searchQuery && (
-            <button className={styles.closeButton} onClick={clearInput}>
-              <X color="#909cb2" size={23} />
-            </button>
-          )}
-        </div>
-
+        <HeaderSearch />
         <HeaderButtons />
       </div>
     </header>
