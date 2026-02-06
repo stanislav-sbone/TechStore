@@ -2,6 +2,8 @@ import { Heart, Search, ShoppingCart, User, X } from 'lucide-react';
 import styles from './Header.module.css';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSearchQuery } from '@/store/features/productsSlice';
+import { Link } from 'react-router';
+import { ROUTES } from '@/routes/constants/routes';
 
 const Header = () => {
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
@@ -15,9 +17,9 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.logoWrap}>
-          <a href="#" className={styles.logo}>
+          <Link to={ROUTES.HOME} className={styles.logo}>
             TechStore
-          </a>
+          </Link>
         </div>
 
         <button className={styles.menuToggle}>
