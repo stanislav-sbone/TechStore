@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
-import HeaderButtons from './HeaderButton';
+import HeaderButtons from './HeaderButtons';
 import HeaderSearch from './HeaderSearch';
 import styles from './Header.module.css';
 
