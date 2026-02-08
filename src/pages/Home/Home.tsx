@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type FC } from 'react';
 import ProductCard from './ProductCard';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProducts } from '@/services/api';
-import { setProducts } from '@/store/features/productsSlice';
+import { setProducts } from '@/store/features/products/productsSlice';
 import styles from './Home.module.css';
 import ProductCardSkeleton from './ProductCardSkeleton';
 import NoMatches from './NoMatches';
