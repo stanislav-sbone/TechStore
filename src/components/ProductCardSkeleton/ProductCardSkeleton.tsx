@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import ContentLoader from 'react-content-loader';
-import styles from './Home.module.css';
+import styles from './ProductCardSkeleton.module.css';
 
 const ProductCardSkeleton: FC = () => {
   return (

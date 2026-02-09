@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import styles from './Home.module.css';
+import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
   image: string;

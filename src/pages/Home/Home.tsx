@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState, type FC } from 'react';
-import ProductCard from './ProductCard';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchProducts } from '@/services/api';
 import { setProducts } from '@/store/features/products/productsSlice';
-import styles from './Home.module.css';
-import ProductCardSkeleton from './ProductCardSkeleton';
+import { ProductCard } from '@/components/ProductCard';
+import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import NoMatches from './NoMatches';
+import styles from './Home.module.css';
 
 // TODO: Сделать фильтрацию товаров по категориям
 // TODO: Создать состояние  и обработку ошибки при фетче
