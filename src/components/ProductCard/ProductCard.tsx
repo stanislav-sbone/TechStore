@@ -46,8 +46,8 @@ const ProductCard: FC<ProductCardProps> = ({
         <button className={styles.favoriteButton} onClick={onClick}>
           <Heart
             size={24}
-            fill={isFavorite ? 'red' : 'none'}
-            color={isFavorite ? 'red' : 'currentColor'}
+            fill={isFavorite ? '#ef4444' : 'none'}
+            color={isFavorite ? '#ef4444' : 'currentColor'}
           />
         </button>
       </div>

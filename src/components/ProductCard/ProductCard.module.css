@@ -94,6 +94,6 @@
   transition: color 250ms ease-in-out;
 
   &:hover {
-    color: red;
+    color: #ef4444;
   }
 }
