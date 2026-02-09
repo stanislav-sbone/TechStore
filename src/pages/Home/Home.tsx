@@ -62,6 +62,7 @@ const Home: FC = () => {
           {filteredProducts.map((p) => (
             <ProductCard
               key={p.id}
+              id={p.id}
               image={p.images[0]}
               name={p.title}
               category={p.category}

@@ -1,7 +1,11 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 import styles from './ProductCard.module.css';
+import { Heart } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
 
 interface ProductCardProps {
+  id: number;
   image: string;
   name: string;
   category: string;
@@ -9,11 +13,22 @@ interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({
+  id,
   image,
   name,
   category,
   price,
 }) => {
+  const favorites = useAppSelector((state) => state.favorites.items);
+  const dispatch = useAppDispatch();
+
+  const isFavorite = favorites.includes(id);
+
+  const onClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    dispatch(toggleFavorite(id));
+  };
+
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
@@ -26,6 +41,15 @@ const ProductCard: FC<ProductCardProps> = ({
           <div className={styles.price}>{price.toLocaleString('ru-RU')} ₽</div>
           <button className={styles.cartButton}>В корзину</button>
         </div>
+      </div>
+      <div className={styles.buttonWrapper}>
+        <button className={styles.favoriteButton} onClick={onClick}>
+          <Heart
+            size={24}
+            fill={isFavorite ? 'red' : 'none'}
+            color={isFavorite ? 'red' : 'currentColor'}
+          />
+        </button>
       </div>
     </div>
   );

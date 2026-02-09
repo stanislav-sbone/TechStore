@@ -6,6 +6,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   color: var(--color-text-primary);
   cursor: pointer;
+  position: relative;
   transition: all 250ms ease-in-out;
 
   &:hover {
@@ -77,5 +78,22 @@
   &:hover {
     background-color: #1b6ebc;
     transform: scale(1.05);
+  }
+}
+
+.buttonWrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.favoriteButton {
+  background-color: white;
+  border-radius: 50%;
+  padding: 6px;
+  transition: color 250ms ease-in-out;
+
+  &:hover {
+    color: red;
   }
 }
