@@ -102,6 +102,13 @@
   font-weight: 600;
 }
 
+.priceFavorite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .priceBlock {
   display: flex;
   align-items: baseline;
@@ -109,6 +116,7 @@
   background-color: var(--color-background);
   padding: 1rem;
   border-radius: 8px;
+  width: 100%;
 }
 
 .price {
@@ -127,6 +135,22 @@
   font-size: 1.75rem;
   font-weight: 700;
   color: #e53e3e;
+}
+
+.favoriteButton {
+  background-color: var(--color-background);
+  height: 100%;
+  padding: 0 1rem;
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  transition:
+    background-color 250ms ease-in-out,
+    color 250ms ease-in-out;
+
+  &:hover {
+    background-color: #ffb8b8;
+    color: #ef4444;
+  }
 }
 
 .cartButton {
