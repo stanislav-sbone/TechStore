@@ -4,7 +4,7 @@ import { fetchProducts } from '@/services/api';
 import { setProducts } from '@/store/features/products/productsSlice';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
-import NoMatches from './NoMatches';
+import { NoMatches } from '@/components/NoMatches';
 import styles from './Home.module.css';
 
 // TODO: Сделать фильтрацию товаров по категориям

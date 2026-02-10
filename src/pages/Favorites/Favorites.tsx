@@ -4,7 +4,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { useMemo } from 'react';
 import EmptyFavorites from './EmptyFavorites';
 import FavoritesFilter from './FavoritesFilter';
-import NoMatches from '../Home/NoMatches';
+import { NoMatches } from '@/components/NoMatches';
 
 const Favorites = () => {
   const products = useAppSelector((state) => state.products.items);
