@@ -4,7 +4,11 @@ import styles from './ProductPage.module.css';
 const ProductNotFound = () => {
   return (
     <div className={styles.notFound}>
-      <img src="/nomatches.png" alt="notFound" className={styles.image} />
+      <img
+        src="/nomatches.png"
+        alt="notFound"
+        className={styles.notFoundImage}
+      />
       <p className={styles.message}>Товар не найден</p>
       <HomeLink />
     </div>
