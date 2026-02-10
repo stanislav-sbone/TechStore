@@ -11,18 +11,22 @@ const Favorites = () => {
   const favorites = useAppSelector((state) => state.favorites.items);
   const searchQuery = useAppSelector((state) => state.favorites.searchQuery);
 
-  const favoriteProducts = useMemo(() => {
-    return products.filter((product) => favorites.includes(product.id));
-  }, [favorites, products]);
-
   const filteredFavoriteProducts = useMemo(() => {
+    const favoriteProducts = products.filter((product) =>
+      favorites.includes(product.id)
+    );
+
+    if (favoriteProducts.length === 0) return [];
+
+    if (!searchQuery.trim()) return favoriteProducts;
+
     const query = searchQuery.toLowerCase();
     return favoriteProducts.filter((product) =>
       product.title.toLowerCase().includes(query)
     );
-  }, [searchQuery, favoriteProducts]);
+  }, [favorites, products, searchQuery]);
 
-  if (favoriteProducts.length === 0) {
+  if (favorites.length === 0) {
     return (
       <section className={styles.favorites}>
         <EmptyFavorites />
