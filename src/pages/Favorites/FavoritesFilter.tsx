@@ -1,10 +1,10 @@
 import { Search, X } from 'lucide-react';
-import styles from './Header.module.css';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setSearchQuery } from '@/store/features/products/productsSlice';
+import { setSearchQuery } from '@/store/features/favorites/favoritesSlice';
+import styles from './Favorites.module.css';
 
-const HeaderSearch = () => {
-  const searchQuery = useAppSelector((state) => state.products.searchQuery);
+const FavoritesFilter = () => {
+  const searchQuery = useAppSelector((state) => state.favorites.searchQuery);
   const dispatch = useAppDispatch();
 
   const clearInput = () => {
@@ -12,14 +12,14 @@ const HeaderSearch = () => {
   };
 
   return (
-    <div className={styles.searchHolder}>
-      <span className={styles.searchIcon}>
+    <div className={styles.filterWrapper}>
+      <span className={styles.filterIcon}>
         <Search color="#909cb2" size={23} />
       </span>
       <input
-        className={styles.search}
+        className={styles.filter}
         type="text"
-        placeholder="Искать в TechStore"
+        placeholder="Искать в избранных"
         value={searchQuery}
         onChange={(event) => dispatch(setSearchQuery(event.target.value))}
       />
@@ -32,4 +32,4 @@ const HeaderSearch = () => {
   );
 };
 
-export default HeaderSearch;
+export default FavoritesFilter;
