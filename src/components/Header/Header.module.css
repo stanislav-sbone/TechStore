@@ -47,7 +47,7 @@
 }
 
 .searchIcon,
-.closeButton {
+.clearButton {
   position: absolute;
   top: 10px;
 }
@@ -56,7 +56,7 @@
   left: 10px;
 }
 
-.closeButton {
+.clearButton {
   right: 10px;
 }
 
