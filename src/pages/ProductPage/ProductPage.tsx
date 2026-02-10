@@ -1,13 +1,18 @@
 import { Link, useParams } from 'react-router';
-import { useAppSelector } from '@/store/hooks';
-import { Star, ArrowLeft } from 'lucide-react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { Star, ArrowLeft, Heart } from 'lucide-react';
 import styles from './ProductPage.module.css';
 import ProductNotFound from './ProductNotFound';
+import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
+import type { MouseEvent } from 'react';
 
 const ProductPage = () => {
   const { id } = useParams();
   const products = useAppSelector((state) => state.products.items);
+  const favorites = useAppSelector((state) => state.favorites.items);
+  const dispatch = useAppDispatch();
 
+  const isFavorite = favorites.includes(Number(id));
   const product = products.find((p) => p.id === Number(id));
 
   if (!product) {
@@ -22,6 +27,12 @@ const ProductPage = () => {
     product.discount != null
       ? Math.round(product.price * (1 - product.discount))
       : null;
+
+  const handleFavoriteClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    dispatch(toggleFavorite(Number(id)));
+  };
 
   return (
     <section className={styles.page}>
@@ -61,17 +72,29 @@ const ProductPage = () => {
             </p>
           </div>
 
-          <div className={styles.priceBlock}>
-            {discountPrice != null && (
-              <span className={styles.priceDiscount}>
-                {discountPrice.toLocaleString('ru-RU')} ₽
+          <div className={styles.priceFavorite}>
+            <div className={styles.priceBlock}>
+              {discountPrice != null && (
+                <span className={styles.priceDiscount}>
+                  {discountPrice.toLocaleString('ru-RU')} ₽
+                </span>
+              )}
+              <span
+                className={`${styles.price} ${discountPrice ? styles.priceOld : ''}`}
+              >
+                {product.price.toLocaleString('ru-RU')} ₽
               </span>
-            )}
-            <span
-              className={`${styles.price} ${discountPrice ? styles.priceOld : ''}`}
+            </div>
+            <button
+              onClick={handleFavoriteClick}
+              className={styles.favoriteButton}
             >
-              {product.price.toLocaleString('ru-RU')} ₽
-            </span>
+              <Heart
+                size={27}
+                fill={isFavorite ? '#ef4444' : 'none'}
+                color={isFavorite ? '#ef4444' : 'currentColor'}
+              />
+            </button>
           </div>
 
           <div className={styles.stock}>
