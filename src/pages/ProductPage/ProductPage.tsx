@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router';
 import { useAppSelector } from '@/store/hooks';
 import { Star, ArrowLeft } from 'lucide-react';
 import styles from './ProductPage.module.css';
+import ProductNotFound from './ProductNotFound';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -10,7 +11,11 @@ const ProductPage = () => {
   const product = products.find((p) => p.id === Number(id));
 
   if (!product) {
-    return <section className={styles.page}>товар не найден</section>;
+    return (
+      <section className={styles.page}>
+        <ProductNotFound />
+      </section>
+    );
   }
 
   const discountPrice =
