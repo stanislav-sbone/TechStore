@@ -7,6 +7,7 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { fetchProductById } from '@/services/api';
 import type { Product } from '@/types/product';
 import styles from './ProductPage.module.css';
+import ProductPageSkeleton from './ProductPageSkeleton';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -37,7 +38,11 @@ const ProductPage = () => {
   }, [productID]);
 
   if (isLoading) {
-    return <section className={styles.page}>загружаем товар</section>;
+    return (
+      <section className={styles.page}>
+        <ProductPageSkeleton />
+      </section>
+    );
   }
 
   if (!product) {
