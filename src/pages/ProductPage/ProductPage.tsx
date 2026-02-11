@@ -1,19 +1,44 @@
 import { Link, useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Star, ArrowLeft, Heart } from 'lucide-react';
-import styles from './ProductPage.module.css';
 import ProductNotFound from './ProductNotFound';
 import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
-import type { MouseEvent } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
+import { fetchProductById } from '@/services/api';
+import type { Product } from '@/types/product';
+import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
   const { id } = useParams();
-  const products = useAppSelector((state) => state.products.items);
+  const productID = Number(id);
   const favorites = useAppSelector((state) => state.favorites.items);
   const dispatch = useAppDispatch();
 
-  const isFavorite = favorites.includes(Number(id));
-  const product = products.find((p) => p.id === Number(id));
+  const [product, setProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isFavorite = favorites.includes(productID);
+
+  useEffect(() => {
+    const getProduct = async () => {
+      setIsLoading(true);
+
+      try {
+        const response = await fetchProductById(productID);
+        setProduct(response);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getProduct();
+  }, [productID]);
+
+  if (isLoading) {
+    return <section className={styles.page}>загружаем товар</section>;
+  }
 
   if (!product) {
     return (
@@ -31,7 +56,7 @@ const ProductPage = () => {
   const handleFavoriteClick = (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
-    dispatch(toggleFavorite(Number(id)));
+    dispatch(toggleFavorite(productID));
   };
 
   return (

@@ -8,3 +8,17 @@ export const fetchProducts = async (): Promise<Product[]> => {
     }, 1500);
   });
 };
+
+export const fetchProductById = async (id: number): Promise<Product | null> => {
+  const product = products.find((product) => product.id === id);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      if (product) {
+        resolve(product);
+      } else {
+        resolve(null);
+      }
+    }, 1000);
+  });
+};
