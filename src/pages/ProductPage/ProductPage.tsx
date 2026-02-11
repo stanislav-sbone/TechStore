@@ -6,8 +6,9 @@ import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
 import { useEffect, useState, type MouseEvent } from 'react';
 import { fetchProductById } from '@/services/api';
 import type { Product } from '@/types/product';
-import styles from './ProductPage.module.css';
 import ProductPageSkeleton from './ProductPageSkeleton';
+import ProductError from './ProductError';
+import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -17,18 +18,21 @@ const ProductPage = () => {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const isFavorite = favorites.includes(productID);
 
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true);
+      setError(null);
 
       try {
         const response = await fetchProductById(productID);
         setProduct(response);
       } catch (error) {
         console.error(error);
+        setError('Не удалось загрузить товар. Попробуйте позже');
       } finally {
         setIsLoading(false);
       }
@@ -41,6 +45,14 @@ const ProductPage = () => {
     return (
       <section className={styles.page}>
         <ProductPageSkeleton />
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className={styles.page}>
+        <ProductError message={error} />
       </section>
     );
   }
