@@ -1,0 +1,38 @@
+.specs {
+  margin-top: 0.5rem;
+}
+
+.specs h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.specsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--color-background);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.specRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.specRow:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.specRow dt {
+  color: var(--color-text-secondary);
+}
+
+.specRow dd {
+  font-weight: 500;
+}

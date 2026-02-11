@@ -1,0 +1,22 @@
+.badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badgeNew,
+.badgeDiscount {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.badgeNew {
+  background-color: var(--color-primary);
+}
+
+.badgeDiscount {
+  background-color: #e53e3e;
+}
