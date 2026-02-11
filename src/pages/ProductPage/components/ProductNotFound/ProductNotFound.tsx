@@ -1,5 +1,5 @@
 import { HomeLink } from '@/components/HomeLink';
-import styles from './ProductPage.module.css';
+import styles from './ProductNotFound.module.css';
 
 const ProductNotFound = () => {
   return (

@@ -1,0 +1,34 @@
+.priceFavorite {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  background-color: var(--color-background);
+  padding: 1rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.priceDiscount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #e53e3e;
+}
+
+.price {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.priceOld {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: line-through;
+}

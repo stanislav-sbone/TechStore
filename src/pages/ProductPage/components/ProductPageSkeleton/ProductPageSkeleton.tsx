@@ -2,7 +2,7 @@ import React from 'react';
 import ContentLoader from 'react-content-loader';
 import { Link } from 'react-router';
 import { ArrowLeft } from 'lucide-react';
-import styles from './ProductPage.module.css';
+import styles from './ProductPageSkeleton.module.css';
 
 const ProductPageSkeleton: React.FC = () => {
   return (

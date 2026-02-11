@@ -1,0 +1,15 @@
+.favoriteButton {
+  background-color: var(--color-background);
+  height: 100%;
+  padding: 0 1rem;
+  border-radius: 8px;
+  color: var(--color-text-secondary);
+  transition:
+    background-color 250ms ease-in-out,
+    color 250ms ease-in-out;
+
+  &:hover {
+    background-color: #ffb8b8;
+    color: #ef4444;
+  }
+}

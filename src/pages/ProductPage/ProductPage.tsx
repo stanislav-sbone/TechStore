@@ -1,20 +1,24 @@
 import { Link, useParams } from 'react-router';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { Star, ArrowLeft, Heart } from 'lucide-react';
-import ProductNotFound from './ProductNotFound';
-import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useAppSelector } from '@/store/hooks';
+import {
+  ProductBadges,
+  ProductCategoryBrand,
+  ProductError,
+  ProductNotFound,
+  ProductPageSkeleton,
+  ProductPrice,
+  ProductSpecs,
+} from './components';
+import { useEffect, useState } from 'react';
 import { fetchProductById } from '@/services/api';
 import type { Product } from '@/types/product';
-import ProductPageSkeleton from './ProductPageSkeleton';
-import ProductError from './ProductError';
+import { ArrowLeft } from 'lucide-react';
 import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
   const { id } = useParams();
   const productID = Number(id);
   const favorites = useAppSelector((state) => state.favorites.items);
-  const dispatch = useAppDispatch();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,12 +74,6 @@ const ProductPage = () => {
       ? Math.round(product.price * (1 - product.discount))
       : null;
 
-  const handleFavoriteClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    dispatch(toggleFavorite(productID));
-  };
-
   return (
     <section className={styles.page}>
       <Link to="/" className={styles.backLink}>
@@ -93,51 +91,22 @@ const ProductPage = () => {
         </div>
 
         <div className={styles.info}>
-          <div className={styles.badges}>
-            {product.isNew && <span className={styles.badgeNew}>Новинка</span>}
-            {product.discount != null && (
-              <span className={styles.badgeDiscount}>
-                −{Math.round(product.discount * 100)}%
-              </span>
-            )}
-          </div>
+          <ProductBadges isNew={product.isNew} discount={product.discount} />
 
           <h1 className={styles.title}>{product.title}</h1>
 
-          <div className={styles.categoryRating}>
-            <div className={styles.rating}>
-              <Star size={18} fill="currentColor" />
-              <span>{product.rating}</span>
-            </div>
-            <p>
-              {product.category} • {product.brand}
-            </p>
-          </div>
+          <ProductCategoryBrand
+            rating={product.rating}
+            category={product.category}
+            brand={product.brand}
+          />
 
-          <div className={styles.priceFavorite}>
-            <div className={styles.priceBlock}>
-              {discountPrice != null && (
-                <span className={styles.priceDiscount}>
-                  {discountPrice.toLocaleString('ru-RU')} ₽
-                </span>
-              )}
-              <span
-                className={`${styles.price} ${discountPrice ? styles.priceOld : ''}`}
-              >
-                {product.price.toLocaleString('ru-RU')} ₽
-              </span>
-            </div>
-            <button
-              onClick={handleFavoriteClick}
-              className={styles.favoriteButton}
-            >
-              <Heart
-                size={27}
-                fill={isFavorite ? '#ef4444' : 'none'}
-                color={isFavorite ? '#ef4444' : 'currentColor'}
-              />
-            </button>
-          </div>
+          <ProductPrice
+            productID={productID}
+            discountPrice={discountPrice}
+            price={product.price}
+            isFavorite={isFavorite}
+          />
 
           <div className={styles.stock}>
             {product.inStock ? (
@@ -161,17 +130,7 @@ const ProductPage = () => {
           </div>
 
           {product.specs && Object.keys(product.specs).length > 0 && (
-            <div className={styles.specs}>
-              <h3>Характеристики</h3>
-              <dl className={styles.specsList}>
-                {Object.entries(product.specs).map(([key, value]) => (
-                  <div key={key} className={styles.specRow}>
-                    <dt>{key}</dt>
-                    <dd>{value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+            <ProductSpecs specs={product.specs} />
           )}
         </div>
       </article>
