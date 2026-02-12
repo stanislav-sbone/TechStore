@@ -5,15 +5,17 @@ import { setProducts } from '@/store/features/products/productsSlice';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
+import CategoryFilter from './CategoryFilter';
 import styles from './Home.module.css';
 
-// TODO: Сделать фильтрацию товаров по категориям
-// TODO: Создать состояние  и обработку ошибки при фетче
+// TODO: Вынести заголовок и фильтр категорий в отдельный компонент
+// TODO: Создать состояние и обработку ошибки при фетче
 
 const Home: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const products = useAppSelector((state) => state.products.items);
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
+  const category = useAppSelector((state) => state.products.category);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -35,14 +37,16 @@ const Home: FC = () => {
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return products.filter((product) =>
-      product.title.toLowerCase().includes(query)
-    );
-  }, [products, searchQuery]);
+    return products
+      .filter((product) => category === 'all' || product.category === category)
+      .filter((product) => product.title.toLowerCase().includes(query));
+  }, [products, searchQuery, category]);
 
   if (filteredProducts.length === 0 && !isLoading) {
     return (
       <section className={styles.home}>
+        <h1 className={styles.title}>Каталог товаров</h1>
+        <CategoryFilter />
         <NoMatches />
       </section>
     );
@@ -51,6 +55,7 @@ const Home: FC = () => {
   return (
     <section className={styles.home}>
       <h1 className={styles.title}>Каталог товаров</h1>
+      <CategoryFilter />
       {isLoading ? (
         <div className={styles.productsGrid}>
           {Array.from({ length: 12 }).map((_, i) => (
