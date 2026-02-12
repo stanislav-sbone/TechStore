@@ -6,7 +6,7 @@ import styles from './ProductPageSkeleton.module.css';
 
 const ProductPageSkeleton: React.FC = () => {
   return (
-    <section>
+    <>
       <Link to="/" className={styles.backLink}>
         <ArrowLeft size={20} />
         Назад к каталогу
@@ -127,7 +127,7 @@ const ProductPageSkeleton: React.FC = () => {
           </div>
         </div>
       </article>
-    </section>
+    </>
   );
 };
 
