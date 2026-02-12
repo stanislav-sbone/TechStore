@@ -67,6 +67,7 @@ const Home: FC = () => {
               name={p.title}
               category={p.category}
               price={p.price}
+              discount={p.discount}
             />
           ))}
         </div>
