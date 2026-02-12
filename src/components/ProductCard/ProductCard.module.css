@@ -97,6 +97,7 @@
 }
 
 .cartButton {
+  align-self: flex-end;
   color: white;
   background-color: var(--color-primary);
   font-size: 1rem;
