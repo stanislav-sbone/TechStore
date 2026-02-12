@@ -14,3 +14,35 @@
   gap: 1rem;
   padding: 1rem 0;
 }
+
+.categories {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.category {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  color: var(--color-text-primary);
+  background-color: #e2e2e2;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.active {
+  background-color: var(--color-primary);
+  color: white;
+}
