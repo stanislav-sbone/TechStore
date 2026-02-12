@@ -109,6 +109,12 @@
     background-color: #1b6ebc;
     transform: scale(1.05);
   }
+
+  &:disabled {
+    background-color: var(--color-border);
+    cursor: default;
+    transform: none;
+  }
 }
 
 .buttonWrapper {
@@ -126,4 +132,22 @@
   &:hover {
     color: #ef4444;
   }
+}
+
+.outOfStockOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.outOfStockText {
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
