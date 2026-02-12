@@ -51,6 +51,7 @@ const Favorites = () => {
               category={product.category}
               price={product.price}
               discount={product.discount}
+              inStock={product.inStock}
             />
           ))}
         </div>

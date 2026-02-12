@@ -13,6 +13,7 @@ interface ProductCardProps {
   category: string;
   price: number;
   discount: number | undefined;
+  inStock: boolean;
 }
 
 const ProductCard: FC<ProductCardProps> = ({
@@ -22,6 +23,7 @@ const ProductCard: FC<ProductCardProps> = ({
   category,
   price,
   discount,
+  inStock,
 }) => {
   const favorites = useAppSelector((state) => state.favorites.items);
   const dispatch = useAppDispatch();
@@ -37,15 +39,25 @@ const ProductCard: FC<ProductCardProps> = ({
   return (
     <Link to={`/product/${id}`} className={styles.link}>
       <div className={styles.card}>
+        {!inStock && (
+          <div className={styles.outOfStockOverlay}>
+            <p className={styles.outOfStockText}>Нет в наличии</p>
+          </div>
+        )}
+
         <div className={styles.imageContainer}>
           <img src={image} alt={name} className={styles.image} />
         </div>
+
         <div className={styles.content}>
           <h4 className={styles.category}>{category}</h4>
           <h3 className={styles.name}>{name}</h3>
+
           <div className={styles.footer}>
             <ProductPrice price={price} discount={discount} />
-            <button className={styles.cartButton}>В корзину</button>
+            <button className={styles.cartButton} disabled={!inStock}>
+              В корзину
+            </button>
           </div>
         </div>
         <div className={styles.buttonWrapper}>
