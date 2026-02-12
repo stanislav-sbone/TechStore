@@ -4,6 +4,7 @@ import { Heart } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
 import { Link } from 'react-router';
+import ProductPrice from './ProductPrice';
 
 interface ProductCardProps {
   id: number;
@@ -11,6 +12,7 @@ interface ProductCardProps {
   name: string;
   category: string;
   price: number;
+  discount: number | undefined;
 }
 
 const ProductCard: FC<ProductCardProps> = ({
@@ -19,6 +21,7 @@ const ProductCard: FC<ProductCardProps> = ({
   name,
   category,
   price,
+  discount,
 }) => {
   const favorites = useAppSelector((state) => state.favorites.items);
   const dispatch = useAppDispatch();
@@ -41,9 +44,7 @@ const ProductCard: FC<ProductCardProps> = ({
           <h4 className={styles.category}>{category}</h4>
           <h3 className={styles.name}>{name}</h3>
           <div className={styles.footer}>
-            <div className={styles.price}>
-              {price.toLocaleString('ru-RU')} ₽
-            </div>
+            <ProductPrice price={price} discount={discount} />
             <button className={styles.cartButton}>В корзину</button>
           </div>
         </div>

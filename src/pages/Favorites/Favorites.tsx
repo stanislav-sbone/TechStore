@@ -50,6 +50,7 @@ const Favorites = () => {
               name={product.title}
               category={product.category}
               price={product.price}
+              discount={product.discount}
             />
           ))}
         </div>
