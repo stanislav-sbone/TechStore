@@ -7,11 +7,11 @@ import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
 import { HomeHeader } from './components';
 import styles from './Home.module.css';
-
-// TODO: Создать состояние и обработку ошибки при фетче
+import HomeError from './components/HomeError/HomeError';
 
 const Home: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const products = useAppSelector((state) => state.products.items);
   const searchQuery = useAppSelector((state) => state.products.searchQuery);
   const category = useAppSelector((state) => state.products.category);
@@ -20,12 +20,14 @@ const Home: FC = () => {
   useEffect(() => {
     const getProducts = async () => {
       setIsLoading(true);
+      setError('');
 
       try {
         const data = await fetchProducts();
         dispatch(setProducts(data));
       } catch (error) {
         console.error(`Ошибка ${error}`);
+        setError('Произошла ошибка при загрузке данных. Попробуйте позже');
       } finally {
         setIsLoading(false);
       }
@@ -40,6 +42,14 @@ const Home: FC = () => {
       .filter((product) => category === 'all' || product.category === category)
       .filter((product) => product.title.toLowerCase().includes(query));
   }, [products, searchQuery, category]);
+
+  if (error) {
+    return (
+      <section className={styles.home}>
+        <HomeError message={error} />
+      </section>
+    );
+  }
 
   if (filteredProducts.length === 0 && !isLoading) {
     return (
