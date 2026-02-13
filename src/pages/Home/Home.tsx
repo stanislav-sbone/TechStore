@@ -5,10 +5,9 @@ import { setProducts } from '@/store/features/products/productsSlice';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
-import CategoryFilter from './CategoryFilter';
+import { HomeHeader } from './components';
 import styles from './Home.module.css';
 
-// TODO: Вынести заголовок и фильтр категорий в отдельный компонент
 // TODO: Создать состояние и обработку ошибки при фетче
 
 const Home: FC = () => {
@@ -45,8 +44,7 @@ const Home: FC = () => {
   if (filteredProducts.length === 0 && !isLoading) {
     return (
       <section className={styles.home}>
-        <h1 className={styles.title}>Каталог товаров</h1>
-        <CategoryFilter />
+        <HomeHeader />
         <NoMatches />
       </section>
     );
@@ -54,8 +52,8 @@ const Home: FC = () => {
 
   return (
     <section className={styles.home}>
-      <h1 className={styles.title}>Каталог товаров</h1>
-      <CategoryFilter />
+      <HomeHeader />
+
       {isLoading ? (
         <div className={styles.productsGrid}>
           {Array.from({ length: 12 }).map((_, i) => (
