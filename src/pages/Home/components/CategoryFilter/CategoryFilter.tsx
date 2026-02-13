@@ -1,7 +1,7 @@
 import { setCategory } from '@/store/features/products/productsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { CATEGORIES } from '@/constants/categories';
-import styles from './Home.module.css';
+import styles from './CategoryFilter.module.css';
 
 const CategoryFilter = () => {
   const category = useAppSelector((state) => state.products.category);
