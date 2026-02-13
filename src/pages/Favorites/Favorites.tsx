@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/store/hooks';
 import styles from './Favorites.module.css';
 import { ProductCard } from '@/components/ProductCard';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import EmptyFavorites from './EmptyFavorites';
 import FavoritesFilter from './FavoritesFilter';
 import { NoMatches } from '@/components/NoMatches';
@@ -38,6 +38,16 @@ const Favorites = () => {
 
     return ['Все', ...new Set(availableCategories)];
   }, [favorites, products]);
+
+  useEffect(() => {
+    if (!categories.includes(category) && category !== 'Все') {
+      const timeoutId = setTimeout(() => {
+        setCategory('Все');
+      }, 0);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [categories, category]);
 
   if (favorites.length === 0) {
     return (
