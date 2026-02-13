@@ -1,12 +1,10 @@
-import { useAppSelector } from '@/store/hooks';
-import styles from './Favorites.module.css';
-import { ProductCard } from '@/components/ProductCard';
 import { useEffect, useMemo, useState } from 'react';
-import EmptyFavorites from './EmptyFavorites';
-import FavoritesFilter from './FavoritesFilter';
-import { NoMatches } from '@/components/NoMatches';
 import type { ProductCategory } from '@/types/product';
-import CategoryFilter from './components/CategoryFilter/CategoryFilter';
+import { useAppSelector } from '@/store/hooks';
+import { ProductCard } from '@/components/ProductCard';
+import { NoMatches } from '@/components/NoMatches';
+import { CategoryFilter, EmptyFavorites, FavoritesFilter } from './components';
+import styles from './Favorites.module.css';
 
 const Favorites = () => {
   const products = useAppSelector((state) => state.products.items);

@@ -1,7 +1,7 @@
-import { Search, X } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSearchQuery } from '@/store/features/favorites/favoritesSlice';
-import styles from './Favorites.module.css';
+import { Search, X } from 'lucide-react';
+import styles from './FavoritesFilter.module.css';
 
 const FavoritesFilter = () => {
   const searchQuery = useAppSelector((state) => state.favorites.searchQuery);

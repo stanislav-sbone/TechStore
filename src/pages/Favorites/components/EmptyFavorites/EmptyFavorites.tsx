@@ -1,5 +1,5 @@
 import { HomeLink } from '@/components/HomeLink';
-import styles from './Favorites.module.css';
+import styles from './EmptyFavorites.module.css';
 
 const EmptyFavorites = () => {
   return (

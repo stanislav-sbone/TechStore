@@ -1,0 +1,39 @@
+.filterWrapper {
+  width: 600px;
+  position: relative;
+}
+
+.filter {
+  width: 100%;
+  padding: 0.65rem 2.5rem;
+  border: 1px solid #bbbbbb;
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  text-overflow: ellipsis;
+}
+
+.filter:focus {
+  outline: 1px solid var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.filterIcon,
+.clearButton {
+  position: absolute;
+  top: 10px;
+}
+
+.filterIcon {
+  left: 10px;
+}
+
+.clearButton {
+  right: 10px;
+}
+
+@media (max-width: 630px) {
+  .filterWrapper {
+    width: 100%;
+  }
+}
