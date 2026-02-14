@@ -1,10 +1,9 @@
 import { Link, useLocation } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
-import HeaderButtons from './HeaderButtons';
-import HeaderSearch from './HeaderSearch';
+import { HeaderButtons, HeaderSearch } from './components';
 import styles from './Header.module.css';
 
-// TODO: сделать бургер меню
+// TODO: сделать бургер меню либо нижнее меню
 
 const Header = () => {
   const location = useLocation();

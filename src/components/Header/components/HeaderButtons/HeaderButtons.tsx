@@ -1,5 +1,5 @@
 import { Heart, ShoppingCart, User } from 'lucide-react';
-import styles from './Header.module.css';
+import styles from './HeaderButtons.module.css';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { useAppSelector } from '@/store/hooks';
