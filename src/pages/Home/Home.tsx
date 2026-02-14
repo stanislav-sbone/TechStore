@@ -55,7 +55,7 @@ const Home: FC = () => {
     return (
       <section className={styles.home}>
         <HomeHeader />
-        <NoMatches />
+        <NoMatches value={searchQuery} />
       </section>
     );
   }

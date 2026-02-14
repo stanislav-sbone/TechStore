@@ -65,7 +65,7 @@ const Favorites = () => {
         setCategory={setCategory}
       />
       {filteredFavoriteProducts.length === 0 ? (
-        <NoMatches />
+        <NoMatches value={searchQuery} />
       ) : (
         <div className={styles.productsGrid}>
           {filteredFavoriteProducts.map((product) => (
