@@ -1,5 +1,5 @@
 import { Search, X } from 'lucide-react';
-import styles from './Header.module.css';
+import styles from './HeaderSearch.module.css';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSearchQuery } from '@/store/features/products/productsSlice';
 
