@@ -4,7 +4,8 @@ import { Heart } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
 import { Link } from 'react-router';
-import ProductPrice from './ProductPrice';
+import { addToCart } from '@/store/features/cart/cartSlice';
+import { ProductPrice, QuantityControl } from './components';
 
 interface ProductCardProps {
   id: number;
@@ -26,14 +27,22 @@ const ProductCard: FC<ProductCardProps> = ({
   inStock,
 }) => {
   const favorites = useAppSelector((state) => state.favorites.items);
+  const cart = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
   const isFavorite = favorites.includes(id);
+  const cartItem = cart.find((product) => product.productId === id);
 
   const handleFavoriteClick = (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
     dispatch(toggleFavorite(id));
+  };
+
+  const handleCartClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    dispatch(addToCart(id));
   };
 
   return (
@@ -55,9 +64,17 @@ const ProductCard: FC<ProductCardProps> = ({
 
           <div className={styles.footer}>
             <ProductPrice price={price} discount={discount} />
-            <button className={styles.cartButton} disabled={!inStock}>
-              В корзину
-            </button>
+            {cartItem ? (
+              <QuantityControl productId={id} cartItem={cartItem} />
+            ) : (
+              <button
+                className={styles.cartButton}
+                disabled={!inStock}
+                onClick={handleCartClick}
+              >
+                В корзину
+              </button>
+            )}
           </div>
         </div>
         <div className={styles.buttonWrapper}>

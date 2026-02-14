@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import styles from './ProductCard.module.css'; // или ./ProductPrice.module.css
+import styles from './ProductPrice.module.css'; // или ./ProductPrice.module.css
 
 interface ProductPriceProps {
   price: number;

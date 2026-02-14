@@ -1,0 +1,31 @@
+.quantity {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #c6c6c6;
+  border-radius: 12px;
+}
+
+.quantityButton {
+  width: 36px;
+  height: 36px;
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: background-color 250ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--color-primary);
+  }
+}
+
+.quantityValue {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 700;
+}

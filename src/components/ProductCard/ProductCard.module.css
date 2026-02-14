@@ -66,36 +66,6 @@
   margin-top: auto;
 }
 
-.priceBlock {
-  font-weight: 700;
-  font-size: 1.5rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.priceDiscount {
-  color: #e53e3e;
-}
-
-.price {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.priceOld {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  text-decoration: line-through;
-}
-
-.discount {
-  color: #e53e3e;
-  font-size: 0.8rem;
-  font-weight: 700;
-  align-self: center;
-}
-
 .cartButton {
   align-self: flex-end;
   color: white;
