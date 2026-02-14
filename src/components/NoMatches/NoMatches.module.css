@@ -27,6 +27,7 @@
 .value {
   color: var(--color-text-secondary);
   font-weight: 700;
+  word-break: break-all;
 }
 
 @media (max-width: 600px) {
