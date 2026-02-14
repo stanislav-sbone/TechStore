@@ -20,6 +20,7 @@ const FavoritesFilter = () => {
         className={styles.filter}
         type="text"
         placeholder="Искать в избранных"
+        maxLength={50}
         value={searchQuery}
         onChange={(event) => dispatch(setSearchQuery(event.target.value))}
       />

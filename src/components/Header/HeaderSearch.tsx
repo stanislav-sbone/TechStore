@@ -20,6 +20,7 @@ const HeaderSearch = () => {
         className={styles.search}
         type="text"
         placeholder="Искать в TechStore"
+        maxLength={50}
         value={searchQuery}
         onChange={(event) => dispatch(setSearchQuery(event.target.value))}
       />
