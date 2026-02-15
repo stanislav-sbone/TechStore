@@ -1,11 +1,10 @@
 import type { FC, MouseEvent } from 'react';
-import styles from './ProductCard.module.css';
-import { Heart } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
 import { Link } from 'react-router';
 import { addToCart } from '@/store/features/cart/cartSlice';
-import { ProductPrice, QuantityControl } from './components';
+import { FavoriteButton, ProductPrice, QuantityControl } from './components';
+import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
   id: number;
@@ -77,18 +76,10 @@ const ProductCard: FC<ProductCardProps> = ({
             )}
           </div>
         </div>
-        <div className={styles.buttonWrapper}>
-          <button
-            className={styles.favoriteButton}
-            onClick={handleFavoriteClick}
-          >
-            <Heart
-              size={24}
-              fill={isFavorite ? '#ef4444' : 'none'}
-              color={isFavorite ? '#ef4444' : 'currentColor'}
-            />
-          </button>
-        </div>
+        <FavoriteButton
+          isFavorite={isFavorite}
+          handleFavoriteClick={handleFavoriteClick}
+        />
       </div>
     </Link>
   );
