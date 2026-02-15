@@ -4,6 +4,14 @@
   z-index: 1000;
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  transition:
+    opacity 500ms ease-in-out,
+    transform 500ms ease-in-out;
+}
+
+.headerHidden {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 
 .container {
