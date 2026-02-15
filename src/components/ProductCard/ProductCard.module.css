@@ -88,23 +88,6 @@
   }
 }
 
-.buttonWrapper {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.favoriteButton {
-  background-color: white;
-  border-radius: 50%;
-  padding: 6px;
-  transition: color 250ms ease-in-out;
-
-  &:hover {
-    color: #ef4444;
-  }
-}
-
 .outOfStockOverlay {
   position: absolute;
   inset: 0;
