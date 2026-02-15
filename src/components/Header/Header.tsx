@@ -4,10 +4,11 @@ import { HeaderButtons, HeaderSearch } from './components';
 import styles from './Header.module.css';
 import { useEffect, useRef, useState } from 'react';
 import useIsMobile from '@/hooks/useIsMobile';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 
 const Header = () => {
   const location = useLocation();
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
   const SCROLL_THRESHOLD = 100;
