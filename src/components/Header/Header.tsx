@@ -3,8 +3,6 @@ import { ROUTES } from '@/routes/constants/routes';
 import { HeaderButtons, HeaderSearch } from './components';
 import styles from './Header.module.css';
 
-// TODO: сделать бургер меню либо нижнее меню
-
 const Header = () => {
   const location = useLocation();
 
@@ -16,13 +14,6 @@ const Header = () => {
             TechStore
           </Link>
         </div>
-
-        <button className={styles.menuToggle}>
-          <span className={styles.burger}></span>
-          <span className={styles.burger}></span>
-          <span className={styles.burger}></span>
-        </button>
-
         {location.pathname === '/' && <HeaderSearch />}
         <HeaderButtons />
       </div>

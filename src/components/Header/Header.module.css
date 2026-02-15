@@ -26,21 +26,6 @@
   cursor: pointer;
 }
 
-.menuToggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-}
-
-.burger {
-  display: block;
-  width: 25px;
-  height: 3px;
-  background-color: #2563eb;
-  border-radius: 2px;
-}
-
 @media (max-width: 600px) {
   .container {
     flex-wrap: wrap;
@@ -52,9 +37,5 @@
 
   .buttons {
     display: none;
-  }
-
-  .menuToggle {
-    display: flex;
   }
 }
