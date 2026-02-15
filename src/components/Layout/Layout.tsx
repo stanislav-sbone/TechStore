@@ -4,13 +4,14 @@ import { Header } from '@/components/Header';
 import { ScrollToTop } from '../ScrollToTop';
 import { BottomMenu } from '../BottomMenu';
 import useIsMobile from '@/hooks/useIsMobile';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
   return (
     <>
       <Header />
