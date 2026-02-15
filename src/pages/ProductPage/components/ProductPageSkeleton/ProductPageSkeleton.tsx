@@ -44,7 +44,7 @@ const ProductPageSkeleton: React.FC = () => {
           <div>
             <ContentLoader
               speed={2}
-              width={320}
+              width={250}
               height={32}
               viewBox="0 0 320 32"
               backgroundColor="#f3f3f3"
