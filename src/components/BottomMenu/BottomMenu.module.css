@@ -26,3 +26,7 @@
   font-weight: 600;
   color: var(--color-text-secondary);
 }
+
+.activeLink .label {
+  color: var(--color-primary);
+}
