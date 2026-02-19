@@ -34,7 +34,7 @@ const CartSummary: FC<CartSummaryProps> = ({
         </span>
       </div>
       <div className={styles.summaryRow}>
-        <span className={styles.summaryLabel}>Сумма заказа</span>
+        <span className={styles.summaryLabel}>Итоговая сумма заказа</span>
         <span className={styles.summaryValue}>
           {sumPriceWithDiscount.toLocaleString('ru-RU')} ₽
         </span>

@@ -121,3 +121,38 @@
   font-weight: 500;
   color: var(--color-text-primary);
 }
+
+@media (max-width: 500px) {
+  .item {
+    grid-template-columns: 1fr;
+  }
+
+  .image {
+    width: 100%;
+  }
+
+  .itemHeader {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .quantityBlock {
+    justify-self: center;
+  }
+
+  .itemTotalBlock {
+    justify-self: self-end;
+  }
+
+  .priceLabel,
+  .quantityLabel,
+  .itemTotalLabel {
+    font-size: 0.7rem;
+  }
+
+  .priceValue,
+  .itemTotalValue,
+  .quantityValue {
+    font-size: 0.9rem;
+  }
+}
