@@ -28,6 +28,10 @@
 
 @media (max-width: 600px) {
   .notFound {
-    height: 40vh;
+    height: 50vh;
+  }
+
+  .submessage {
+    width: 100%;
   }
 }
