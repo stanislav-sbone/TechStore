@@ -6,8 +6,8 @@ import { ProductCard } from '@/components/ProductCard';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
 import { HomeHeader } from './components';
-import styles from './Home.module.css';
 import HomeError from './components/HomeError/HomeError';
+import styles from './Home.module.css';
 
 const Home: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
