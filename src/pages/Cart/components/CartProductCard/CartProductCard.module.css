@@ -1,0 +1,94 @@
+.item {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: var(--color-surface);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.itemImagePlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 130px;
+  aspect-ratio: 4 / 3;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.removeButton {
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  transition:
+    background-color 150ms ease-in-out,
+    color 150ms ease-in-out;
+}
+
+.removeButton:hover {
+  background-color: rgba(248, 113, 113, 0.1);
+  color: #ef4444;
+}
+
+.itemDetails {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: flex-start;
+}
+
+.priceBlock,
+.quantityBlock,
+.itemTotalBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.priceLabel,
+.quantityLabel,
+.itemTotalLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.priceValue,
+.itemTotalValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.quantityValue {
+  min-width: 2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
