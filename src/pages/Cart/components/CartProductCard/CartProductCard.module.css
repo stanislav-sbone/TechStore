@@ -36,12 +36,14 @@
   color: var(--color-text-primary);
 }
 
+.itemName:hover {
+  text-decoration: underline;
+}
+
 .removeButton {
-  border: none;
   background: transparent;
   color: var(--color-text-secondary);
   font-size: 0.875rem;
-  cursor: pointer;
   padding: 0.25rem 0.5rem;
   border-radius: 999px;
   transition:
