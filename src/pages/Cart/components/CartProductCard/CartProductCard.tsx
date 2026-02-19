@@ -1,7 +1,10 @@
 import type { FC } from 'react';
-import { Trash } from 'lucide-react';
+import { Minus, Plus, Trash } from 'lucide-react';
 import styles from './CartProductCard.module.css';
-import { removeFromCart } from '@/store/features/cart/cartSlice';
+import {
+  removeFromCart,
+  updateQuantity,
+} from '@/store/features/cart/cartSlice';
 import { useAppDispatch } from '@/store/hooks';
 
 interface CartProductCardProps {
@@ -56,9 +59,27 @@ const CartProductCard: FC<CartProductCardProps> = ({
           <div className={styles.quantityBlock}>
             <span className={styles.quantityLabel}>Количество</span>
             <div className={styles.quantityControls}>
-              <button className={styles.quantityButton}>−</button>
+              <button
+                className={styles.quantityButton}
+                onClick={() =>
+                  dispatch(
+                    updateQuantity({ productId: id, quantity: quantity - 1 })
+                  )
+                }
+              >
+                <Minus size={12} strokeWidth={3} />
+              </button>
               <span className={styles.quantityValue}>{quantity}</span>
-              <button className={styles.quantityButton}>+</button>
+              <button
+                className={styles.quantityButton}
+                onClick={() =>
+                  dispatch(
+                    updateQuantity({ productId: id, quantity: quantity + 1 })
+                  )
+                }
+              >
+                <Plus size={12} strokeWidth={3} />
+              </button>
             </div>
           </div>
 
