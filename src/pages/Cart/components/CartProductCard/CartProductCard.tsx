@@ -8,6 +8,7 @@ interface CartProductCardProps {
   title: string;
   price: number;
   quantity: number;
+  discount?: number;
 }
 
 const CartProductCard: FC<CartProductCardProps> = ({
@@ -16,7 +17,11 @@ const CartProductCard: FC<CartProductCardProps> = ({
   title,
   price,
   quantity,
+  discount,
 }) => {
+  const hasDiscount = typeof discount === 'number' && discount > 0;
+  const productPrice = hasDiscount ? Math.round(price * (1 - discount)) : price;
+
   return (
     <article key={id} className={styles.item}>
       <div className={styles.itemImagePlaceholder}>
@@ -36,7 +41,7 @@ const CartProductCard: FC<CartProductCardProps> = ({
           <div className={styles.priceBlock}>
             <span className={styles.priceLabel}>Цена</span>
             <span className={styles.priceValue}>
-              {price!.toLocaleString('ru-RU')} ₽
+              {productPrice.toLocaleString('ru-RU')} ₽
             </span>
           </div>
 
@@ -52,7 +57,7 @@ const CartProductCard: FC<CartProductCardProps> = ({
           <div className={styles.itemTotalBlock}>
             <span className={styles.itemTotalLabel}>Сумма</span>
             <span className={styles.itemTotalValue}>
-              {(price! * quantity).toLocaleString('ru-RU')} ₽
+              {(productPrice * quantity).toLocaleString('ru-RU')} ₽
             </span>
           </div>
         </div>

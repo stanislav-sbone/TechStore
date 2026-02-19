@@ -1,8 +1,8 @@
 import { type FC } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { CartProductCard, CartSummary } from './components';
+import { sumPriceCart } from '@/utils/sumPriceCart';
 import styles from './Cart.module.css';
-import { sumPriceCart } from '@/components/utils/sumPriceCart';
 
 const Cart: FC = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -41,6 +41,7 @@ const Cart: FC = () => {
               title={item.title}
               price={item.price}
               quantity={item.quantity}
+              discount={item.discount}
             />
           ))}
         </div>
