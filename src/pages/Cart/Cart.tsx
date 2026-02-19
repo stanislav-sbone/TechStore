@@ -1,10 +1,16 @@
-import { type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { useAppSelector } from '@/store/hooks';
-import { CartProductCard, CartSummary, EmptyCart } from './components';
+import {
+  CartClearModal,
+  CartProductCard,
+  CartSummary,
+  EmptyCart,
+} from './components';
 import { sumPriceCart } from '@/utils/sumPriceCart';
 import styles from './Cart.module.css';
 
 const Cart: FC = () => {
+  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const cartItems = useAppSelector((state) => state.cart.items);
   const products = useAppSelector((state) => state.products.items);
 
@@ -22,6 +28,28 @@ const Cart: FC = () => {
     (acc, cur) => acc + cur.price * cur.quantity,
     0
   );
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isClearModalOpen) {
+        setIsClearModalOpen(false);
+      }
+    };
+
+    if (isClearModalOpen) {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [isClearModalOpen]);
 
   if (cartProducts.length === 0) {
     return (
@@ -54,8 +82,13 @@ const Cart: FC = () => {
           cartQuantity={cartQuantity}
           sumPriceWithDiscount={sumPriceWithDiscount}
           sumPrice={sumPrice}
+          setIsClearModalOpen={setIsClearModalOpen}
         />
       </div>
+
+      {isClearModalOpen && (
+        <CartClearModal setIsClearModalOpen={setIsClearModalOpen} />
+      )}
     </section>
   );
 };
