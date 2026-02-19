@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import { addToCart } from '@/store/features/cart/cartSlice';
 import { FavoriteButton, ProductPrice, QuantityControl } from './components';
 import styles from './ProductCard.module.css';
+import { toast } from 'react-toastify';
+import useIsMobile from '@/hooks/useIsMobile';
 
 interface ProductCardProps {
   id: number;
@@ -29,6 +31,8 @@ const ProductCard: FC<ProductCardProps> = ({
   const cart = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
+  const isMobile = useIsMobile(600);
+
   const isFavorite = favorites.includes(id);
   const cartItem = cart.find((product) => product.productId === id);
 
@@ -42,6 +46,7 @@ const ProductCard: FC<ProductCardProps> = ({
     event.stopPropagation();
     event.preventDefault();
     dispatch(addToCart(id));
+    if (!isMobile) toast.success('Товар добавлен в корзину');
   };
 
   return (

@@ -3,6 +3,8 @@ import { useCallback, type FC, type MouseEvent } from 'react';
 import { useAppDispatch } from '@/store/hooks';
 import { clearCart } from '@/store/features/cart/cartSlice';
 import styles from './CartClearModal.module.css';
+import { toast } from 'react-toastify';
+import useIsMobile from '@/hooks/useIsMobile';
 
 interface CartClearModalProps {
   setIsClearModalOpen: (state: boolean) => void;
@@ -10,6 +12,7 @@ interface CartClearModalProps {
 
 const CartClearModal: FC<CartClearModalProps> = ({ setIsClearModalOpen }) => {
   const dispatch = useAppDispatch();
+  const isMobile = useIsMobile(600);
 
   const handleBackdropClick = useCallback(
     (event: MouseEvent) => {
@@ -23,7 +26,8 @@ const CartClearModal: FC<CartClearModalProps> = ({ setIsClearModalOpen }) => {
   const handleConfirmClick = useCallback(() => {
     dispatch(clearCart());
     setIsClearModalOpen(false);
-  }, [dispatch, setIsClearModalOpen]);
+    if (!isMobile) toast.success('Корзина очищена');
+  }, [dispatch, setIsClearModalOpen, isMobile]);
 
   return (
     <div
