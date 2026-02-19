@@ -17,7 +17,11 @@ const Cart: FC = () => {
     .filter((item) => item !== null);
 
   const cartQuantity = cartProducts.reduce((acc, cur) => acc + cur.quantity, 0);
-  const sumPrice = sumPriceCart(cartProducts);
+  const sumPriceWithDiscount = sumPriceCart(cartProducts);
+  const sumPrice = cartProducts.reduce(
+    (acc, cur) => acc + cur.price * cur.quantity,
+    0
+  );
 
   if (cartProducts.length === 0) {
     return (
@@ -46,7 +50,11 @@ const Cart: FC = () => {
           ))}
         </div>
 
-        <CartSummary cartQuantity={cartQuantity} sumPrice={sumPrice} />
+        <CartSummary
+          cartQuantity={cartQuantity}
+          sumPriceWithDiscount={sumPriceWithDiscount}
+          sumPrice={sumPrice}
+        />
       </div>
     </section>
   );
