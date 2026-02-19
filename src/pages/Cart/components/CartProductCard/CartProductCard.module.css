@@ -85,6 +85,35 @@
   color: var(--color-text-primary);
 }
 
+.quantityControls {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+}
+
+.quantityButton {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 150ms ease-in-out,
+    transform 100ms ease-in-out;
+}
+
+.quantityButton:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.quantityButton:active {
+  transform: scale(0.95);
+}
+
 .quantityValue {
   min-width: 2rem;
   text-align: center;
