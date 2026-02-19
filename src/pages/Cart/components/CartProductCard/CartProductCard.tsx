@@ -6,6 +6,7 @@ import {
   updateQuantity,
 } from '@/store/features/cart/cartSlice';
 import { useAppDispatch } from '@/store/hooks';
+import { Link } from 'react-router';
 
 interface CartProductCardProps {
   id: number;
@@ -41,7 +42,9 @@ const CartProductCard: FC<CartProductCardProps> = ({
 
       <div className={styles.itemInfo}>
         <div className={styles.itemHeader}>
-          <h2 className={styles.itemName}>{title}</h2>
+          <Link to={`/product/${id}`}>
+            <h2 className={styles.itemName}>{title}</h2>
+          </Link>
 
           <button className={styles.removeButton} onClick={handleRemoveClick}>
             <Trash size={16} />
