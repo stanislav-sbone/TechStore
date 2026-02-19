@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import { useAppSelector } from '@/store/hooks';
-import { CartProductCard, CartSummary } from './components';
+import { CartProductCard, CartSummary, EmptyCart } from './components';
 import { sumPriceCart } from '@/utils/sumPriceCart';
 import styles from './Cart.module.css';
 
@@ -26,7 +26,7 @@ const Cart: FC = () => {
   if (cartProducts.length === 0) {
     return (
       <section className={styles.cart}>
-        Ваша корзина пуста. Перейти к покупкам
+        <EmptyCart />
       </section>
     );
   }
