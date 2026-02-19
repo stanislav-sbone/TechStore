@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import { Trash } from 'lucide-react';
 import styles from './CartProductCard.module.css';
+import { removeFromCart } from '@/store/features/cart/cartSlice';
+import { useAppDispatch } from '@/store/hooks';
 
 interface CartProductCardProps {
   id: number;
@@ -19,8 +21,14 @@ const CartProductCard: FC<CartProductCardProps> = ({
   quantity,
   discount,
 }) => {
+  const dispatch = useAppDispatch();
+
   const hasDiscount = typeof discount === 'number' && discount > 0;
   const productPrice = hasDiscount ? Math.round(price * (1 - discount)) : price;
+
+  const handleRemoveClick = () => {
+    dispatch(removeFromCart(id));
+  };
 
   return (
     <article key={id} className={styles.item}>
@@ -32,7 +40,7 @@ const CartProductCard: FC<CartProductCardProps> = ({
         <div className={styles.itemHeader}>
           <h2 className={styles.itemName}>{title}</h2>
 
-          <button className={styles.removeButton}>
+          <button className={styles.removeButton} onClick={handleRemoveClick}>
             <Trash size={16} />
           </button>
         </div>
