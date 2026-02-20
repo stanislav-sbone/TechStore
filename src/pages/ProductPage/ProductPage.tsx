@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   ProductBadges,
   ProductCategoryBrand,
@@ -14,18 +14,26 @@ import { fetchProductById } from '@/services/api';
 import type { Product } from '@/types/product';
 import { ArrowLeft } from 'lucide-react';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { addToCart } from '@/store/features/cart/cartSlice';
+import { toast } from 'react-toastify';
+import useIsMobile from '@/hooks/useIsMobile';
+import { QuantityControl } from '@/components/QuantityControl';
 import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
   const { id } = useParams();
   const productID = Number(id);
   const favorites = useAppSelector((state) => state.favorites.items);
+  const cart = useAppSelector((state) => state.cart.items);
+  const dispatch = useAppDispatch();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isMobile = useIsMobile(600);
 
   const isFavorite = favorites.includes(productID);
+  const cartItem = cart.find((product) => product.productId === productID);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -47,6 +55,11 @@ const ProductPage = () => {
   }, [productID]);
 
   useDocumentTitle(product ? product.title : '');
+
+  const handleCartClick = () => {
+    dispatch(addToCart(productID));
+    if (!isMobile) toast.success('Товар добавлен в корзину');
+  };
 
   if (isLoading) {
     return (
@@ -119,13 +132,19 @@ const ProductPage = () => {
             )}
           </div>
 
-          <button
-            className={styles.cartButton}
-            disabled={!product.inStock}
-            type="button"
-          >
-            {product.inStock ? 'В корзину' : 'Недоступен'}
-          </button>
+          <div className={styles.actions}>
+            {cartItem ? (
+              <QuantityControl productId={productID} cartItem={cartItem} />
+            ) : (
+              <button
+                className={styles.cartButton}
+                disabled={!product.inStock}
+                onClick={handleCartClick}
+              >
+                {product.inStock ? 'В корзину' : 'Недоступен'}
+              </button>
+            )}
+          </div>
 
           <div className={styles.description}>
             <h3>Описание</h3>
