@@ -7,9 +7,11 @@ import {
   EmptyCart,
 } from './components';
 import { sumPriceCart } from '@/utils/sumPriceCart';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import styles from './Cart.module.css';
 
 const Cart: FC = () => {
+  useDocumentTitle('Корзина');
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const cartItems = useAppSelector((state) => state.cart.items);
   const products = useAppSelector((state) => state.products.items);

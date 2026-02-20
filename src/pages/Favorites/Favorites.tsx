@@ -4,9 +4,11 @@ import { useAppSelector } from '@/store/hooks';
 import { ProductCard } from '@/components/ProductCard';
 import { NoMatches } from '@/components/NoMatches';
 import { CategoryFilter, EmptyFavorites, FavoritesFilter } from './components';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import styles from './Favorites.module.css';
 
 const Favorites = () => {
+  useDocumentTitle('Избранное');
   const products = useAppSelector((state) => state.products.items);
   const favorites = useAppSelector((state) => state.favorites.items);
   const searchQuery = useAppSelector((state) => state.favorites.searchQuery);

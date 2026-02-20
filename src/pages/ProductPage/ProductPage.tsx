@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { fetchProductById } from '@/services/api';
 import type { Product } from '@/types/product';
 import { ArrowLeft } from 'lucide-react';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
@@ -44,6 +45,8 @@ const ProductPage = () => {
 
     getProduct();
   }, [productID]);
+
+  useDocumentTitle(product ? product.title : '');
 
   if (isLoading) {
     return (

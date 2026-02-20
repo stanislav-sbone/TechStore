@@ -7,9 +7,11 @@ import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
 import { HomeHeader } from './components';
 import HomeError from './components/HomeError/HomeError';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import styles from './Home.module.css';
 
 const Home: FC = () => {
+  useDocumentTitle('Каталог товаров');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const products = useAppSelector((state) => state.products.items);
