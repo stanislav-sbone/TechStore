@@ -1,49 +1,16 @@
-import { useEffect, useMemo, useState, type FC } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchProducts } from '@/services/api';
-import { setProducts } from '@/store/features/products/productsSlice';
+import type { FC } from 'react';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
 import { HomeHeader } from './components';
 import HomeError from './components/HomeError/HomeError';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useProducts } from '@/hooks/useProducts';
 import styles from './Home.module.css';
 
 const Home: FC = () => {
   useDocumentTitle('Каталог товаров');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const products = useAppSelector((state) => state.products.items);
-  const searchQuery = useAppSelector((state) => state.products.searchQuery);
-  const category = useAppSelector((state) => state.products.category);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const getProducts = async () => {
-      setIsLoading(true);
-      setError('');
-
-      try {
-        const data = await fetchProducts();
-        dispatch(setProducts(data));
-      } catch (error) {
-        console.error(`Ошибка ${error}`);
-        setError('Произошла ошибка при загрузке данных. Попробуйте позже');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getProducts();
-  }, [dispatch]);
-
-  const filteredProducts = useMemo(() => {
-    const query = searchQuery.toLowerCase();
-    return products
-      .filter((product) => category === 'all' || product.category === category)
-      .filter((product) => product.title.toLowerCase().includes(query));
-  }, [products, searchQuery, category]);
+  const { products, isLoading, error, searchQuery } = useProducts();
 
   if (error) {
     return (
@@ -53,7 +20,7 @@ const Home: FC = () => {
     );
   }
 
-  if (filteredProducts.length === 0 && !isLoading) {
+  if (products.length === 0 && !isLoading) {
     return (
       <section className={styles.home}>
         <HomeHeader />
@@ -74,7 +41,7 @@ const Home: FC = () => {
         </div>
       ) : (
         <div className={styles.productsGrid}>
-          {filteredProducts.map((p) => (
+          {products.map((p) => (
             <ProductCard
               key={p.id}
               id={p.id}
