@@ -16,15 +16,19 @@ const Favorites = () => {
   const [category, setCategory] = useState<'Все' | ProductCategory>('Все');
 
   const filteredFavoriteProducts = useMemo(() => {
-    const favoriteProducts = products.filter((product) =>
-      favorites.includes(product.id)
-    );
+    const favoriteProducts = favorites.map((fav) => {
+      const product = products.find((product) => product.id === fav);
+      if (!product) return null;
+
+      return product;
+    });
 
     if (favoriteProducts.length === 0) return [];
 
     const query = searchQuery.toLowerCase();
 
     return favoriteProducts
+      .filter((product) => product !== null)
       .filter((product) => category === 'Все' || product.category === category)
       .filter((product) => product.title.toLowerCase().includes(query));
   }, [favorites, products, searchQuery, category]);
