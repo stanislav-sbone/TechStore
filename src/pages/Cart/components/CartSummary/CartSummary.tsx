@@ -5,14 +5,14 @@ interface CartSummaryProps {
   cartQuantity: number;
   sumPriceWithDiscount: number;
   sumPrice: number;
-  setIsClearModalOpen: (state: boolean) => void;
+  openClearModal: () => void;
 }
 
 const CartSummary: FC<CartSummaryProps> = ({
   cartQuantity,
   sumPriceWithDiscount,
   sumPrice,
-  setIsClearModalOpen,
+  openClearModal,
 }) => {
   return (
     <aside className={styles.summary}>
@@ -44,10 +44,7 @@ const CartSummary: FC<CartSummaryProps> = ({
 
       <button className={styles.checkoutButton}>Перейти к оформлению</button>
 
-      <button
-        className={styles.clearButton}
-        onClick={() => setIsClearModalOpen(true)}
-      >
+      <button className={styles.clearButton} onClick={() => openClearModal()}>
         Очистить корзину
       </button>
     </aside>

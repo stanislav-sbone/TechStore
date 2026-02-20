@@ -7,27 +7,27 @@ import { toast } from 'react-toastify';
 import useIsMobile from '@/hooks/useIsMobile';
 
 interface CartClearModalProps {
-  setIsClearModalOpen: (state: boolean) => void;
+  closeClearModal: () => void;
 }
 
-const CartClearModal: FC<CartClearModalProps> = ({ setIsClearModalOpen }) => {
+const CartClearModal: FC<CartClearModalProps> = ({ closeClearModal }) => {
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile(600);
 
   const handleBackdropClick = useCallback(
     (event: MouseEvent) => {
       if (event.target === event.currentTarget) {
-        setIsClearModalOpen(false);
+        closeClearModal();
       }
     },
-    [setIsClearModalOpen]
+    [closeClearModal]
   );
 
   const handleConfirmClick = useCallback(() => {
     dispatch(clearCart());
-    setIsClearModalOpen(false);
+    closeClearModal();
     if (!isMobile) toast.success('Корзина очищена');
-  }, [dispatch, setIsClearModalOpen, isMobile]);
+  }, [dispatch, closeClearModal, isMobile]);
 
   return (
     <div
@@ -39,7 +39,7 @@ const CartClearModal: FC<CartClearModalProps> = ({ setIsClearModalOpen }) => {
           <h3 className={styles.title}>Подтвердите действие</h3>
           <button
             className={styles.closeButton}
-            onClick={() => setIsClearModalOpen(false)}
+            onClick={() => closeClearModal()}
           >
             <X size={20} />
           </button>
@@ -51,7 +51,7 @@ const CartClearModal: FC<CartClearModalProps> = ({ setIsClearModalOpen }) => {
           <div className={styles.buttons}>
             <button
               className={styles.cancelButton}
-              onClick={() => setIsClearModalOpen(false)}
+              onClick={() => closeClearModal()}
             >
               Отмена
             </button>

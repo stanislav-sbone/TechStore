@@ -1,57 +1,25 @@
-import { useEffect, useState, type FC } from 'react';
-import { useAppSelector } from '@/store/hooks';
+import { type FC } from 'react';
 import {
   CartClearModal,
   CartProductCard,
   CartSummary,
   EmptyCart,
 } from './components';
-import { sumPriceCart } from '@/utils/sumPriceCart';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useCart } from '@/hooks/useCart';
 import styles from './Cart.module.css';
 
 const Cart: FC = () => {
   useDocumentTitle('Корзина');
-  const [isClearModalOpen, setIsClearModalOpen] = useState(false);
-  const cartItems = useAppSelector((state) => state.cart.items);
-  const products = useAppSelector((state) => state.products.items);
-
-  const cartProducts = cartItems
-    .map(({ productId, quantity }) => {
-      const product = products.find((p) => p.id === productId);
-      if (!product) return null;
-      return { ...product, quantity };
-    })
-    .filter((item) => item !== null);
-
-  const cartQuantity = cartProducts.reduce((acc, cur) => acc + cur.quantity, 0);
-  const sumPriceWithDiscount = sumPriceCart(cartProducts);
-  const sumPrice = cartProducts.reduce(
-    (acc, cur) => acc + cur.price * cur.quantity,
-    0
-  );
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isClearModalOpen) {
-        setIsClearModalOpen(false);
-      }
-    };
-
-    if (isClearModalOpen) {
-      const scrollbarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    };
-  }, [isClearModalOpen]);
+  const {
+    cartProducts,
+    cartQuantity,
+    sumPrice,
+    sumPriceWithDiscount,
+    isClearModalOpen,
+    openClearModal,
+    closeClearModal,
+  } = useCart();
 
   if (cartProducts.length === 0) {
     return (
@@ -71,7 +39,7 @@ const Cart: FC = () => {
             <CartProductCard
               key={item.id}
               id={item.id}
-              image={item.images![0]}
+              image={item.images[0]}
               title={item.title}
               price={item.price}
               quantity={item.quantity}
@@ -84,13 +52,11 @@ const Cart: FC = () => {
           cartQuantity={cartQuantity}
           sumPriceWithDiscount={sumPriceWithDiscount}
           sumPrice={sumPrice}
-          setIsClearModalOpen={setIsClearModalOpen}
+          openClearModal={openClearModal}
         />
       </div>
 
-      {isClearModalOpen && (
-        <CartClearModal setIsClearModalOpen={setIsClearModalOpen} />
-      )}
+      {isClearModalOpen && <CartClearModal closeClearModal={closeClearModal} />}
     </section>
   );
 };
