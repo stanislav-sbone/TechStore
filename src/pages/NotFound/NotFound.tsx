@@ -1,7 +1,9 @@
-import styles from './NotFound.module.css';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { HomeLink } from '@/components/HomeLink';
+import styles from './NotFound.module.css';
 
 const NotFound = () => {
+  useDocumentTitle('Произошла ошибка');
   return (
     <section className={styles.notFound}>
       <img src="/notfound.png" alt="notFound" className={styles.image} />
