@@ -1,12 +1,8 @@
-import type { FC, MouseEvent } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
+import type { FC } from 'react';
 import { Link } from 'react-router';
-import { addToCart } from '@/store/features/cart/cartSlice';
 import { FavoriteButton, ProductPrice } from './components';
 import { QuantityControl } from '../QuantityControl';
-import { toast } from 'react-toastify';
-import useIsMobile from '@/hooks/useIsMobile';
+import { useProductCard } from '@/hooks/useProductCard';
 import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
@@ -28,27 +24,8 @@ const ProductCard: FC<ProductCardProps> = ({
   discount,
   inStock,
 }) => {
-  const favorites = useAppSelector((state) => state.favorites.items);
-  const cart = useAppSelector((state) => state.cart.items);
-  const dispatch = useAppDispatch();
-
-  const isMobile = useIsMobile(600);
-
-  const isFavorite = favorites.includes(id);
-  const cartItem = cart.find((product) => product.productId === id);
-
-  const handleFavoriteClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    dispatch(toggleFavorite(id));
-  };
-
-  const handleCartClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    dispatch(addToCart(id));
-    if (!isMobile) toast.success('Товар добавлен в корзину');
-  };
+  const { isFavorite, cartItem, handleFavoriteClick, handleCartClick } =
+    useProductCard(id);
 
   return (
     <Link to={`/product/${id}`} className={styles.link}>
