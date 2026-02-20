@@ -1,59 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { ProductCategory } from '@/types/product';
-import { useAppSelector } from '@/store/hooks';
 import { ProductCard } from '@/components/ProductCard';
 import { NoMatches } from '@/components/NoMatches';
 import { CategoryFilter, EmptyFavorites, FavoritesFilter } from './components';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useFavorites } from '@/hooks/useFavorites';
 import styles from './Favorites.module.css';
 
 const Favorites = () => {
   useDocumentTitle('Избранное');
-  const products = useAppSelector((state) => state.products.items);
-  const favorites = useAppSelector((state) => state.favorites.items);
-  const searchQuery = useAppSelector((state) => state.favorites.searchQuery);
+  const {
+    favoritesCount,
+    filteredFavorites,
+    categories,
+    category,
+    searchQuery,
+    setCategory,
+  } = useFavorites();
 
-  const [category, setCategory] = useState<'Все' | ProductCategory>('Все');
-
-  const filteredFavoriteProducts = useMemo(() => {
-    const favoriteProducts = favorites.map((fav) => {
-      const product = products.find((product) => product.id === fav);
-      if (!product) return null;
-
-      return product;
-    });
-
-    if (favoriteProducts.length === 0) return [];
-
-    const query = searchQuery.toLowerCase();
-
-    return favoriteProducts
-      .filter((product) => product !== null)
-      .filter((product) => category === 'Все' || product.category === category)
-      .filter((product) => product.title.toLowerCase().includes(query));
-  }, [favorites, products, searchQuery, category]);
-
-  const categories = useMemo<Array<'Все' | ProductCategory>>(() => {
-    const favoriteProducts = products.filter((product) =>
-      favorites.includes(product.id)
-    );
-
-    const availableCategories = favoriteProducts.map((p) => p.category);
-
-    return ['Все', ...new Set(availableCategories)];
-  }, [favorites, products]);
-
-  useEffect(() => {
-    if (!categories.includes(category) && category !== 'Все') {
-      const timeoutId = setTimeout(() => {
-        setCategory('Все');
-      }, 0);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [categories, category]);
-
-  if (favorites.length === 0) {
+  if (favoritesCount === 0) {
     return (
       <section className={styles.favorites}>
         <EmptyFavorites />
@@ -70,11 +33,11 @@ const Favorites = () => {
         categories={categories}
         setCategory={setCategory}
       />
-      {filteredFavoriteProducts.length === 0 ? (
+      {filteredFavorites.length === 0 ? (
         <NoMatches value={searchQuery} />
       ) : (
         <div className={styles.productsGrid}>
-          {filteredFavoriteProducts.map((product) => (
+          {filteredFavorites.map((product) => (
             <ProductCard
               key={product.id}
               id={product.id}
