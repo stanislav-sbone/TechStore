@@ -3,10 +3,11 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
 import { Link } from 'react-router';
 import { addToCart } from '@/store/features/cart/cartSlice';
-import { FavoriteButton, ProductPrice, QuantityControl } from './components';
-import styles from './ProductCard.module.css';
+import { FavoriteButton, ProductPrice } from './components';
+import { QuantityControl } from '../QuantityControl';
 import { toast } from 'react-toastify';
 import useIsMobile from '@/hooks/useIsMobile';
+import styles from './ProductCard.module.css';
 
 interface ProductCardProps {
   id: number;

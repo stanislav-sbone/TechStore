@@ -2,7 +2,7 @@ import type { FC, MouseEvent } from 'react';
 import { updateQuantity, type CartItem } from '@/store/features/cart/cartSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { Minus, Plus } from 'lucide-react';
-import styles from './quantityControl.module.css';
+import styles from './QuantityControl.module.css';
 
 interface QuantityControlProps {
   productId: number;
