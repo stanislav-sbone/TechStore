@@ -6,9 +6,12 @@ import { useEffect, useMemo, useState } from 'react';
 export const useProducts = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const products = useAppSelector((state) => state.products.items);
-  const searchQuery = useAppSelector((state) => state.products.searchQuery);
-  const category = useAppSelector((state) => state.products.category);
+  const {
+    items: products,
+    searchQuery,
+    category,
+  } = useAppSelector((state) => state.products);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
