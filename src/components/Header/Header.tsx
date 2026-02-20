@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
-import { HeaderButtons, HeaderSearch } from './components';
+import { HeaderNav, HeaderSearch } from './components';
 import styles from './Header.module.css';
 import { useEffect, useRef, useState } from 'react';
 import useIsMobile from '@/hooks/useIsMobile';
@@ -46,7 +46,7 @@ const Header = () => {
           </Link>
         </div>
         {location.pathname === '/' && <HeaderSearch />}
-        <HeaderButtons />
+        <HeaderNav />
       </div>
     </header>
   );

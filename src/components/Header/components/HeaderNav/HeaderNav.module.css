@@ -1,4 +1,4 @@
-.buttons {
+.nav {
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -32,7 +32,7 @@
 }
 
 @media (max-width: 600px) {
-  .buttons {
+  .nav {
     display: none;
   }
 }

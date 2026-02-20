@@ -1,17 +1,17 @@
 import { Heart, ShoppingCart, User } from 'lucide-react';
-import styles from './HeaderButtons.module.css';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { useAppSelector } from '@/store/hooks';
+import styles from './HeaderNav.module.css';
 
-const HeaderButtons = () => {
+const HeaderNav = () => {
   const favorites = useAppSelector((state) => state.favorites.items);
   const cart = useAppSelector((state) => state.cart.items);
 
   const cartQuantity = cart.reduce((acc, cur) => acc + cur.quantity, 0);
 
   return (
-    <div className={styles.buttons}>
+    <nav className={styles.nav}>
       <Link to={ROUTES.FAVORITES} className={styles.buttonLink}>
         <Heart color="#4a5568" size={27} />
         {favorites.length > 0 && (
@@ -31,8 +31,8 @@ const HeaderButtons = () => {
       <Link to={ROUTES.PROFILE} className={styles.buttonLink}>
         <User color="#4a5568" size={27} />
       </Link>
-    </div>
+    </nav>
   );
 };
 
-export default HeaderButtons;
+export default HeaderNav;
