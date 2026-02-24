@@ -5,7 +5,7 @@ const ProductNotFound = () => {
   return (
     <div className={styles.notFound}>
       <img
-        src="/nomatches.png"
+        src="/common/nomatches.png"
         alt="notFound"
         className={styles.notFoundImage}
       />

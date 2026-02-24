@@ -8,7 +8,11 @@ interface HomeErrorProps {
 const HomeError: FC<HomeErrorProps> = ({ message }) => {
   return (
     <div className={styles.error}>
-      <img src="/nomatches.png" alt="notFound" className={styles.errorImage} />
+      <img
+        src="/common/nomatches.png"
+        alt="notFound"
+        className={styles.errorImage}
+      />
       <p className={styles.message}>{message}</p>
     </div>
   );

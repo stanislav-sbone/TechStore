@@ -9,7 +9,7 @@ const NoMatches: FC<NoMatchesProps> = ({ value }) => {
   return (
     <div className={styles.noMatches}>
       <img
-        src="/nomatches.png"
+        src="/common/nomatches.png"
         alt="nomatches"
         className={styles.noMatchesImage}
       />
