@@ -5,7 +5,7 @@ const EmptyFavorites = () => {
   return (
     <div className={styles.empty}>
       <img
-        src="/favorites.png"
+        src="/common/favorites.png"
         alt="emptyFavorites"
         className={styles.emptyImage}
       />

@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import {
+  Gallery,
   ProductBadges,
   ProductCategoryBrand,
   ProductError,
@@ -60,13 +61,7 @@ const ProductPage = () => {
       </Link>
 
       <article className={styles.product}>
-        <div className={styles.gallery}>
-          <img
-            src={product.images[0]}
-            alt={product.title}
-            className={styles.image}
-          />
-        </div>
+        <Gallery product={product} />
 
         <div className={styles.info}>
           <ProductBadges isNew={product.isNew} discount={product.discount} />

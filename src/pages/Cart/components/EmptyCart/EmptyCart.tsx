@@ -4,7 +4,11 @@ import styles from './EmptyCart.module.css';
 const EmptyCart = () => {
   return (
     <div className={styles.empty}>
-      <img src="/EmptyCart.png" alt="EmptyCart" className={styles.image} />
+      <img
+        src="/common/EmptyCart.png"
+        alt="EmptyCart"
+        className={styles.image}
+      />
       <h2 className={styles.text}>Ваша корзина пуста</h2>
       <p className={styles.subtext}>
         Добавьте товары из каталога, чтобы оформить заказ.
