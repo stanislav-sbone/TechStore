@@ -45,6 +45,9 @@
 
 .cartButton {
   align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   background-color: var(--color-primary);
   color: white;
   font-size: 1rem;
