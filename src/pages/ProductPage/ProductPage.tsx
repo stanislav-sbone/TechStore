@@ -9,7 +9,7 @@ import {
   ProductPrice,
   ProductSpecs,
 } from './components';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import { QuantityControl } from '@/components/QuantityControl';
 import { useProductPage } from '@/hooks/useProductPage';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -98,7 +98,13 @@ const ProductPage = () => {
                 disabled={!product.inStock}
                 onClick={handleCartClick}
               >
-                {product.inStock ? 'В корзину' : 'Недоступен'}
+                {product.inStock ? (
+                  <>
+                    <ShoppingCart size={20} strokeWidth={3} /> В корзину
+                  </>
+                ) : (
+                  'Недоступен'
+                )}
               </button>
             )}
           </div>
