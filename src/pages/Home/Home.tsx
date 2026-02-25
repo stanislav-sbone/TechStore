@@ -12,6 +12,19 @@ const Home: FC = () => {
   useDocumentTitle('Каталог товаров');
   const { products, isLoading, error, searchQuery } = useProducts();
 
+  if (isLoading) {
+    return (
+      <section className={styles.home}>
+        <HomeHeader />
+        <div className={styles.productsGrid}>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   if (error) {
     return (
       <section className={styles.home}>
@@ -20,7 +33,7 @@ const Home: FC = () => {
     );
   }
 
-  if (products.length === 0 && !isLoading) {
+  if (products.length === 0 && searchQuery) {
     return (
       <section className={styles.home}>
         <HomeHeader />
@@ -33,28 +46,20 @@ const Home: FC = () => {
     <section className={styles.home}>
       <HomeHeader />
 
-      {isLoading ? (
-        <div className={styles.productsGrid}>
-          {Array.from({ length: 12 }).map((_, i) => (
-            <ProductCardSkeleton key={i} />
-          ))}
-        </div>
-      ) : (
-        <div className={styles.productsGrid}>
-          {products.map((p) => (
-            <ProductCard
-              key={p.id}
-              id={p.id}
-              image={p.images[0]}
-              name={p.title}
-              category={p.category}
-              price={p.price}
-              discount={p.discount}
-              inStock={p.inStock}
-            />
-          ))}
-        </div>
-      )}
+      <div className={styles.productsGrid}>
+        {products.map((p) => (
+          <ProductCard
+            key={p.id}
+            id={p.id}
+            image={p.images[0]}
+            name={p.title}
+            category={p.category}
+            price={p.price}
+            discount={p.discount}
+            inStock={p.inStock}
+          />
+        ))}
+      </div>
     </section>
   );
 };
