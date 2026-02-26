@@ -1,24 +1,24 @@
-import { products } from '@/data/products';
 import type { Product } from '@/types/product';
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchProducts = async (): Promise<Product[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(products);
-    }, 1500);
-  });
+  try {
+    const response = await axios.get<Product[]>(`${API_URL}/products`);
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка загрузки данных с сервера', error);
+    return [];
+  }
 };
 
 export const fetchProductById = async (id: number): Promise<Product | null> => {
-  const product = products.find((product) => product.id === id);
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      if (product) {
-        resolve(product);
-      } else {
-        resolve(null);
-      }
-    }, 1000);
-  });
+  try {
+    const response = await axios.get(`${API_URL}/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка загрузки данных с сервера', error);
+    return null;
+  }
 };
