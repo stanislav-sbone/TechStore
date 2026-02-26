@@ -9,7 +9,7 @@ export const fetchProducts = async (): Promise<Product[]> => {
     return response.data;
   } catch (error) {
     console.error('Ошибка загрузки данных с сервера', error);
-    return [];
+    throw new Error();
   }
 };
 
@@ -19,6 +19,6 @@ export const fetchProductById = async (id: number): Promise<Product | null> => {
     return response.data;
   } catch (error) {
     console.error('Ошибка загрузки данных с сервера', error);
-    return null;
+    throw new Error();
   }
 };
