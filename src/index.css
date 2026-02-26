@@ -26,6 +26,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-y: scroll;
+  color: var(--color-text-primary);
 }
 
 a {

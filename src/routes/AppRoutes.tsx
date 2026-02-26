@@ -5,6 +5,7 @@ import { NotFound } from '@/pages/NotFound';
 import { Favorites } from '@/pages/Favorites';
 import { ProductPage } from '@/pages/ProductPage';
 import { Cart } from '@/pages/Cart';
+import { Login } from '@/pages/Login';
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
       <Route path={ROUTES.FAVORITES} element={<Favorites />}></Route>
       <Route path={ROUTES.PRODUCT} element={<ProductPage />}></Route>
       <Route path={ROUTES.CART} element={<Cart />}></Route>
+      <Route path={ROUTES.LOGIN} element={<Login />}></Route>
       {/* <Route path={ROUTES.PROFILE} element={<Profile />}></Route> */}
       <Route path="*" element={<NotFound />}></Route>
     </Routes>
