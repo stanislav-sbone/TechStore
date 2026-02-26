@@ -15,26 +15,21 @@ export const useProducts = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // TODO: Убрать условие проверки длины, когда будет написана API часть проекта
-    // Добавил условие временно, чтобы не было каждый раз загрузки компонентов
-    // с фейкового API с задержкой 3 секунды и загрузки скелетонов
-    if (products.length === 0) {
-      const getProducts = async () => {
-        setIsLoading(true);
-        setError('');
+    const getProducts = async () => {
+      setIsLoading(true);
+      setError('');
 
-        try {
-          const data = await fetchProducts();
-          dispatch(setProducts(data));
-        } catch (error) {
-          console.error(`Ошибка ${error}`);
-          setError('Произошла ошибка при загрузке данных. Попробуйте позже');
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      getProducts();
-    }
+      try {
+        const data = await fetchProducts();
+        dispatch(setProducts(data));
+      } catch (error) {
+        console.error(`Ошибка ${error}`);
+        setError('Произошла ошибка при загрузке данных. Попробуйте позже');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getProducts();
   }, [dispatch, products.length]);
 
   const filteredProducts = useMemo(() => {
