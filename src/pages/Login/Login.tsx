@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from './login.schema';
 import styles from './Login.module.css';
+import { Link } from 'react-router';
+import { ROUTES } from '@/routes/constants/routes';
 
 const Login = () => {
   const {
@@ -82,9 +84,9 @@ const Login = () => {
         </form>
         <p className={styles.footer}>
           Нет аккаунта?{' '}
-          <button type="button" className={styles.linkButton}>
+          <Link to={ROUTES.REGISTER} className={styles.linkButton}>
             Зарегистрироваться
-          </button>
+          </Link>
         </p>
       </div>
     </div>
