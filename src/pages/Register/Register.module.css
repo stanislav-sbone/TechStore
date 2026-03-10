@@ -72,6 +72,11 @@
   background-color: #ffffff;
 }
 
+.error {
+  font-size: 0.75rem;
+  color: #d32f2f;
+}
+
 .checkboxRow {
   display: flex;
   align-items: flex-start;
