@@ -45,6 +45,14 @@ export const authLogin = async (req: Request, res: Response) => {
   }
 };
 
-// export const getUser = (req: Request, res: Response) => {
+export const authMe = (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({
+      message: 'Пользователь не авторизован',
+    });
+  }
 
-// }
+  return res.status(200).json({
+    user: req.user,
+  });
+};
