@@ -2,16 +2,23 @@
 
 import type { IconButtonProps, SpanProps } from '@chakra-ui/react';
 import { ClientOnly, IconButton, Skeleton, Span } from '@chakra-ui/react';
-import { ThemeProvider, useTheme } from 'next-themes';
+import { ThemeProvider } from 'next-themes';
 import type { ThemeProviderProps } from 'next-themes';
 import * as React from 'react';
-import { LuMoon, LuSun } from 'react-icons/lu';
+import { LuSun } from 'react-icons/lu';
 
 export type ColorModeProviderProps = ThemeProviderProps;
 
 export function ColorModeProvider(props: ColorModeProviderProps) {
   return (
-    <ThemeProvider attribute="class" disableTransitionOnChange {...props} />
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      forcedTheme="light"
+      enableSystem={false}
+      disableTransitionOnChange
+      {...props}
+    />
   );
 }
 
@@ -25,27 +32,21 @@ export interface UseColorModeReturn {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useColorMode(): UseColorModeReturn {
-  const { resolvedTheme, setTheme, forcedTheme } = useTheme();
-  const colorMode = forcedTheme || resolvedTheme;
-  const toggleColorMode = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  };
   return {
-    colorMode: colorMode as ColorMode,
-    setColorMode: setTheme,
-    toggleColorMode,
+    colorMode: 'light',
+    setColorMode: () => {},
+    toggleColorMode: () => {},
   };
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export function useColorModeValue<T>(light: T, dark: T) {
+export function useColorModeValue<T>(light: T, _dark: T) {
   const { colorMode } = useColorMode();
-  return colorMode === 'dark' ? dark : light;
+  return colorMode === 'dark' ? _dark : light;
 }
 
 export function ColorModeIcon() {
-  const { colorMode } = useColorMode();
-  return colorMode === 'dark' ? <LuMoon /> : <LuSun />;
+  return <LuSun />;
 }
 
 type ColorModeButtonProps = Omit<IconButtonProps, 'aria-label'>;
@@ -54,11 +55,10 @@ export const ColorModeButton = React.forwardRef<
   HTMLButtonElement,
   ColorModeButtonProps
 >(function ColorModeButton(props, ref) {
-  const { toggleColorMode } = useColorMode();
   return (
     <ClientOnly fallback={<Skeleton boxSize="9" />}>
       <IconButton
-        onClick={toggleColorMode}
+        disabled
         variant="ghost"
         aria-label="Toggle color mode"
         size="sm"
