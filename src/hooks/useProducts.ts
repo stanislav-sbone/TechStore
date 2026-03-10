@@ -1,4 +1,4 @@
-import { fetchProducts } from '@/services/api';
+import { fetchProducts } from '@/services/products/productsApi';
 import { setProducts } from '@/store/features/products/productsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect, useMemo, useState } from 'react';

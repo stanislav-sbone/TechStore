@@ -2,10 +2,10 @@ import type { Product } from '@/types/product';
 import { useEffect, useMemo, useState } from 'react';
 import useIsMobile from './useIsMobile';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { fetchProductById } from '@/services/api';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { addToCart } from '@/store/features/cart/cartSlice';
+import { fetchProductById } from '@/services/products/productsApi';
 
 export const useProductPage = () => {
   const { id } = useParams();
