@@ -8,6 +8,8 @@ import { loginUser } from '@/services/auth/authApi';
 import { useAppDispatch } from '@/store/hooks';
 import { setCredentials } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import styles from './Login.module.css';
 
 const Login = () => {
@@ -26,6 +28,8 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
 
   const from = location.state?.from?.pathname || ROUTES.HOME;
 
@@ -88,15 +92,30 @@ const Login = () => {
                 Забыли пароль?
               </button>
             </div>
-            <input
-              type="password"
-              id="password"
-              placeholder="Введите пароль"
-              autoComplete="current-password"
-              disabled={isSubmitting}
-              className={styles.input}
-              {...register('password')}
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                type={isVisiblePassword ? 'text' : 'password'}
+                id="password"
+                placeholder="Введите пароль"
+                autoComplete="current-password"
+                disabled={isSubmitting}
+                className={styles.input}
+                {...register('password')}
+              />
+
+              <button
+                type="button"
+                onClick={() => setIsVisiblePassword((prev) => !prev)}
+                className={styles.passwordButton}
+                disabled={isSubmitting}
+              >
+                {isVisiblePassword ? (
+                  <EyeOff size={20} color="#4a5568" />
+                ) : (
+                  <Eye size={20} color="#4a5568" />
+                )}
+              </button>
+            </div>
 
             {errors.password && (
               <span className={styles.error}>{errors.password.message}</span>
