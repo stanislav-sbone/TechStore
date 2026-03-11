@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerUser } from '@/services/auth/authApi';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import styles from './Register.module.css';
 
 const Register = () => {
@@ -23,6 +25,9 @@ const Register = () => {
     },
   });
   const navigate = useNavigate();
+  const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
+  const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] =
+    useState<boolean>(false);
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -76,15 +81,29 @@ const Register = () => {
             <label htmlFor="password" className={styles.label}>
               Пароль
             </label>
-            <input
-              type="password"
-              id="password"
-              className={styles.input}
-              placeholder="Придумайте пароль"
-              autoComplete="new-password"
-              disabled={isSubmitting}
-              {...register('password')}
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                type={isVisiblePassword ? 'text' : 'password'}
+                id="password"
+                className={styles.input}
+                placeholder="Придумайте пароль"
+                autoComplete="new-password"
+                disabled={isSubmitting}
+                {...register('password')}
+              />
+              <button
+                type="button"
+                onClick={() => setIsVisiblePassword((prev) => !prev)}
+                className={styles.passwordButton}
+                disabled={isSubmitting}
+              >
+                {isVisiblePassword ? (
+                  <EyeOff size={20} color="#4a5568" />
+                ) : (
+                  <Eye size={20} color="#4a5568" />
+                )}
+              </button>
+            </div>
 
             {errors.password && (
               <span className={styles.error}>{errors.password.message}</span>
@@ -95,15 +114,30 @@ const Register = () => {
             <label htmlFor="confirmPassword" className={styles.label}>
               Подтверждение пароля
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              className={styles.input}
-              placeholder="Повторите пароль"
-              autoComplete="new-password"
-              disabled={isSubmitting}
-              {...register('confirmPassword')}
-            />
+
+            <div className={styles.passwordWrapper}>
+              <input
+                type={isVisibleConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                className={styles.input}
+                placeholder="Повторите пароль"
+                autoComplete="new-password"
+                disabled={isSubmitting}
+                {...register('confirmPassword')}
+              />
+              <button
+                type="button"
+                onClick={() => setIsVisibleConfirmPassword((prev) => !prev)}
+                className={styles.passwordButton}
+                disabled={isSubmitting}
+              >
+                {isVisibleConfirmPassword ? (
+                  <EyeOff size={20} color="#4a5568" />
+                ) : (
+                  <Eye size={20} color="#4a5568" />
+                )}
+              </button>
+            </div>
 
             {errors.confirmPassword && (
               <span className={styles.error}>
