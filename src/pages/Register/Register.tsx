@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { registerSchema, type RegisterFormData } from './register.schema';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerUser } from '@/services/auth/authApi';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ import styles from './Register.module.css';
 const Register = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
@@ -28,6 +29,18 @@ const Register = () => {
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
   const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] =
     useState<boolean>(false);
+
+  const passwordValue = useWatch({
+    control,
+    name: 'password',
+    defaultValue: '',
+  });
+
+  const confirmPasswordValue = useWatch({
+    control,
+    name: 'confirmPassword',
+    defaultValue: '',
+  });
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -91,18 +104,20 @@ const Register = () => {
                 disabled={isSubmitting}
                 {...register('password')}
               />
-              <button
-                type="button"
-                onClick={() => setIsVisiblePassword((prev) => !prev)}
-                className={styles.passwordButton}
-                disabled={isSubmitting}
-              >
-                {isVisiblePassword ? (
-                  <EyeOff size={20} color="#4a5568" />
-                ) : (
-                  <Eye size={20} color="#4a5568" />
-                )}
-              </button>
+              {Boolean(passwordValue) && (
+                <button
+                  type="button"
+                  onClick={() => setIsVisiblePassword((prev) => !prev)}
+                  className={styles.passwordButton}
+                  disabled={isSubmitting}
+                >
+                  {isVisiblePassword ? (
+                    <EyeOff size={20} color="#4a5568" />
+                  ) : (
+                    <Eye size={20} color="#4a5568" />
+                  )}
+                </button>
+              )}
             </div>
 
             {errors.password && (
@@ -125,18 +140,20 @@ const Register = () => {
                 disabled={isSubmitting}
                 {...register('confirmPassword')}
               />
-              <button
-                type="button"
-                onClick={() => setIsVisibleConfirmPassword((prev) => !prev)}
-                className={styles.passwordButton}
-                disabled={isSubmitting}
-              >
-                {isVisibleConfirmPassword ? (
-                  <EyeOff size={20} color="#4a5568" />
-                ) : (
-                  <Eye size={20} color="#4a5568" />
-                )}
-              </button>
+              {Boolean(confirmPasswordValue) && (
+                <button
+                  type="button"
+                  onClick={() => setIsVisibleConfirmPassword((prev) => !prev)}
+                  className={styles.passwordButton}
+                  disabled={isSubmitting}
+                >
+                  {isVisibleConfirmPassword ? (
+                    <EyeOff size={20} color="#4a5568" />
+                  ) : (
+                    <Eye size={20} color="#4a5568" />
+                  )}
+                </button>
+              )}
             </div>
 
             {errors.confirmPassword && (
