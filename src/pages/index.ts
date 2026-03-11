@@ -5,3 +5,4 @@ export { Login } from './Login';
 export { Register } from './Register';
 export { ProductPage } from './ProductPage';
 export { NotFound } from './NotFound';
+export { Profile } from './Profile';
