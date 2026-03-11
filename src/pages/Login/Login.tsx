@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from './login.schema';
 import { Link, useLocation, useNavigate } from 'react-router';
@@ -15,6 +15,7 @@ import styles from './Login.module.css';
 const Login = () => {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
@@ -30,6 +31,11 @@ const Login = () => {
   const location = useLocation();
 
   const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
+  const passwordValue = useWatch({
+    control,
+    name: 'password',
+    defaultValue: '',
+  });
 
   const from = location.state?.from?.pathname || ROUTES.HOME;
 
@@ -103,18 +109,20 @@ const Login = () => {
                 {...register('password')}
               />
 
-              <button
-                type="button"
-                onClick={() => setIsVisiblePassword((prev) => !prev)}
-                className={styles.passwordButton}
-                disabled={isSubmitting}
-              >
-                {isVisiblePassword ? (
-                  <EyeOff size={20} color="#4a5568" />
-                ) : (
-                  <Eye size={20} color="#4a5568" />
-                )}
-              </button>
+              {Boolean(passwordValue) && (
+                <button
+                  type="button"
+                  onClick={() => setIsVisiblePassword((prev) => !prev)}
+                  className={styles.passwordButton}
+                  disabled={isSubmitting}
+                >
+                  {isVisiblePassword ? (
+                    <EyeOff size={20} color="#4a5568" />
+                  ) : (
+                    <Eye size={20} color="#4a5568" />
+                  )}
+                </button>
+              )}
             </div>
 
             {errors.password && (
