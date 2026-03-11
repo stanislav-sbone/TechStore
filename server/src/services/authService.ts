@@ -5,12 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { generateAccessToken } from '../utils/jwt';
 
 export const findUserByEmail = (email: string) => {
-  const normalizeEmail = email.trim().toLowerCase();
-  return USERS.find((user) => user.email === normalizeEmail);
+  return USERS.find((user) => user.email === email);
 };
 
 export const registerUser = async (email: string, password: string) => {
-  const userData = findUserByEmail(email);
+  const normalizeEmail = email.trim().toLowerCase();
+  const userData = findUserByEmail(normalizeEmail);
 
   if (userData) {
     throw new Error('Аккаунт с таким email уже существует');
@@ -26,15 +26,21 @@ export const registerUser = async (email: string, password: string) => {
 
   const user: User = {
     userId: uuidv4(),
-    email: email.trim().toLowerCase(),
+    email: normalizeEmail,
     password: hashedPassword,
   };
 
   USERS.push(user);
 
+  const token = generateAccessToken(user.userId, user.email);
+
   return {
     message: 'Пользователь успешно зарегистрирован',
-    userId: user.userId,
+    token,
+    user: {
+      userId: user.userId,
+      email: user.email,
+    },
   };
 };
 
