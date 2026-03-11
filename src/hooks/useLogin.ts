@@ -58,6 +58,7 @@ export const useLogin = () => {
   };
 
   return {
+    location,
     register,
     handleSubmit,
     errors,

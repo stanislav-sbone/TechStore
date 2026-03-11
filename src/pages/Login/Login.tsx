@@ -8,6 +8,7 @@ import styles from './Login.module.css';
 const Login = () => {
   useDocumentTitle('Вход');
   const {
+    location,
     register,
     handleSubmit,
     errors,
@@ -105,7 +106,11 @@ const Login = () => {
 
         <p className={styles.footer}>
           Нет аккаунта?{' '}
-          <Link to={ROUTES.REGISTER} className={styles.linkButton}>
+          <Link
+            to={ROUTES.REGISTER}
+            className={styles.linkButton}
+            state={location.state}
+          >
             Зарегистрироваться
           </Link>
         </p>

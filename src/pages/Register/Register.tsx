@@ -8,6 +8,7 @@ import styles from './Register.module.css';
 const Register = () => {
   useDocumentTitle('Регистрация');
   const {
+    location,
     register,
     handleSubmit,
     errors,
@@ -161,7 +162,11 @@ const Register = () => {
 
         <p className={styles.footer}>
           Уже есть аккаунт?{' '}
-          <Link to={ROUTES.LOGIN} className={styles.loginLink}>
+          <Link
+            to={ROUTES.LOGIN}
+            className={styles.loginLink}
+            state={location.state}
+          >
             Войдите в систему
           </Link>
         </p>

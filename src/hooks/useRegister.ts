@@ -77,6 +77,7 @@ export const useRegister = () => {
   };
 
   return {
+    location,
     register,
     handleSubmit,
     errors,
