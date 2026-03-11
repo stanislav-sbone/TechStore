@@ -3,6 +3,7 @@ import { useAppDispatch } from '@/store/hooks';
 import type { FC, MouseEvent } from 'react';
 import styles from './FavoriteButton.module.css';
 import { Heart } from 'lucide-react';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 
 interface FavoriteButtonProps {
   productID: number;
@@ -11,10 +12,14 @@ interface FavoriteButtonProps {
 
 const FavoriteButton: FC<FavoriteButtonProps> = ({ productID, isFavorite }) => {
   const dispatch = useAppDispatch();
+  const { requireAuth } = useRequireAuth();
 
   const handleFavoriteClick = (event: MouseEvent) => {
     event.stopPropagation();
     event.preventDefault();
+
+    if (!requireAuth()) return;
+
     dispatch(toggleFavorite(productID));
   };
 

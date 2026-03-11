@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { addToCart } from '@/store/features/cart/cartSlice';
 import { fetchProductById } from '@/services/products/productsApi';
+import { useRequireAuth } from './useRequireAuth';
 
 export const useProductPage = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ export const useProductPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const isMobile = useIsMobile(600);
+  const { requireAuth } = useRequireAuth();
 
   const isFavorite = favorites.includes(productID);
   const cartItem = cart.find((product) => product.productId === productID);
@@ -43,6 +45,8 @@ export const useProductPage = () => {
   }, [productID]);
 
   const handleCartClick = () => {
+    if (!requireAuth()) return;
+
     dispatch(addToCart(productID));
     if (!isMobile) toast.success('Товар добавлен в корзину');
   };
