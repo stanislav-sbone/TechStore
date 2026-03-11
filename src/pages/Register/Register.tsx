@@ -1,8 +1,10 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { registerSchema, type RegisterFormData } from './register.schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { registerUser } from '@/services/auth/authApi';
+import { toast } from 'react-toastify';
 import styles from './Register.module.css';
 
 const Register = () => {
@@ -20,9 +22,21 @@ const Register = () => {
       personalData: false,
     },
   });
+  const navigate = useNavigate();
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log('register data', data);
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const { email, password } = data;
+
+      const result = await registerUser({ email, password });
+      toast.success(result.message);
+      navigate(ROUTES.LOGIN);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка регистрации';
+
+      toast.error(message);
+    }
   };
 
   return (
@@ -49,6 +63,7 @@ const Register = () => {
               className={styles.input}
               placeholder="email@example.com"
               autoComplete="email"
+              disabled={isSubmitting}
               {...register('email')}
             />
 
@@ -67,6 +82,7 @@ const Register = () => {
               className={styles.input}
               placeholder="Придумайте пароль"
               autoComplete="new-password"
+              disabled={isSubmitting}
               {...register('password')}
             />
 
@@ -85,6 +101,7 @@ const Register = () => {
               className={styles.input}
               placeholder="Повторите пароль"
               autoComplete="new-password"
+              disabled={isSubmitting}
               {...register('confirmPassword')}
             />
 
@@ -101,6 +118,7 @@ const Register = () => {
                 type="checkbox"
                 id="personalData"
                 className={styles.checkboxInput}
+                disabled={isSubmitting}
                 {...register('personalData')}
               />
               <label htmlFor="personalData" className={styles.checkboxLabel}>
