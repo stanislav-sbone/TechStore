@@ -1,6 +1,18 @@
+import { useAppDispatch } from '@/store/hooks';
 import styles from './Profile.module.css';
+import { logout } from '@/store/features/auth/authSlice';
+import { AUTH_TOKEN_KEY } from '@/constants/auth';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 const Profile = () => {
+  useDocumentTitle('Личный кабинет');
+  const dispatch = useAppDispatch();
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    dispatch(logout());
+  };
+
   return (
     <section className={styles.profile}>
       <h1 className={styles.pageTitle}>Личный кабинет</h1>
@@ -35,7 +47,11 @@ const Profile = () => {
             <button type="button" className={styles.editButton}>
               Редактировать профиль
             </button>
-            <button type="button" className={styles.logoutButton}>
+            <button
+              type="button"
+              className={styles.logoutButton}
+              onClick={handleLogoutClick}
+            >
               Выйти
             </button>
           </div>
