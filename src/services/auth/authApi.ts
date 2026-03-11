@@ -1,8 +1,7 @@
 import type {
+  AuthSuccessResponse,
   LoginRequest,
-  LoginResponse,
   RegisterRequest,
-  RegisterResponse,
 } from '@/types/auth';
 import axios from 'axios';
 
@@ -10,9 +9,9 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const registerUser = async (
   data: RegisterRequest
-): Promise<RegisterResponse> => {
+): Promise<AuthSuccessResponse> => {
   try {
-    const response = await axios.post<RegisterResponse>(
+    const response = await axios.post<AuthSuccessResponse>(
       `${API_URL}/auth/register`,
       data
     );
@@ -29,9 +28,11 @@ export const registerUser = async (
   }
 };
 
-export const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
+export const loginUser = async (
+  data: LoginRequest
+): Promise<AuthSuccessResponse> => {
   try {
-    const response = await axios.post<LoginResponse>(
+    const response = await axios.post<AuthSuccessResponse>(
       `${API_URL}/auth/login`,
       data
     );

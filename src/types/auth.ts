@@ -1,9 +1,4 @@
-export interface RegisterResponse {
-  message: string;
-  userId: string;
-}
-
-export interface LoginResponse {
+export interface AuthSuccessResponse {
   message: string;
   token: string;
   user: {

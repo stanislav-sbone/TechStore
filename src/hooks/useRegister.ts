@@ -1,13 +1,16 @@
+import { AUTH_TOKEN_KEY } from '@/constants/auth';
 import {
   registerSchema,
   type RegisterFormData,
 } from '@/pages/Register/register.schema';
 import { ROUTES } from '@/routes/constants/routes';
 import { registerUser } from '@/services/auth/authApi';
+import { setCredentials } from '@/store/features/auth/authSlice';
+import { useAppDispatch } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 export const useRegister = () => {
@@ -26,7 +29,11 @@ export const useRegister = () => {
       personalData: false,
     },
   });
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || ROUTES.HOME;
+
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState<boolean>(false);
@@ -56,8 +63,11 @@ export const useRegister = () => {
       const { email, password } = data;
 
       const result = await registerUser({ email, password });
+
+      dispatch(setCredentials({ token: result.token, user: result.user }));
+      localStorage.setItem(AUTH_TOKEN_KEY, result.token);
       toast.success(result.message);
-      navigate(ROUTES.LOGIN);
+      navigate(from, { replace: true });
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Ошибка регистрации';
