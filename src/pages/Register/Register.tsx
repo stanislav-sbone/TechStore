@@ -1,61 +1,23 @@
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
-import { registerSchema, type RegisterFormData } from './register.schema';
-import { useForm, useWatch } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { registerUser } from '@/services/auth/authApi';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useRegister } from '@/hooks/useRegister';
 import styles from './Register.module.css';
 
 const Register = () => {
   const {
     register,
-    control,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-      personalData: false,
-    },
-  });
-  const navigate = useNavigate();
-  const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
-  const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] =
-    useState<boolean>(false);
-
-  const passwordValue = useWatch({
-    control,
-    name: 'password',
-    defaultValue: '',
-  });
-
-  const confirmPasswordValue = useWatch({
-    control,
-    name: 'confirmPassword',
-    defaultValue: '',
-  });
-
-  const onSubmit = async (data: RegisterFormData) => {
-    try {
-      const { email, password } = data;
-
-      const result = await registerUser({ email, password });
-      toast.success(result.message);
-      navigate(ROUTES.LOGIN);
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Ошибка регистрации';
-
-      toast.error(message);
-    }
-  };
+    errors,
+    isSubmitting,
+    isPasswordVisible,
+    passwordValue,
+    confirmPasswordValue,
+    isConfirmPasswordVisible,
+    togglePasswordVisibility,
+    toggleConfirmPasswordVisibility,
+    onSubmit,
+  } = useRegister();
 
   return (
     <div className={styles.register}>
@@ -96,7 +58,7 @@ const Register = () => {
             </label>
             <div className={styles.passwordWrapper}>
               <input
-                type={isVisiblePassword ? 'text' : 'password'}
+                type={isPasswordVisible ? 'text' : 'password'}
                 id="password"
                 className={styles.input}
                 placeholder="Придумайте пароль"
@@ -107,11 +69,11 @@ const Register = () => {
               {Boolean(passwordValue) && (
                 <button
                   type="button"
-                  onClick={() => setIsVisiblePassword((prev) => !prev)}
+                  onClick={togglePasswordVisibility}
                   className={styles.passwordButton}
                   disabled={isSubmitting}
                 >
-                  {isVisiblePassword ? (
+                  {isPasswordVisible ? (
                     <EyeOff size={20} color="#4a5568" />
                   ) : (
                     <Eye size={20} color="#4a5568" />
@@ -132,7 +94,7 @@ const Register = () => {
 
             <div className={styles.passwordWrapper}>
               <input
-                type={isVisibleConfirmPassword ? 'text' : 'password'}
+                type={isConfirmPasswordVisible ? 'text' : 'password'}
                 id="confirmPassword"
                 className={styles.input}
                 placeholder="Повторите пароль"
@@ -143,11 +105,11 @@ const Register = () => {
               {Boolean(confirmPasswordValue) && (
                 <button
                   type="button"
-                  onClick={() => setIsVisibleConfirmPassword((prev) => !prev)}
+                  onClick={toggleConfirmPasswordVisibility}
                   className={styles.passwordButton}
                   disabled={isSubmitting}
                 >
-                  {isVisibleConfirmPassword ? (
+                  {isConfirmPasswordVisible ? (
                     <EyeOff size={20} color="#4a5568" />
                   ) : (
                     <Eye size={20} color="#4a5568" />
