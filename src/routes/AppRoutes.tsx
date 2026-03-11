@@ -7,6 +7,7 @@ import {
   Login,
   NotFound,
   ProductPage,
+  Profile,
   Register,
 } from '@/pages';
 import ProtectedRoute from './ProtectedRoute';
@@ -23,7 +24,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.FAVORITES} element={<Favorites />} />
         <Route path={ROUTES.CART} element={<Cart />} />
-        {/* <Route path={ROUTES.PROFILE} element={<Profile />} /> */}
+        <Route path={ROUTES.PROFILE} element={<Profile />} />
       </Route>
     </Routes>
   );
