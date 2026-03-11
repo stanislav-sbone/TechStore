@@ -42,13 +42,13 @@ export const loginUser = async (email: string, password: string) => {
   const userData = findUserByEmail(email);
 
   if (!userData) {
-    throw new Error('Аккаунта с таким email не существует');
+    throw new Error('Неверный email или пароль');
   }
 
   const isCorrectPassword = await bcrypt.compare(password, userData.password);
 
   if (!isCorrectPassword) {
-    throw new Error('Неверный пароль');
+    throw new Error('Неверный email или пароль');
   }
 
   const token = generateAccessToken(userData.userId, userData.email);

@@ -1,9 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginFormData } from './login.schema';
-import styles from './Login.module.css';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
+import { toast } from 'react-toastify';
+import { loginUser } from '@/services/auth/authApi';
+import { useAppDispatch } from '@/store/hooks';
+import { setCredentials } from '@/store/features/auth/authSlice';
+import { AUTH_TOKEN_KEY } from '@/constants/auth';
+import styles from './Login.module.css';
 
 const Login = () => {
   const {
@@ -13,11 +18,31 @@ const Login = () => {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log('login data:', data);
-    console.log(typeof data.email);
+  const from = location.state?.from?.pathname || ROUTES.HOME;
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const result = await loginUser(data);
+
+      dispatch(setCredentials({ token: result.token, user: result.user }));
+      localStorage.setItem(AUTH_TOKEN_KEY, result.token);
+      toast.success(result.message);
+      navigate(from, { replace: true });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка авторизации';
+
+      toast.error(message);
+    }
   };
 
   return (
@@ -42,6 +67,8 @@ const Login = () => {
               type="email"
               id="email"
               placeholder="email@example.com"
+              autoComplete="email"
+              disabled={isSubmitting}
               className={styles.input}
               {...register('email')}
             />
@@ -65,6 +92,8 @@ const Login = () => {
               type="password"
               id="password"
               placeholder="Введите пароль"
+              autoComplete="current-password"
+              disabled={isSubmitting}
               className={styles.input}
               {...register('password')}
             />
