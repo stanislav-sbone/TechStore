@@ -2,9 +2,11 @@ import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { Eye, EyeOff } from 'lucide-react';
 import { useLogin } from '@/hooks/useLogin';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import styles from './Login.module.css';
 
 const Login = () => {
+  useDocumentTitle('Вход');
   const {
     register,
     handleSubmit,

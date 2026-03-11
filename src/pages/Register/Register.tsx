@@ -2,9 +2,11 @@ import { Link } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRegister } from '@/hooks/useRegister';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import styles from './Register.module.css';
 
 const Register = () => {
+  useDocumentTitle('Регистрация');
   const {
     register,
     handleSubmit,
