@@ -8,6 +8,25 @@ interface CompleteUserProfileParams {
   address: string;
 }
 
+export const getCurrentUser = async (userId: string) => {
+  const userData = USERS.find((user) => user.userId === userId);
+
+  if (!userData) {
+    throw new Error('Пользователь не найден');
+  }
+
+  return {
+    user: {
+      userId: userData.userId,
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      phone: userData.phone,
+      address: userData.address,
+    },
+  };
+};
+
 export const completeUserProfile = async ({
   userId,
   firstName,

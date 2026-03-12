@@ -1,5 +1,28 @@
 import { Request, Response } from 'express';
-import { completeUserProfile } from '../services/usersService';
+import { completeUserProfile, getCurrentUser } from '../services/usersService';
+
+export const getUserData = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: 'Пользователь не авторизован',
+      });
+    }
+
+    const result = await getCurrentUser(req.user.userId);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('Get user data error', error);
+
+    return res.status(404).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : 'Ошибка получения пользователя',
+    });
+  }
+};
 
 export const authCompleteProfile = async (req: Request, res: Response) => {
   try {
