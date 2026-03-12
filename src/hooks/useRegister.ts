@@ -32,7 +32,6 @@ export const useRegister = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || ROUTES.HOME;
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
@@ -67,7 +66,9 @@ export const useRegister = () => {
       dispatch(setCredentials({ token: result.token, user: result.user }));
       localStorage.setItem(AUTH_TOKEN_KEY, result.token);
       toast.success(result.message);
-      navigate(from, { replace: true });
+      navigate(ROUTES.COMPLETE, {
+        state: { from: location.state?.from },
+      });
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Ошибка регистрации';
