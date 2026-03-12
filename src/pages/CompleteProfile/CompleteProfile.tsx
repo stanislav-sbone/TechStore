@@ -1,6 +1,31 @@
+import { useForm } from 'react-hook-form';
+import {
+  completeProfileSchema,
+  type CompleteProfileData,
+} from './complete.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './CompleteProfile.module.css';
 
 const CompleteProfile = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<CompleteProfileData>({
+    resolver: zodResolver(completeProfileSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      phone: '',
+      address: '',
+    },
+  });
+
+  const onSubmit = async (data: CompleteProfileData) => {
+    console.log('Данные', data);
+  };
+
   return (
     <div className={styles.complete}>
       <div className={styles.card}>
@@ -9,7 +34,11 @@ const CompleteProfile = () => {
           Укажите основные данные для оформления заказов и доставки
         </p>
 
-        <form className={styles.form} noValidate>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
           <div className={styles.field}>
             <label htmlFor="firstName" className={styles.label}>
               Имя
@@ -20,7 +49,13 @@ const CompleteProfile = () => {
               className={styles.input}
               placeholder="Иван"
               autoComplete="given-name"
+              disabled={isSubmitting}
+              {...register('firstName')}
             />
+
+            {errors.firstName && (
+              <span className={styles.error}>{errors.firstName.message}</span>
+            )}
           </div>
 
           <div className={styles.field}>
@@ -33,7 +68,13 @@ const CompleteProfile = () => {
               className={styles.input}
               placeholder="Иванов"
               autoComplete="family-name"
+              disabled={isSubmitting}
+              {...register('lastName')}
             />
+
+            {errors.lastName && (
+              <span className={styles.error}>{errors.lastName.message}</span>
+            )}
           </div>
 
           <div className={styles.field}>
@@ -46,7 +87,13 @@ const CompleteProfile = () => {
               className={styles.input}
               placeholder="+79876543210"
               autoComplete="tel"
+              disabled={isSubmitting}
+              {...register('phone')}
             />
+
+            {errors.phone && (
+              <span className={styles.error}>{errors.phone.message}</span>
+            )}
           </div>
 
           <div className={styles.field}>
@@ -59,10 +106,19 @@ const CompleteProfile = () => {
               className={styles.input}
               placeholder="г. Москва, ул. Тверская, д. 1"
               autoComplete="street-address"
+              disabled={isSubmitting}
+              {...register('address')}
             />
+            {errors.address && (
+              <span className={styles.error}>{errors.address.message}</span>
+            )}
           </div>
 
-          <button type="submit" className={styles.submit}>
+          <button
+            type="submit"
+            className={styles.submit}
+            disabled={isSubmitting}
+          >
             Сохранить
           </button>
         </form>

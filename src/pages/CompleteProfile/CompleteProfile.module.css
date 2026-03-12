@@ -34,7 +34,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .field {
@@ -70,6 +70,11 @@
   border-color: var(--color-primary);
   box-shadow: 0 0 0 1px rgba(49, 130, 206, 0.15);
   background-color: #ffffff;
+}
+
+.error {
+  font-size: 0.75rem;
+  color: #d32f2f;
 }
 
 .submit {
