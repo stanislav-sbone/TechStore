@@ -1,20 +1,16 @@
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
+import type { User } from '@/types/users';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-interface AuthUser {
-  userId: string;
-  email: string;
-}
 
 interface AuthState {
   token: string | null;
-  user: AuthUser | null;
+  user: User | null;
   isAuthenticated: boolean;
 }
 
 interface SetCredentialsPayload {
   token: string;
-  user: AuthUser;
+  user: User;
 }
 
 const token = localStorage.getItem(AUTH_TOKEN_KEY);
@@ -34,6 +30,9 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.isAuthenticated = true;
     },
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.user) state.user = { ...state.user, ...action.payload };
+    },
     logout: (state) => {
       state.token = null;
       state.user = null;
@@ -42,5 +41,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, updateUser, logout } = authSlice.actions;
 export default authSlice.reducer;
