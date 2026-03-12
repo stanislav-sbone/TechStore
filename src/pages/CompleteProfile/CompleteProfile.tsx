@@ -6,10 +6,11 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './CompleteProfile.module.css';
 import { completeProfile } from '@/services/users/usersApi';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
+import { updateUser } from '@/store/features/auth/authSlice';
 
 const CompleteProfile = () => {
   const token = useAppSelector((state) => state.auth.token);
@@ -29,6 +30,7 @@ const CompleteProfile = () => {
     },
   });
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || ROUTES.HOME;
@@ -40,6 +42,7 @@ const CompleteProfile = () => {
       }
 
       const result = await completeProfile(data, token);
+      dispatch(updateUser(result.user));
       toast.success(result.message);
       navigate(from, { replace: true });
     } catch (error) {
