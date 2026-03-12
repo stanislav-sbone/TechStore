@@ -30,6 +30,9 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.isAuthenticated = true;
     },
+    setUser: (state, action: PayloadAction<User | null>) => {
+      state.user = action.payload;
+    },
     updateUser: (state, action: PayloadAction<Partial<User>>) => {
       if (state.user) state.user = { ...state.user, ...action.payload };
     },
@@ -41,5 +44,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, updateUser, logout } = authSlice.actions;
+export const { setCredentials, setUser, updateUser, logout } =
+  authSlice.actions;
 export default authSlice.reducer;
