@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router';
 import { ROUTES } from '@/routes/constants/routes';
 import {
   Cart,
+  CompleteProfile,
   Favorites,
   Home,
   Login,
@@ -19,6 +20,7 @@ const AppRoutes = () => {
       <Route path={ROUTES.PRODUCT} element={<ProductPage />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.REGISTER} element={<Register />} />
+      <Route path={ROUTES.COMPLETE} element={<CompleteProfile />} />
       <Route path="*" element={<NotFound />} />
 
       <Route element={<ProtectedRoute />}>
