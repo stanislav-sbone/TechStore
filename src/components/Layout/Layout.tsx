@@ -7,7 +7,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getCurrentUser } from '@/services/users/usersApi';
-import { logout, updateUser } from '@/store/features/auth/authSlice';
+import { logout, setUser } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
 
 interface LayoutProps {
@@ -26,7 +26,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         if (!token || user) return;
 
         const result = await getCurrentUser(token);
-        dispatch(updateUser(result.user));
+        dispatch(setUser(result.user));
       } catch {
         localStorage.removeItem(AUTH_TOKEN_KEY);
         dispatch(logout());
