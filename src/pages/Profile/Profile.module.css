@@ -19,8 +19,8 @@
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 280px) minmax(0, 1.6fr);
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1.6fr);
+  gap: 1rem;
 }
 
 .sidebar {
@@ -61,14 +61,15 @@
 }
 
 .userName {
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-text-primary);
 }
 
 .userEmail {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--color-text-secondary);
+  word-break: break-all;
 }
 
 .sidebarMeta {

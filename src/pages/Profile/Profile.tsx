@@ -1,4 +1,4 @@
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import styles from './Profile.module.css';
 import { logout } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
@@ -6,12 +6,23 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 const Profile = () => {
   useDocumentTitle('Личный кабинет');
+  const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
   const handleLogoutClick = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     dispatch(logout());
   };
+
+  if (!user) {
+    return null;
+  }
+
+  const fullName =
+    `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim() || 'Пользователь';
+
+  const initials =
+    `${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}` || '??';
 
   return (
     <section className={styles.profile}>
@@ -23,11 +34,11 @@ const Profile = () => {
       <div className={styles.layout}>
         <aside className={styles.sidebar}>
           <div className={styles.sidebarHeader}>
-            <div className={styles.avatar}>ИФ</div>
+            <div className={styles.avatar}>{initials}</div>
 
             <div className={styles.sidebarInfo}>
-              <h2 className={styles.userName}>Иван Иванов</h2>
-              <p className={styles.userEmail}>email@example.com</p>
+              <h2 className={styles.userName}>{fullName}</h2>
+              <p className={styles.userEmail}>{user.email}</p>
             </div>
           </div>
 
@@ -64,22 +75,22 @@ const Profile = () => {
             <div className={styles.infoGrid}>
               <div className={styles.field}>
                 <span className={styles.label}>Имя</span>
-                <span className={styles.value}>Иван</span>
+                <span className={styles.value}>{user.firstName}</span>
               </div>
 
               <div className={styles.field}>
                 <span className={styles.label}>Фамилия</span>
-                <span className={styles.value}>Иванов</span>
+                <span className={styles.value}>{user.lastName}</span>
               </div>
 
               <div className={styles.field}>
                 <span className={styles.label}>Телефон</span>
-                <span className={styles.value}>+7 (123) 456-78-90</span>
+                <span className={styles.value}>{user.phone}</span>
               </div>
 
               <div className={styles.field}>
                 <span className={styles.label}>Email</span>
-                <span className={styles.value}>email@example.com</span>
+                <span className={styles.value}>{user.email}</span>
               </div>
             </div>
           </section>
@@ -88,9 +99,7 @@ const Profile = () => {
             <h2 className={styles.sectionTitle}>Адрес доставки</h2>
 
             <div className={styles.addressCard}>
-              <p className={styles.addressValue}>
-                г. Москва, ул. Тверская, д. 1
-              </p>
+              <p className={styles.addressValue}>{user.address}</p>
               <p className={styles.addressHint}>
                 В дальнейшем здесь можно будет добавить и редактировать адреса
                 доставки.
