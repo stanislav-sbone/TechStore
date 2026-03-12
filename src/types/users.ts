@@ -12,6 +12,10 @@ export interface CompleteProfileResponse {
   user: User;
 }
 
+export interface GetCurrentUserResponse {
+  user: User;
+}
+
 export interface CompleteProfileRequest {
   firstName: string;
   lastName: string;
