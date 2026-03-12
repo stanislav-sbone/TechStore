@@ -5,8 +5,15 @@ import {
 } from './complete.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './CompleteProfile.module.css';
+import { completeProfile } from '@/services/users/usersApi';
+import { useAppSelector } from '@/store/hooks';
+import { toast } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router';
+import { ROUTES } from '@/routes/constants/routes';
 
 const CompleteProfile = () => {
+  const token = useAppSelector((state) => state.auth.token);
+
   const {
     register,
     handleSubmit,
@@ -22,8 +29,25 @@ const CompleteProfile = () => {
     },
   });
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || ROUTES.HOME;
+
   const onSubmit = async (data: CompleteProfileData) => {
-    console.log('Данные', data);
+    try {
+      if (!token) {
+        throw new Error('Пользователь не авторизован');
+      }
+
+      const result = await completeProfile(data, token);
+      toast.success(result.message);
+      navigate(from, { replace: true });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка заполнения данных';
+
+      toast.error(message);
+    }
   };
 
   return (

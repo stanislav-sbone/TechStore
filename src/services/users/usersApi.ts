@@ -6,7 +6,7 @@ import type {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const completeProfle = async (
+export const completeProfile = async (
   data: CompleteProfileRequest,
   token: string
 ): Promise<CompleteProfileResponse> => {
