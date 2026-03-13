@@ -1,57 +1,9 @@
-import { useForm } from 'react-hook-form';
-import {
-  completeProfileSchema,
-  type CompleteProfileData,
-} from './complete.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useCompleteProfile } from '@/hooks/useCompleteProfile';
 import styles from './CompleteProfile.module.css';
-import { completeProfile } from '@/services/users/usersApi';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { toast } from 'react-toastify';
-import { useLocation, useNavigate } from 'react-router';
-import { ROUTES } from '@/routes/constants/routes';
-import { updateUser } from '@/store/features/auth/authSlice';
 
 const CompleteProfile = () => {
-  const token = useAppSelector((state) => state.auth.token);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<CompleteProfileData>({
-    resolver: zodResolver(completeProfileSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      phone: '',
-      address: '',
-    },
-  });
-
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || ROUTES.HOME;
-
-  const onSubmit = async (data: CompleteProfileData) => {
-    try {
-      if (!token) {
-        throw new Error('Пользователь не авторизован');
-      }
-
-      const result = await completeProfile(data, token);
-      dispatch(updateUser(result.user));
-      toast.success(result.message);
-      navigate(from, { replace: true });
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Ошибка заполнения данных';
-
-      toast.error(message);
-    }
-  };
+  const { register, handleSubmit, errors, isSubmitting, onSubmit } =
+    useCompleteProfile();
 
   return (
     <div className={styles.complete}>
