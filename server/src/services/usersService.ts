@@ -23,6 +23,7 @@ export const getCurrentUser = async (userId: string) => {
       lastName: userData.lastName,
       phone: userData.phone,
       address: userData.address,
+      isProfileCompleted: userData.isProfileCompleted,
     },
   };
 };
@@ -44,6 +45,7 @@ export const completeUserProfile = async ({
   userData.lastName = lastName.trim();
   userData.phone = phone.trim();
   userData.address = address.trim();
+  userData.isProfileCompleted = true;
 
   return {
     message: 'Профиль успешно заполнен',
@@ -54,6 +56,7 @@ export const completeUserProfile = async ({
       lastName: userData.lastName,
       phone: userData.phone,
       address: userData.address,
+      isProfileCompleted: userData.isProfileCompleted,
     },
   };
 };
