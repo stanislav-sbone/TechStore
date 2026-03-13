@@ -2,6 +2,7 @@ import { AUTH_TOKEN_KEY } from '@/constants/auth';
 import { loginSchema, type LoginFormData } from '@/pages/Login/login.schema';
 import { ROUTES } from '@/routes/constants/routes';
 import { loginUser } from '@/services/auth/authApi';
+import { getCurrentUser } from '@/services/users/usersApi';
 import { setCredentials } from '@/store/features/auth/authSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -44,9 +45,11 @@ export const useLogin = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const result = await loginUser(data);
+      const currentUser = await getCurrentUser(result.token);
 
-      dispatch(setCredentials({ token: result.token, user: result.user }));
+      dispatch(setCredentials({ token: result.token, user: currentUser.user }));
       localStorage.setItem(AUTH_TOKEN_KEY, result.token);
+
       toast.success(result.message);
       navigate(from, { replace: true });
     } catch (error) {
