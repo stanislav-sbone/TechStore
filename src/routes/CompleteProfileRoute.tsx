@@ -2,7 +2,7 @@ import { useAppSelector } from '@/store/hooks';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { ROUTES } from './constants/routes';
 
-const PublicRoute = () => {
+const CompleteProfileRoute = () => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const user = useAppSelector((state) => state.auth.user);
   const location = useLocation();
@@ -10,18 +10,18 @@ const PublicRoute = () => {
   const from = location.state?.from?.pathname || ROUTES.HOME;
 
   if (!isAuthenticated) {
-    return <Outlet />;
+    return <Navigate to={ROUTES.LOGIN} state={location.state} replace />;
   }
 
   if (!user) {
     return null;
   }
 
-  if (!user.isProfileCompleted) {
-    return <Navigate to={ROUTES.COMPLETE} state={location.state} replace />;
+  if (user.isProfileCompleted) {
+    return <Navigate to={from} replace />;
   }
 
-  return <Navigate to={from} replace />;
+  return <Outlet />;
 };
 
-export default PublicRoute;
+export default CompleteProfileRoute;

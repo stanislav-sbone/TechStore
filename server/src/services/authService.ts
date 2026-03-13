@@ -28,6 +28,7 @@ export const registerUser = async (email: string, password: string) => {
     userId: uuidv4(),
     email: normalizeEmail,
     password: hashedPassword,
+    isProfileCompleted: false,
   };
 
   USERS.push(user);

@@ -13,18 +13,22 @@ import {
 } from '@/pages';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
+import CompleteProfileRoute from './CompleteProfileRoute';
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.PRODUCT} element={<ProductPage />} />
-      <Route path={ROUTES.COMPLETE} element={<CompleteProfile />} />
       <Route path="*" element={<NotFound />} />
 
       <Route element={<PublicRoute />}>
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
+      </Route>
+
+      <Route element={<CompleteProfileRoute />}>
+        <Route path={ROUTES.COMPLETE} element={<CompleteProfile />} />
       </Route>
 
       <Route element={<ProtectedRoute />}>
