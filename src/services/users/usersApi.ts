@@ -1,18 +1,18 @@
 import axios from 'axios';
 import type {
-  CompleteProfileRequest,
-  CompleteProfileResponse,
   GetCurrentUserResponse,
+  updateProfileRequest,
+  updateProfileResponse,
 } from '@/types/users';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export const completeProfile = async (
-  data: CompleteProfileRequest,
+export const updateProfile = async (
+  data: updateProfileRequest,
   token: string
-): Promise<CompleteProfileResponse> => {
+): Promise<updateProfileResponse> => {
   try {
-    const response = await axios.patch<CompleteProfileResponse>(
+    const response = await axios.patch<updateProfileResponse>(
       `${API_URL}/users/me`,
       data,
       {
