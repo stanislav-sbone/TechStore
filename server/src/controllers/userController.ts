@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import {
+  getCartByUserId,
   getCurrentUser,
   getFavoritesByUserId,
+  setCartByUserId,
   setFavoritesByUserId,
   updateCurrentUser,
 } from '../services/userService';
@@ -117,6 +119,62 @@ export const setFavorites = async (req: Request, res: Response) => {
         error instanceof Error
           ? error.message
           : 'Ошибка сохранения избранных товаров',
+    });
+  }
+};
+
+export const getCart = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: 'Пользователь не авторизован',
+      });
+    }
+
+    const userId = req.user.userId;
+    const result = await getCartByUserId(userId);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('Get cart error: ', error);
+
+    return res.status(500).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : 'Ошибка получения корзины товаров',
+    });
+  }
+};
+
+export const setCart = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: 'Пользователь не авторизован',
+      });
+    }
+
+    const { items } = req.body;
+
+    if (!Array.isArray(items)) {
+      return res.status(400).json({
+        message: 'Необходим массив корзины товаров',
+      });
+    }
+
+    const userId = req.user.userId;
+    const result = await setCartByUserId(userId, items);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('Set cart error: ', error);
+
+    return res.status(500).json({
+      message:
+        error instanceof Error
+          ? error.message
+          : 'Ошибка сохранения корзины товаров',
     });
   }
 };

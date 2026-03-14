@@ -1,5 +1,7 @@
+import { CART } from '../data/cart';
 import { FAVORITES } from '../data/favorites';
 import { USERS } from '../data/users';
+import { CartItem } from '../types/cart';
 
 interface updateCurrentUserParams {
   userId: string;
@@ -92,8 +94,38 @@ export const setFavoritesByUserId = async (userId: string, items: number[]) => {
     FAVORITES.push(newFavorites);
 
     return {
-      userId,
       items: newFavorites.items,
+    };
+  }
+
+  result.items = items;
+
+  return {
+    items: result.items,
+  };
+};
+
+export const getCartByUserId = async (userId: string) => {
+  const result = CART.find((item) => item.userId === userId);
+
+  return {
+    items: result?.items ?? [],
+  };
+};
+
+export const setCartByUserId = async (userId: string, items: CartItem[]) => {
+  const result = CART.find((item) => item.userId === userId);
+
+  if (!result) {
+    const newCart = {
+      userId,
+      items: items,
+    };
+
+    CART.push(newCart);
+
+    return {
+      items: newCart.items,
     };
   }
 
