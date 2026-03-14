@@ -3,7 +3,7 @@ import {
   type CompleteProfileData,
 } from '@/pages/CompleteProfile/complete.schema';
 import { ROUTES } from '@/routes/constants/routes';
-import { completeProfile } from '@/services/users/usersApi';
+import { updateProfile } from '@/services/users/usersApi';
 import { updateUser } from '@/store/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 
 export const useCompleteProfile = () => {
   const token = useAppSelector((state) => state.auth.token);
+  const user = useAppSelector((state) => state.auth.user);
 
   const {
     register,
@@ -40,7 +41,13 @@ export const useCompleteProfile = () => {
         throw new Error('Пользователь не авторизован');
       }
 
-      const result = await completeProfile(data, token);
+      if (!user) {
+        throw new Error('Данные пользователя не загружены');
+      }
+
+      const requestData = { ...data, email: user.email };
+
+      const result = await updateProfile(requestData, token);
       dispatch(updateUser(result.user));
       toast.success(result.message);
       navigate(from, { replace: true });
