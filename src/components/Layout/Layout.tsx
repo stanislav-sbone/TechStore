@@ -1,14 +1,15 @@
 import { useEffect, type FC, type ReactNode } from 'react';
-import styles from './Layout.module.css';
 import { Header } from '@/components/Header';
 import { ScrollToTop } from '../ScrollToTop';
 import { BottomMenu } from '../BottomMenu';
 import useIsMobile from '@/hooks/useIsMobile';
 import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { getCurrentUser } from '@/services/users/usersApi';
 import { logout, setUser } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
+import { getCurrentUser, getFavorites } from '@/services/user/userApi';
+import styles from './Layout.module.css';
+import { setFavorites } from '@/store/features/favorites/favoritesSlice';
 
 interface LayoutProps {
   children: ReactNode;
@@ -25,8 +26,10 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       try {
         if (!token || user) return;
 
-        const result = await getCurrentUser(token);
-        dispatch(setUser(result.user));
+        const userData = await getCurrentUser(token);
+        const favorites = await getFavorites(token);
+        dispatch(setUser(userData.user));
+        dispatch(setFavorites(favorites.items));
       } catch {
         localStorage.removeItem(AUTH_TOKEN_KEY);
         dispatch(logout());

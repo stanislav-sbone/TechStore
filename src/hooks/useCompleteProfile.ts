@@ -3,7 +3,7 @@ import {
   type CompleteProfileData,
 } from '@/pages/CompleteProfile/complete.schema';
 import { ROUTES } from '@/routes/constants/routes';
-import { updateProfile } from '@/services/users/usersApi';
+import { updateProfile } from '@/services/user/userApi';
 import { updateUser } from '@/store/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
