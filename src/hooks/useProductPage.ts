@@ -4,9 +4,10 @@ import useIsMobile from './useIsMobile';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { addToCart } from '@/store/features/cart/cartSlice';
+import { setCart } from '@/store/features/cart/cartSlice';
 import { fetchProductById } from '@/services/products/productsApi';
 import { useRequireAuth } from './useRequireAuth';
+import { updateCart } from '@/services/user/userApi';
 
 export const useProductPage = () => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export const useProductPage = () => {
 
   const favorites = useAppSelector((state) => state.favorites.items);
   const cart = useAppSelector((state) => state.cart.items);
+  const token = useAppSelector((state) => state.auth.token);
   const dispatch = useAppDispatch();
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -44,11 +46,27 @@ export const useProductPage = () => {
     getProduct();
   }, [productID]);
 
-  const handleCartClick = () => {
-    if (!requireAuth()) return;
+  const handleCartClick = async () => {
+    try {
+      if (!requireAuth() || !token) return;
 
-    dispatch(addToCart(productID));
-    if (!isMobile) toast.success('Товар добавлен в корзину');
+      const product = {
+        productId: productID,
+        quantity: 1,
+      };
+
+      const updatedCart = [...cart, product];
+
+      const result = await updateCart(updatedCart, token);
+
+      dispatch(setCart(result.items));
+      if (!isMobile) toast.success('Товар добавлен в корзину');
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+
+      toast.error(message);
+    }
   };
 
   const discountPrice = useMemo(() => {

@@ -1,10 +1,12 @@
 import axios from 'axios';
 import type {
+  CartResponse,
   FavoritesResponse,
   GetCurrentUserResponse,
   UpdateProfileRequest,
   UpdateProfileResponse,
 } from '@/types/user';
+import type { CartItem } from '@/types/cart';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -111,5 +113,54 @@ export const updateFavorites = async (
     }
 
     throw new Error('Ошибка обновления избранных товаров');
+  }
+};
+
+export const getCart = async (token: string): Promise<CartResponse> => {
+  try {
+    const response = await axios.get<CartResponse>(`${API_URL}/users/me/cart`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка получения корзины товаров', error);
+
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message || 'Ошибка получения корзины товаров');
+    }
+
+    throw new Error('Ошибка получения корзины товаров');
+  }
+};
+
+export const updateCart = async (
+  cart: CartItem[],
+  token: string
+): Promise<CartResponse> => {
+  try {
+    const response = await axios.put<CartResponse>(
+      `${API_URL}/users/me/cart`,
+      { items: cart },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка обновления корзины товаров', error);
+
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message || 'Ошибка обновления корзины товаров');
+    }
+
+    throw new Error('Ошибка обновления корзины товаров');
   }
 };

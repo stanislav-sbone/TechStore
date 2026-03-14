@@ -1,3 +1,5 @@
+import type { CartItem } from './cart';
+
 export interface User {
   userId: string;
   email: string;
@@ -27,4 +29,8 @@ export interface UpdateProfileRequest {
 
 export interface FavoritesResponse {
   items: number[];
+}
+
+export interface CartResponse {
+  items: CartItem[];
 }

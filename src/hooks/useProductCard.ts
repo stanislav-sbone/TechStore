@@ -2,10 +2,10 @@ import type { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import useIsMobile from './useIsMobile';
 import { setFavorites } from '@/store/features/favorites/favoritesSlice';
-import { addToCart } from '@/store/features/cart/cartSlice';
+import { setCart } from '@/store/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { useRequireAuth } from './useRequireAuth';
-import { updateFavorites } from '@/services/user/userApi';
+import { updateCart, updateFavorites } from '@/services/user/userApi';
 
 export const useProductCard = (id: number) => {
   const favorites = useAppSelector((state) => state.favorites.items);
@@ -42,14 +42,30 @@ export const useProductCard = (id: number) => {
     }
   };
 
-  const handleCartClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const handleCartClick = async (event: MouseEvent) => {
+    try {
+      event.stopPropagation();
+      event.preventDefault();
 
-    if (!requireAuth()) return;
+      if (!requireAuth() || !token) return;
 
-    dispatch(addToCart(id));
-    if (!isMobile) toast.success('Товар добавлен в корзину');
+      const product = {
+        productId: id,
+        quantity: 1,
+      };
+
+      const updatedCart = [...cart, product];
+
+      const result = await updateCart(updatedCart, token);
+
+      dispatch(setCart(result.items));
+      if (!isMobile) toast.success('Товар добавлен в корзину');
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+
+      toast.error(message);
+    }
   };
 
   return { isFavorite, cartItem, handleFavoriteClick, handleCartClick };

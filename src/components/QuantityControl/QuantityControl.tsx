@@ -1,7 +1,10 @@
 import type { FC, MouseEvent } from 'react';
-import { updateQuantity, type CartItem } from '@/store/features/cart/cartSlice';
-import { useAppDispatch } from '@/store/hooks';
+import { setCart } from '@/store/features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Minus, Plus } from 'lucide-react';
+import type { CartItem } from '@/types/cart';
+import { updateCart } from '@/services/user/userApi';
+import { toast } from 'react-toastify';
 import styles from './QuantityControl.module.css';
 
 interface QuantityControlProps {
@@ -10,22 +13,65 @@ interface QuantityControlProps {
 }
 
 const QuantityControl: FC<QuantityControlProps> = ({ productId, cartItem }) => {
+  const token = useAppSelector((state) => state.auth.token);
+  const cart = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
-  const handleIncreaseClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    dispatch(
-      updateQuantity({ productId: productId, quantity: cartItem.quantity + 1 })
-    );
+  const handleIncreaseClick = async (event: MouseEvent) => {
+    try {
+      event.stopPropagation();
+      event.preventDefault();
+
+      if (!token) return;
+
+      const updatedCart = cart.map((item) =>
+        item.productId === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+
+      const result = await updateCart(updatedCart, token);
+      dispatch(setCart(result.items));
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+
+      toast.error(message);
+    }
   };
 
-  const handleDecreaseClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    dispatch(
-      updateQuantity({ productId: productId, quantity: cartItem.quantity - 1 })
-    );
+  const handleDecreaseClick = async (event: MouseEvent) => {
+    try {
+      event.stopPropagation();
+      event.preventDefault();
+
+      if (!token) return;
+
+      const product = cart.find((item) => item.productId === productId);
+
+      if (!product) return;
+
+      if (product.quantity <= 1) {
+        const updatedCart = cart.filter((item) => item.productId !== productId);
+        const result = await updateCart(updatedCart, token);
+        dispatch(setCart(result.items));
+        return;
+      }
+
+      const updatedCart = cart.map((item) =>
+        item.productId === productId
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+
+      const result = await updateCart(updatedCart, token);
+      dispatch(setCart(result.items));
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+
+      toast.error(message);
+    }
   };
 
   return (
