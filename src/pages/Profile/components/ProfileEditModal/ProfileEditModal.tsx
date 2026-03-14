@@ -1,9 +1,6 @@
-import { useCallback, type FC, type MouseEvent } from 'react';
+import { type FC, type MouseEvent } from 'react';
 import { X } from 'lucide-react';
-import { useAppSelector } from '@/store/hooks';
-import { useForm } from 'react-hook-form';
-import { editProfileSchema, type EditProfileData } from './editProfile.schema';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useEditProfile } from '@/hooks/useEditProfile';
 import styles from './ProfileEditModal.module.css';
 
 interface ProfileEditModalProps {
@@ -11,40 +8,18 @@ interface ProfileEditModalProps {
 }
 
 const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
-  const user = useAppSelector((state) => state.auth.user);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<EditProfileData>({
-    resolver: zodResolver(editProfileSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      firstName: user?.firstName ?? '',
-      lastName: user?.lastName ?? '',
-      phone: user?.phone ?? '',
-      address: user?.address ?? '',
-      email: user?.email ?? '',
-    },
-  });
-
-  const handleBackdropClick = useCallback(
-    (event: MouseEvent) => {
-      if (event.target === event.currentTarget) {
-        closeModal();
-      }
-    },
-    [closeModal]
-  );
-
-  const onSubmit = (data: EditProfileData) => {
-    console.log('редактирование данных', data);
-  };
+  const { user, register, errors, isSubmitting, handleSubmit, onSubmit } =
+    useEditProfile();
 
   if (!user) {
     return null;
   }
+
+  const handleBackdropClick = (event: MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  };
 
   return (
     <div
