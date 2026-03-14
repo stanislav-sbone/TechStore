@@ -6,6 +6,7 @@ interface ProfileSidebarProps {
   fullName: string;
   email: string;
   onLogout: () => void;
+  openEditModal: () => void;
 }
 
 const ProfileSidebar: FC<ProfileSidebarProps> = ({
@@ -13,6 +14,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({
   fullName,
   email,
   onLogout,
+  openEditModal,
 }) => {
   return (
     <aside className={styles.sidebar}>
@@ -38,7 +40,11 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({
       </div>
 
       <div className={styles.sidebarActions}>
-        <button type="button" className={styles.editButton}>
+        <button
+          type="button"
+          className={styles.editButton}
+          onClick={openEditModal}
+        >
           Редактировать профиль
         </button>
         <button

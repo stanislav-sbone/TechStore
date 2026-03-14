@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
@@ -5,6 +6,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import {
   ProfileAddress,
   ProfileContactInfo,
+  ProfileEditModal,
   ProfileSidebar,
 } from './components';
 import styles from './Profile.module.css';
@@ -14,10 +16,42 @@ const Profile = () => {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+
   const handleLogoutClick = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     dispatch(logout());
   };
+
+  const handleOpenModalClick = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseModalClick = () => {
+    setIsEditModalOpen(false);
+  };
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isEditModalOpen) {
+        setIsEditModalOpen(false);
+      }
+    };
+
+    if (isEditModalOpen) {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [isEditModalOpen]);
 
   if (!user) {
     return null;
@@ -42,6 +76,7 @@ const Profile = () => {
           fullName={fullName}
           email={user.email}
           onLogout={handleLogoutClick}
+          openEditModal={handleOpenModalClick}
         />
 
         <div className={styles.main}>
@@ -55,6 +90,10 @@ const Profile = () => {
           <ProfileAddress address={user.address ?? 'Адрес не указан'} />
         </div>
       </div>
+
+      {isEditModalOpen && (
+        <ProfileEditModal closeModal={handleCloseModalClick} />
+      )}
     </section>
   );
 };
