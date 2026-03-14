@@ -1,5 +1,5 @@
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
-import type { User } from '@/types/users';
+import type { User } from '@/types/user';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {

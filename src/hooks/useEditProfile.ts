@@ -2,7 +2,7 @@ import {
   editProfileSchema,
   type EditProfileData,
 } from '@/pages/Profile/components/ProfileEditModal/editProfile.schema';
-import { updateProfile } from '@/services/users/usersApi';
+import { updateProfile } from '@/services/user/userApi';
 import { updateUser } from '@/store/features/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';

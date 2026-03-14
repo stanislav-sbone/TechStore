@@ -8,7 +8,7 @@ export interface User {
   isProfileCompleted: boolean;
 }
 
-export interface updateProfileResponse {
+export interface UpdateProfileResponse {
   message: string;
   user: User;
 }
@@ -17,10 +17,14 @@ export interface GetCurrentUserResponse {
   user: User;
 }
 
-export interface updateProfileRequest {
+export interface UpdateProfileRequest {
   firstName: string;
   lastName: string;
   phone: string;
   address: string;
   email: string;
+}
+
+export interface FavoritesResponse {
+  items: number[];
 }

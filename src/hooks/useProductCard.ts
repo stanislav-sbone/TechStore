@@ -1,13 +1,15 @@
 import type { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import useIsMobile from './useIsMobile';
-import { toggleFavorite } from '@/store/features/favorites/favoritesSlice';
+import { setFavorites } from '@/store/features/favorites/favoritesSlice';
 import { addToCart } from '@/store/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { useRequireAuth } from './useRequireAuth';
+import { updateFavorites } from '@/services/user/userApi';
 
 export const useProductCard = (id: number) => {
   const favorites = useAppSelector((state) => state.favorites.items);
+  const token = useAppSelector((state) => state.auth.token);
   const cart = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
@@ -17,13 +19,27 @@ export const useProductCard = (id: number) => {
   const isFavorite = favorites.includes(id);
   const cartItem = cart.find((product) => product.productId === id);
 
-  const handleFavoriteClick = (event: MouseEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const handleFavoriteClick = async (event: MouseEvent) => {
+    try {
+      event.stopPropagation();
+      event.preventDefault();
 
-    if (!requireAuth()) return;
+      if (!requireAuth() || !token) return;
 
-    dispatch(toggleFavorite(id));
+      const isFavorite = favorites.includes(id);
+
+      const newFavorites = isFavorite
+        ? favorites.filter((item) => item !== id)
+        : [...favorites, id];
+
+      const result = await updateFavorites(newFavorites, token);
+      dispatch(setFavorites(result.items));
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+
+      toast.error(message);
+    }
   };
 
   const handleCartClick = (event: MouseEvent) => {
