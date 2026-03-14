@@ -21,6 +21,13 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
     }
   };
 
+  const submitHandler = handleSubmit(async (data) => {
+    const isSuccess = await onSubmit(data);
+    if (isSuccess) {
+      closeModal();
+    }
+  });
+
   return (
     <div
       className={styles.backdrop}
@@ -38,11 +45,7 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
           </button>
         </div>
         <div className={styles.content}>
-          <form
-            className={styles.form}
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-          >
+          <form className={styles.form} onSubmit={submitHandler} noValidate>
             <div className={styles.field}>
               <label htmlFor="firstName" className={styles.label}>
                 Имя
