@@ -1,7 +1,8 @@
 import { USERS } from '../data/users';
 
-interface CompleteUserProfileParams {
+interface updateCurrentUserParams {
   userId: string;
+  email: string;
   firstName: string;
   lastName: string;
   phone: string;
@@ -28,19 +29,28 @@ export const getCurrentUser = async (userId: string) => {
   };
 };
 
-export const completeUserProfile = async ({
+export const updateCurrentUser = async ({
   userId,
+  email,
   firstName,
   lastName,
   phone,
   address,
-}: CompleteUserProfileParams) => {
+}: updateCurrentUserParams) => {
   const userData = USERS.find((user) => user.userId === userId);
 
   if (!userData) {
     throw new Error('Пользователь не найден');
   }
 
+  const normalivedEmail = email.trim().toLowerCase();
+  const existingUser = USERS.find((user) => user.email === normalivedEmail);
+
+  if (existingUser && userData.userId !== userId) {
+    throw new Error('Аккаунт с таким email уже существует');
+  }
+
+  userData.email = normalivedEmail;
   userData.firstName = firstName.trim();
   userData.lastName = lastName.trim();
   userData.phone = phone.trim();
@@ -48,7 +58,7 @@ export const completeUserProfile = async ({
   userData.isProfileCompleted = true;
 
   return {
-    message: 'Профиль успешно заполнен',
+    message: 'Данные обновлены',
     user: {
       userId: userData.userId,
       email: userData.email,

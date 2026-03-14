@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { completeUserProfile, getCurrentUser } from '../services/usersService';
+import { getCurrentUser, updateCurrentUser } from '../services/usersService';
 
 export const getUserData = async (req: Request, res: Response) => {
   try {
@@ -24,11 +24,11 @@ export const getUserData = async (req: Request, res: Response) => {
   }
 };
 
-export const authCompleteProfile = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { firstName, lastName, phone, address } = req.body;
+    const { firstName, lastName, phone, address, email } = req.body;
 
-    if (!firstName || !lastName || !phone || !address) {
+    if (!firstName || !lastName || !phone || !address || !email) {
       return res.status(400).json({
         message: 'Необходимо заполнить все данные',
       });
@@ -40,8 +40,9 @@ export const authCompleteProfile = async (req: Request, res: Response) => {
       });
     }
 
-    const result = await completeUserProfile({
+    const result = await updateCurrentUser({
       userId: req.user.userId,
+      email,
       firstName,
       lastName,
       phone,
@@ -50,7 +51,7 @@ export const authCompleteProfile = async (req: Request, res: Response) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    console.error('Complete profile error', error);
+    console.error('Update profile error', error);
 
     return res.status(500).json({
       message:
