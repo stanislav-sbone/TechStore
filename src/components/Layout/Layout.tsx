@@ -7,9 +7,10 @@ import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout, setUser } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
-import { getCurrentUser, getFavorites } from '@/services/user/userApi';
+import { getCart, getCurrentUser, getFavorites } from '@/services/user/userApi';
 import styles from './Layout.module.css';
 import { setFavorites } from '@/store/features/favorites/favoritesSlice';
+import { setCart } from '@/store/features/cart/cartSlice';
 
 interface LayoutProps {
   children: ReactNode;
@@ -28,8 +29,10 @@ const Layout: FC<LayoutProps> = ({ children }) => {
 
         const userData = await getCurrentUser(token);
         const favorites = await getFavorites(token);
+        const cart = await getCart(token);
         dispatch(setUser(userData.user));
         dispatch(setFavorites(favorites.items));
+        dispatch(setCart(cart.items));
       } catch {
         localStorage.removeItem(AUTH_TOKEN_KEY);
         dispatch(logout());

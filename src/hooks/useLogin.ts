@@ -2,8 +2,9 @@ import { AUTH_TOKEN_KEY } from '@/constants/auth';
 import { loginSchema, type LoginFormData } from '@/pages/Login/login.schema';
 import { ROUTES } from '@/routes/constants/routes';
 import { loginUser } from '@/services/auth/authApi';
-import { getCurrentUser, getFavorites } from '@/services/user/userApi';
+import { getCart, getCurrentUser, getFavorites } from '@/services/user/userApi';
 import { setCredentials } from '@/store/features/auth/authSlice';
+import { setCart } from '@/store/features/cart/cartSlice';
 import { setFavorites } from '@/store/features/favorites/favoritesSlice';
 import { useAppDispatch } from '@/store/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,9 +49,11 @@ export const useLogin = () => {
       const result = await loginUser(data);
       const currentUser = await getCurrentUser(result.token);
       const favorites = await getFavorites(result.token);
+      const cart = await getCart(result.token);
 
       dispatch(setCredentials({ token: result.token, user: currentUser.user }));
       dispatch(setFavorites(favorites.items));
+      dispatch(setCart(cart.items));
       localStorage.setItem(AUTH_TOKEN_KEY, result.token);
 
       toast.success(result.message);

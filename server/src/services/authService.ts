@@ -1,5 +1,6 @@
 import { USERS } from '../data/users';
 import { FAVORITES } from '../data/favorites';
+import { CART } from '../data/cart';
 import { User } from '../types/user';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
@@ -33,9 +34,11 @@ export const registerUser = async (email: string, password: string) => {
   };
 
   const userFavorites = { userId: user.userId, items: [] };
+  const userCart = { userId: user.userId, items: [] };
 
   USERS.push(user);
   FAVORITES.push(userFavorites);
+  CART.push(userCart);
 
   const token = generateAccessToken(user.userId, user.email);
 

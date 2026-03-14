@@ -1,16 +1,18 @@
 import { X } from 'lucide-react';
 import { useCallback, type FC, type MouseEvent } from 'react';
-import { useAppDispatch } from '@/store/hooks';
-import { clearCart } from '@/store/features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { clearCart, setCart } from '@/store/features/cart/cartSlice';
 import styles from './CartClearModal.module.css';
 import { toast } from 'react-toastify';
 import useIsMobile from '@/hooks/useIsMobile';
+import { updateCart } from '@/services/user/userApi';
 
 interface CartClearModalProps {
   closeClearModal: () => void;
 }
 
 const CartClearModal: FC<CartClearModalProps> = ({ closeClearModal }) => {
+  const token = useAppSelector((state) => state.auth.token);
   const dispatch = useAppDispatch();
   const isMobile = useIsMobile(600);
 
@@ -23,11 +25,22 @@ const CartClearModal: FC<CartClearModalProps> = ({ closeClearModal }) => {
     [closeClearModal]
   );
 
-  const handleConfirmClick = useCallback(() => {
-    dispatch(clearCart());
-    closeClearModal();
-    if (!isMobile) toast.success('Корзина очищена');
-  }, [dispatch, closeClearModal, isMobile]);
+  const handleConfirmClick = useCallback(async () => {
+    try {
+      if (!token) return;
+
+      dispatch(clearCart());
+      const result = await updateCart([], token);
+      dispatch(setCart(result.items));
+      closeClearModal();
+      if (!isMobile) toast.success('Корзина очищена');
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+
+      toast.error(message);
+    }
+  }, [dispatch, closeClearModal, isMobile, token]);
 
   return (
     <div
