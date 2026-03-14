@@ -1,4 +1,5 @@
 import { USERS } from '../data/users';
+import { FAVORITES } from '../data/favorites';
 import { User } from '../types/user';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
@@ -31,7 +32,10 @@ export const registerUser = async (email: string, password: string) => {
     isProfileCompleted: false,
   };
 
+  const userFavorites = { userId: user.userId, items: [] };
+
   USERS.push(user);
+  FAVORITES.push(userFavorites);
 
   const token = generateAccessToken(user.userId, user.email);
 

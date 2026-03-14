@@ -1,3 +1,4 @@
+import { FAVORITES } from '../data/favorites';
 import { USERS } from '../data/users';
 
 interface updateCurrentUserParams {
@@ -68,5 +69,37 @@ export const updateCurrentUser = async ({
       address: userData.address,
       isProfileCompleted: userData.isProfileCompleted,
     },
+  };
+};
+
+export const getFavoritesByUserId = async (userId: string) => {
+  const result = FAVORITES.find((item) => item.userId === userId);
+
+  return {
+    items: result?.items ?? [],
+  };
+};
+
+export const setFavoritesByUserId = async (userId: string, items: number[]) => {
+  const result = FAVORITES.find((item) => item.userId === userId);
+
+  if (!result) {
+    const newFavorites = {
+      userId,
+      items: items,
+    };
+
+    FAVORITES.push(newFavorites);
+
+    return {
+      userId,
+      items: newFavorites.items,
+    };
+  }
+
+  result.items = items;
+
+  return {
+    items: result.items,
   };
 };
