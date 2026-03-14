@@ -1,7 +1,10 @@
-import { X } from 'lucide-react';
-import styles from './ProfileEditModal.module.css';
-import { useAppSelector } from '@/store/hooks';
 import { useCallback, type FC, type MouseEvent } from 'react';
+import { X } from 'lucide-react';
+import { useAppSelector } from '@/store/hooks';
+import { useForm } from 'react-hook-form';
+import { editProfileSchema, type EditProfileData } from './editProfile.schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import styles from './ProfileEditModal.module.css';
 
 interface ProfileEditModalProps {
   closeModal: () => void;
@@ -9,6 +12,22 @@ interface ProfileEditModalProps {
 
 const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
   const user = useAppSelector((state) => state.auth.user);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<EditProfileData>({
+    resolver: zodResolver(editProfileSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      firstName: user?.firstName ?? '',
+      lastName: user?.lastName ?? '',
+      phone: user?.phone ?? '',
+      address: user?.address ?? '',
+      email: user?.email ?? '',
+    },
+  });
 
   const handleBackdropClick = useCallback(
     (event: MouseEvent) => {
@@ -19,13 +38,13 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
     [closeModal]
   );
 
+  const onSubmit = (data: EditProfileData) => {
+    console.log('редактирование данных', data);
+  };
+
   if (!user) {
     return null;
   }
-
-  const onSubmit = () => {
-    console.log('редактирование данных');
-  };
 
   return (
     <div
@@ -35,12 +54,20 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
       <div className={styles.modal}>
         <div className={styles.header}>
           <h3 className={styles.title}>Редактировать данные</h3>
-          <button className={styles.closeButton} onClick={closeModal}>
+          <button
+            className={styles.closeButton}
+            type="button"
+            onClick={closeModal}
+          >
             <X size={20} />
           </button>
         </div>
         <div className={styles.content}>
-          <form className={styles.form} noValidate>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+          >
             <div className={styles.field}>
               <label htmlFor="firstName" className={styles.label}>
                 Имя
@@ -51,7 +78,13 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
                 className={styles.input}
                 placeholder="Иван"
                 autoComplete="given-name"
+                disabled={isSubmitting}
+                {...register('firstName')}
               />
+
+              {errors.firstName && (
+                <span className={styles.error}>{errors.firstName.message}</span>
+              )}
             </div>
 
             <div className={styles.field}>
@@ -64,7 +97,13 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
                 className={styles.input}
                 placeholder="Иванов"
                 autoComplete="family-name"
+                disabled={isSubmitting}
+                {...register('lastName')}
               />
+
+              {errors.lastName && (
+                <span className={styles.error}>{errors.lastName.message}</span>
+              )}
             </div>
 
             <div className={styles.field}>
@@ -77,7 +116,13 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
                 className={styles.input}
                 placeholder="+79876543210"
                 autoComplete="tel"
+                disabled={isSubmitting}
+                {...register('phone')}
               />
+
+              {errors.phone && (
+                <span className={styles.error}>{errors.phone.message}</span>
+              )}
             </div>
 
             <div className={styles.field}>
@@ -90,7 +135,13 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
                 className={styles.input}
                 placeholder="г. Москва, ул. Тверская, д. 1"
                 autoComplete="street-address"
+                disabled={isSubmitting}
+                {...register('address')}
               />
+
+              {errors.address && (
+                <span className={styles.error}>{errors.address.message}</span>
+              )}
             </div>
 
             <div className={styles.field}>
@@ -103,22 +154,29 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
                 className={styles.input}
                 placeholder="email@example.com"
                 autoComplete="email"
+                disabled={isSubmitting}
+                {...register('email')}
               />
+
+              {errors.email && (
+                <span className={styles.error}>{errors.email.message}</span>
+              )}
             </div>
             <div className={styles.actions}>
               <button
                 className={styles.cancelButton}
                 type="button"
+                disabled={isSubmitting}
                 onClick={closeModal}
               >
                 Отмена
               </button>
               <button
                 className={styles.confirmButton}
-                type="button"
-                onClick={onSubmit}
+                type="submit"
+                disabled={isSubmitting}
               >
-                Сохранить
+                {isSubmitting ? 'Сохранение...' : 'Сохранить'}
               </button>
             </div>
           </form>
