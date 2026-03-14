@@ -26,8 +26,12 @@ const favoritesSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
+    clearFavorites: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { toggleFavorite, setSearchQuery } = favoritesSlice.actions;
+export const { toggleFavorite, setSearchQuery, clearFavorites } =
+  favoritesSlice.actions;
 export default favoritesSlice.reducer;

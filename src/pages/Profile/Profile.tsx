@@ -10,6 +10,8 @@ import {
   ProfileSidebar,
 } from './components';
 import styles from './Profile.module.css';
+import { clearCart } from '@/store/features/cart/cartSlice';
+import { clearFavorites } from '@/store/features/favorites/favoritesSlice';
 
 const Profile = () => {
   useDocumentTitle('Личный кабинет');
@@ -21,6 +23,8 @@ const Profile = () => {
   const handleLogoutClick = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
     dispatch(logout());
+    dispatch(clearCart());
+    dispatch(clearFavorites());
   };
 
   const handleOpenModalClick = () => {
