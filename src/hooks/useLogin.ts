@@ -47,9 +47,11 @@ export const useLogin = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const result = await loginUser(data);
-      const currentUser = await getCurrentUser(result.token);
-      const favorites = await getFavorites(result.token);
-      const cart = await getCart(result.token);
+      const [currentUser, favorites, cart] = await Promise.all([
+        getCurrentUser(result.token),
+        getFavorites(result.token),
+        getCart(result.token),
+      ]);
 
       dispatch(setCredentials({ token: result.token, user: currentUser.user }));
       dispatch(setFavorites(favorites.items));
