@@ -27,9 +27,12 @@ const Layout: FC<LayoutProps> = ({ children }) => {
       try {
         if (!token || user) return;
 
-        const userData = await getCurrentUser(token);
-        const favorites = await getFavorites(token);
-        const cart = await getCart(token);
+        const [userData, favorites, cart] = await Promise.all([
+          getCurrentUser(token),
+          getFavorites(token),
+          getCart(token),
+        ]);
+
         dispatch(setUser(userData.user));
         dispatch(setFavorites(favorites.items));
         dispatch(setCart(cart.items));
