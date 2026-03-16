@@ -10,9 +10,9 @@ import styles from './Home.module.css';
 
 const Home: FC = () => {
   useDocumentTitle('Каталог товаров');
-  const { products, isLoading, error, searchQuery } = useProducts();
+  const { products, loading, error, searchQuery } = useProducts();
 
-  if (isLoading) {
+  if (loading === 'pending') {
     return (
       <section className={styles.home}>
         <HomeHeader />
@@ -28,6 +28,7 @@ const Home: FC = () => {
   if (error) {
     return (
       <section className={styles.home}>
+        <HomeHeader />
         <HomeError message={error} />
       </section>
     );
