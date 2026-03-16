@@ -34,7 +34,7 @@ const BottomMenu = () => {
           >
             <div className={styles.iconWrapper}>
               <item.icon color={isActive ? '#3182ce' : '#4a5568'} size={24} />
-              {badgeCount !== 0 && (
+              {item.hasBadge && badgeCount > 0 && (
                 <span className={styles.badge}>{badgeCount}</span>
               )}
             </div>

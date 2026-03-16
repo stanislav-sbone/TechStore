@@ -26,7 +26,7 @@ const HeaderNav = () => {
         return (
           <Link to={item.path} key={item.path} className={styles.buttonLink}>
             <item.icon color={isActive ? '#3182ce' : '#4a5568'} size={27} />
-            {badgeCount !== 0 && (
+            {item.hasBadge && badgeCount > 0 && (
               <span className={styles.badge}>{badgeCount}</span>
             )}
           </Link>
