@@ -11,6 +11,7 @@ import { getCart, getCurrentUser, getFavorites } from '@/services/user/userApi';
 import styles from './Layout.module.css';
 import { setFavorites } from '@/store/features/favorites/favoritesSlice';
 import { setCart } from '@/store/features/cart/cartSlice';
+import { getProducts } from '@/store/features/products/productsSlice';
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,6 +19,7 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   const isMobile = useIsMobile(MOBILE_BREAKPOINT);
+  const loading = useAppSelector((state) => state.products.loading);
   const token = useAppSelector((state) => state.auth.token);
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
@@ -44,6 +46,12 @@ const Layout: FC<LayoutProps> = ({ children }) => {
 
     loadCurrentUser();
   }, [token, user, dispatch]);
+
+  useEffect(() => {
+    if (loading === 'idle') {
+      dispatch(getProducts());
+    }
+  }, [dispatch, loading]);
 
   return (
     <>
