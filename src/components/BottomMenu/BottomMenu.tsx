@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router';
-import { navItems } from '@/constants/bottomNav';
+import { navItems } from '@/constants/navigation';
 import styles from './BottomMenu.module.css';
 import { useAppSelector } from '@/store/hooks';
 import { ROUTES } from '@/routes/constants/routes';
