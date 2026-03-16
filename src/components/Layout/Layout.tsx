@@ -1,57 +1,16 @@
-import { useEffect, type FC, type ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 import { Header } from '@/components/Header';
 import { ScrollToTop } from '../ScrollToTop';
 import { BottomMenu } from '../BottomMenu';
-import useIsMobile from '@/hooks/useIsMobile';
-import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { logout, setUser } from '@/store/features/auth/authSlice';
-import { AUTH_TOKEN_KEY } from '@/constants/auth';
-import { getCart, getCurrentUser, getFavorites } from '@/services/user/userApi';
+import { useLayout } from '@/hooks/useLayout';
 import styles from './Layout.module.css';
-import { setFavorites } from '@/store/features/favorites/favoritesSlice';
-import { setCart } from '@/store/features/cart/cartSlice';
-import { getProducts } from '@/store/features/products/productsSlice';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
-  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
-  const loading = useAppSelector((state) => state.products.loading);
-  const token = useAppSelector((state) => state.auth.token);
-  const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const loadCurrentUser = async () => {
-      try {
-        if (!token || user) return;
-
-        const [userData, favorites, cart] = await Promise.all([
-          getCurrentUser(token),
-          getFavorites(token),
-          getCart(token),
-        ]);
-
-        dispatch(setUser(userData.user));
-        dispatch(setFavorites(favorites.items));
-        dispatch(setCart(cart.items));
-      } catch {
-        localStorage.removeItem(AUTH_TOKEN_KEY);
-        dispatch(logout());
-      }
-    };
-
-    loadCurrentUser();
-  }, [token, user, dispatch]);
-
-  useEffect(() => {
-    if (loading === 'idle') {
-      dispatch(getProducts());
-    }
-  }, [dispatch, loading]);
+  const { isMobile } = useLayout();
 
   return (
     <>
