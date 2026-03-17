@@ -3,7 +3,7 @@ import { ProductCard } from '@/components/ProductCard';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import { NoMatches } from '@/components/NoMatches';
 import { HomeHeader } from './components';
-import HomeError from './components/HomeError/HomeError';
+import { ErrorMessage } from '@/components/ErrorMessage';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useProducts } from '@/hooks/useProducts';
 import styles from './Home.module.css';
@@ -29,7 +29,7 @@ const Home: FC = () => {
     return (
       <section className={styles.home}>
         <HomeHeader />
-        <HomeError message={error} />
+        <ErrorMessage message={error} />
       </section>
     );
   }
