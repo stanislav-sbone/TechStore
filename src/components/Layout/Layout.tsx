@@ -4,6 +4,7 @@ import { ScrollToTop } from '../ScrollToTop';
 import { BottomMenu } from '../BottomMenu';
 import { useLayout } from '@/hooks/useLayout';
 import styles from './Layout.module.css';
+import { Footer } from '../Footer';
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
         <div className={styles.container}>{children}</div>
       </main>
       {isMobile && <BottomMenu />}
+      <Footer />
     </>
   );
 };
