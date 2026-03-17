@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react';
 export const useCart = () => {
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
   const cartItems = useAppSelector((state) => state.cart.items);
-  const products = useAppSelector((state) => state.products.items);
+  const {
+    items: products,
+    loading,
+    error,
+  } = useAppSelector((state) => state.products);
 
   const cartProducts = cartItems
     .map(({ productId, quantity }) => {
@@ -49,6 +53,8 @@ export const useCart = () => {
     cartQuantity,
     sumPriceWithDiscount,
     sumPrice,
+    loading,
+    error,
     isClearModalOpen,
     openClearModal: () => setIsClearModalOpen(true),
     closeClearModal: () => setIsClearModalOpen(false),
