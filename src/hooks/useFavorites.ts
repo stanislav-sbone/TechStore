@@ -6,7 +6,11 @@ export const useFavorites = () => {
   const { items: favorites, searchQuery } = useAppSelector(
     (state) => state.favorites
   );
-  const products = useAppSelector((state) => state.products.items);
+  const {
+    items: products,
+    loading,
+    error,
+  } = useAppSelector((state) => state.products);
   const [category, setCategory] = useState<'Все' | ProductCategory>('Все');
 
   const filteredFavoriteProducts = useMemo(() => {
@@ -52,6 +56,8 @@ export const useFavorites = () => {
     filteredFavorites: filteredFavoriteProducts,
     categories,
     category,
+    loading,
+    error,
     searchQuery,
     setCategory,
   };

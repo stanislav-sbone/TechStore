@@ -3,6 +3,7 @@ import { NoMatches } from '@/components/NoMatches';
 import { CategoryFilter, EmptyFavorites, FavoritesFilter } from './components';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useFavorites } from '@/hooks/useFavorites';
+import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
 import styles from './Favorites.module.css';
 
 const Favorites = () => {
@@ -12,11 +13,31 @@ const Favorites = () => {
     filteredFavorites,
     categories,
     category,
+    loading,
     searchQuery,
     setCategory,
   } = useFavorites();
 
-  if (favoritesCount === 0) {
+  if (loading === 'pending' || loading === 'idle') {
+    return (
+      <section className={styles.favorites}>
+        <h1 className={styles.title}>Избранные товары</h1>
+        <FavoritesFilter />
+        <CategoryFilter
+          currentCategory={category}
+          categories={categories}
+          setCategory={setCategory}
+        />
+        <div className={styles.productsGrid}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (loading === 'succeeded' && favoritesCount === 0) {
     return (
       <section className={styles.favorites}>
         <EmptyFavorites />
