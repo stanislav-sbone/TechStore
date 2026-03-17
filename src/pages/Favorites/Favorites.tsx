@@ -4,6 +4,7 @@ import { CategoryFilter, EmptyFavorites, FavoritesFilter } from './components';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useFavorites } from '@/hooks/useFavorites';
 import { ProductCardSkeleton } from '@/components/ProductCardSkeleton';
+import { ErrorMessage } from '@/components/ErrorMessage';
 import styles from './Favorites.module.css';
 
 const Favorites = () => {
@@ -14,6 +15,7 @@ const Favorites = () => {
     categories,
     category,
     loading,
+    error,
     searchQuery,
     setCategory,
   } = useFavorites();
@@ -41,6 +43,21 @@ const Favorites = () => {
     return (
       <section className={styles.favorites}>
         <EmptyFavorites />
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className={styles.favorites}>
+        <h1 className={styles.title}>Избранные товары</h1>
+        <FavoritesFilter />
+        <CategoryFilter
+          currentCategory={category}
+          categories={categories}
+          setCategory={setCategory}
+        />
+        <ErrorMessage message={error} />
       </section>
     );
   }

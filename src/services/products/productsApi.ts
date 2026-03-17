@@ -11,6 +11,11 @@ export const fetchProducts = async (): Promise<Product[]> => {
       resolve(response.data);
     }, 5000);
   });
+  // return new Promise((_, reject) => {
+  //   setTimeout(() => {
+  //     reject(new Error('Ошибка'));
+  //   }, 5000);
+  // });
 };
 
 export const fetchProductById = async (id: number): Promise<Product | null> => {
