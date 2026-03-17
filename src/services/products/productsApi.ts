@@ -5,17 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchProducts = async (): Promise<Product[]> => {
   const response = await axios.get<Product[]>(`${API_URL}/products`);
-  // return response.data;
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(response.data);
-    }, 5000);
-  });
-  // return new Promise((_, reject) => {
-  //   setTimeout(() => {
-  //     reject(new Error('Ошибка'));
-  //   }, 5000);
-  // });
+  return response.data;
 };
 
 export const fetchProductById = async (id: number): Promise<Product | null> => {
