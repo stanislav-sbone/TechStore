@@ -8,6 +8,7 @@ import {
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useCart } from '@/hooks/useCart';
 import styles from './Cart.module.css';
+import { ErrorMessage } from '@/components/ErrorMessage';
 
 const Cart: FC = () => {
   useDocumentTitle('Корзина');
@@ -15,13 +16,33 @@ const Cart: FC = () => {
     cartProducts,
     cartQuantity,
     sumPrice,
+    loading,
+    error,
     sumPriceWithDiscount,
     isClearModalOpen,
     openClearModal,
     closeClearModal,
   } = useCart();
 
-  if (cartProducts.length === 0) {
+  if (loading === 'idle' || loading === 'pending') {
+    return (
+      <section className={styles.cart}>
+        <h1 className={styles.title}>Корзина</h1>
+        <div className={styles.content}>Загрузка данных...</div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className={styles.cart}>
+        <h1 className={styles.title}>Корзина</h1>
+        <ErrorMessage message={error} />
+      </section>
+    );
+  }
+
+  if (cartProducts.length === 0 && loading === 'succeeded') {
     return (
       <section className={styles.cart}>
         <EmptyCart />
