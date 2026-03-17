@@ -1,11 +1,11 @@
 import type { FC } from 'react';
-import styles from './ErrorMesage.module.css';
+import styles from './ErrorMessage.module.css';
 
 interface ErrorMesageProps {
   message: string;
 }
 
-const ErrorMesage: FC<ErrorMesageProps> = ({ message }) => {
+const ErrorMessage: FC<ErrorMesageProps> = ({ message }) => {
   return (
     <div className={styles.error}>
       <img
@@ -18,4 +18,4 @@ const ErrorMesage: FC<ErrorMesageProps> = ({ message }) => {
   );
 };
 
-export default ErrorMesage;
+export default ErrorMessage;
