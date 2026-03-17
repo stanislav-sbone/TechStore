@@ -2,7 +2,9 @@ import { type FC } from 'react';
 import {
   CartClearModal,
   CartProductCard,
+  CartProductCardSkeleton,
   CartSummary,
+  CartSummarySkeleton,
   EmptyCart,
 } from './components';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -28,7 +30,14 @@ const Cart: FC = () => {
     return (
       <section className={styles.cart}>
         <h1 className={styles.title}>Корзина</h1>
-        <div className={styles.content}>Загрузка данных...</div>
+        <div className={styles.content}>
+          <div className={styles.items}>
+            {Array.from({ length: 4 }).map((_, i) => (
+              <CartProductCardSkeleton key={i} />
+            ))}
+          </div>
+          <CartSummarySkeleton />
+        </div>
       </section>
     );
   }
