@@ -1,7 +1,9 @@
-import { CART } from '../data/cart';
-import { FAVORITES } from '../data/favorites';
-import { USERS } from '../data/users';
+import { eq } from 'drizzle-orm';
+import { db } from '../db/connection';
+import { users } from '../db/schema/users';
 import { CartItem } from '../types/cart';
+import { usersFavorites } from '../db/schema/favorites';
+import { usersCart } from '../db/schema/cart';
 
 interface updateCurrentUserParams {
   userId: string;
@@ -13,21 +15,23 @@ interface updateCurrentUserParams {
 }
 
 export const getCurrentUser = async (userId: string) => {
-  const userData = USERS.find((user) => user.userId === userId);
+  const userData = await db.select().from(users).where(eq(users.id, userId));
 
-  if (!userData) {
+  if (userData.length === 0) {
     throw new Error('Пользователь не найден');
   }
 
+  const user = userData[0];
+
   return {
     user: {
-      userId: userData.userId,
-      email: userData.email,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      phone: userData.phone,
-      address: userData.address,
-      isProfileCompleted: userData.isProfileCompleted,
+      userId: user.id,
+      email: user.email,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      phone: user.phone,
+      address: user.address,
+      isProfileCompleted: user.is_profile_completed,
     },
   };
 };
@@ -40,98 +44,99 @@ export const updateCurrentUser = async ({
   phone,
   address,
 }: updateCurrentUserParams) => {
-  const userData = USERS.find((user) => user.userId === userId);
+  const userData = await db
+    .select({ id: users.id, email: users.email })
+    .from(users)
+    .where(eq(users.id, userId));
 
-  if (!userData) {
+  if (userData.length === 0) {
     throw new Error('Пользователь не найден');
   }
 
-  const normalivedEmail = email.trim().toLowerCase();
-  const existingUser = USERS.find((user) => user.email === normalivedEmail);
+  const existingUser = await db
+    .select({
+      id: users.id,
+    })
+    .from(users)
+    .where(eq(users.email, email));
 
-  if (existingUser && userData.userId !== userId) {
+  if (existingUser.length > 0 && existingUser[0].id !== userId) {
     throw new Error('Аккаунт с таким email уже существует');
   }
 
-  userData.email = normalivedEmail;
-  userData.firstName = firstName.trim();
-  userData.lastName = lastName.trim();
-  userData.phone = phone.trim();
-  userData.address = address.trim();
-  userData.isProfileCompleted = true;
+  const updatedUser = await db
+    .update(users)
+    .set({
+      email: email.trim().toLowerCase(),
+      first_name: firstName.trim(),
+      last_name: lastName.trim(),
+      phone: phone.trim(),
+      address: address.trim(),
+      is_profile_completed: true,
+    })
+    .where(eq(users.id, userId))
+    .returning({
+      id: users.id,
+      email: users.email,
+      firstName: users.first_name,
+      lastName: users.last_name,
+      phone: users.phone,
+      address: users.address,
+      isProfileCompleted: users.is_profile_completed,
+    });
 
   return {
     message: 'Данные обновлены',
-    user: {
-      userId: userData.userId,
-      email: userData.email,
-      firstName: userData.firstName,
-      lastName: userData.lastName,
-      phone: userData.phone,
-      address: userData.address,
-      isProfileCompleted: userData.isProfileCompleted,
-    },
+    user: updatedUser[0],
   };
 };
 
 export const getFavoritesByUserId = async (userId: string) => {
-  const result = FAVORITES.find((item) => item.userId === userId);
+  const favorites = await db
+    .select()
+    .from(usersFavorites)
+    .where(eq(usersFavorites.user_id, userId));
+
+  if (favorites.length === 0) {
+    return { items: [] };
+  }
 
   return {
-    items: result?.items ?? [],
+    items: favorites[0].items ?? [],
   };
 };
 
 export const setFavoritesByUserId = async (userId: string, items: number[]) => {
-  const result = FAVORITES.find((item) => item.userId === userId);
-
-  if (!result) {
-    const newFavorites = {
-      userId,
-      items: items,
-    };
-
-    FAVORITES.push(newFavorites);
-
-    return {
-      items: newFavorites.items,
-    };
-  }
-
-  result.items = items;
+  const updatedFavorites = await db
+    .update(usersFavorites)
+    .set({ items: items })
+    .where(eq(usersFavorites.user_id, userId))
+    .returning({ items: usersFavorites.items });
 
   return {
-    items: result.items,
+    items: updatedFavorites[0].items ?? [],
   };
 };
 
 export const getCartByUserId = async (userId: string) => {
-  const result = CART.find((item) => item.userId === userId);
+  const cart = await db
+    .select()
+    .from(usersCart)
+    .where(eq(usersCart.user_id, userId));
 
   return {
-    items: result?.items ?? [],
+    items: cart[0].items ?? [],
   };
 };
 
 export const setCartByUserId = async (userId: string, items: CartItem[]) => {
-  const result = CART.find((item) => item.userId === userId);
-
-  if (!result) {
-    const newCart = {
-      userId,
-      items: items,
-    };
-
-    CART.push(newCart);
-
-    return {
-      items: newCart.items,
-    };
-  }
-
-  result.items = items;
+  const updatedCart = await db
+    .update(usersCart)
+    .set({ items: items })
+    .where(eq(usersCart.user_id, userId))
+    .returning({ items: usersCart.items });
 
   return {
-    items: result.items,
+    items: updatedCart[0].items ?? [],
   };
 };

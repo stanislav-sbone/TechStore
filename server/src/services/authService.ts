@@ -7,7 +7,11 @@ import { usersFavorites } from '../db/schema/favorites';
 import { usersCart } from '../db/schema/cart';
 
 export const registerUser = async (email: string, password: string) => {
-  const userData = await db.select().from(users).where(eq(users.email, email));
+  const normalizedEmail = email.trim().toLowerCase();
+  const userData = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, normalizedEmail));
 
   if (userData.length) {
     throw new Error('Аккаунт с таким email уже существует');
@@ -23,7 +27,7 @@ export const registerUser = async (email: string, password: string) => {
 
   const [newUser] = await db
     .insert(users)
-    .values({ email: email, password_hash: hashedPassword })
+    .values({ email: normalizedEmail, password_hash: hashedPassword })
     .returning();
 
   await db.insert(usersFavorites).values({ user_id: newUser.id });
@@ -42,7 +46,11 @@ export const registerUser = async (email: string, password: string) => {
 };
 
 export const loginUser = async (email: string, password: string) => {
-  const userData = await db.select().from(users).where(eq(users.email, email));
+  const normalizedEmail = email.trim().toLowerCase();
+  const userData = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, normalizedEmail));
 
   if (userData.length === 0) {
     throw new Error('Неверный email или пароль');
