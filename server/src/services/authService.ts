@@ -25,22 +25,29 @@ export const registerUser = async (email: string, password: string) => {
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  const [newUser] = await db
-    .insert(users)
-    .values({ email: normalizedEmail, password_hash: hashedPassword })
-    .returning();
+  const createdUser = await db.transaction(async (tx) => {
+    const [newUser] = await tx
+      .insert(users)
+      .values({ email: normalizedEmail, password_hash: hashedPassword })
+      .returning({
+        id: users.id,
+        email: users.email,
+      });
 
-  await db.insert(usersFavorites).values({ user_id: newUser.id });
-  await db.insert(usersCart).values({ user_id: newUser.id });
+    await tx.insert(usersFavorites).values({ user_id: newUser.id });
+    await tx.insert(usersCart).values({ user_id: newUser.id });
 
-  const token = generateAccessToken(newUser.id, newUser.email);
+    return newUser;
+  });
+
+  const token = generateAccessToken(createdUser.id, createdUser.email);
 
   return {
     message: 'Пользователь успешно зарегистрирован',
     token,
     user: {
-      userId: newUser.id,
-      email: newUser.email,
+      userId: createdUser.id,
+      email: createdUser.email,
     },
   };
 };
