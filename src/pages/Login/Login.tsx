@@ -43,7 +43,11 @@ const Login = () => {
               placeholder="email@example.com"
               autoComplete="email"
               disabled={isSubmitting}
-              className={styles.input}
+              className={
+                errors.email
+                  ? `${styles.input} ${styles.inputError}`
+                  : styles.input
+              }
               {...register('email')}
             />
 
@@ -70,7 +74,11 @@ const Login = () => {
                 placeholder="Введите пароль"
                 autoComplete="current-password"
                 disabled={isSubmitting}
-                className={styles.input}
+                className={
+                  errors.password
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 {...register('password')}
               />
 
