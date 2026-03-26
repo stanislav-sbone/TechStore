@@ -5,6 +5,7 @@
   --color-background: #f9fafb;
   --color-border: #e2e8f0;
   --color-primary: #3182ce;
+  --color-error: #d32f2f;
 }
 
 #root {
