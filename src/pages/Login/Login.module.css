@@ -72,6 +72,10 @@
   background-color: #ffffff;
 }
 
+.inputError {
+  border: 1px solid #d32f2f;
+}
+
 .error {
   font-size: 0.75rem;
   color: #d32f2f;
