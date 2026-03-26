@@ -1,20 +1,15 @@
-import { USERS } from '../data/users';
-import { FAVORITES } from '../data/favorites';
-import { CART } from '../data/cart';
-import { User } from '../types/user';
 import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
 import { generateAccessToken } from '../utils/jwt';
-
-export const findUserByEmail = (email: string) => {
-  return USERS.find((user) => user.email === email);
-};
+import { db } from '../db/connection';
+import { users } from '../db/schema/users';
+import { eq } from 'drizzle-orm';
+import { usersFavorites } from '../db/schema/favorites';
+import { usersCart } from '../db/schema/cart';
 
 export const registerUser = async (email: string, password: string) => {
-  const normalizeEmail = email.trim().toLowerCase();
-  const userData = findUserByEmail(normalizeEmail);
+  const userData = await db.select().from(users).where(eq(users.email, email));
 
-  if (userData) {
+  if (userData.length) {
     throw new Error('Аккаунт с таким email уже существует');
   }
 
@@ -26,53 +21,48 @@ export const registerUser = async (email: string, password: string) => {
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  const user: User = {
-    userId: uuidv4(),
-    email: normalizeEmail,
-    password: hashedPassword,
-    isProfileCompleted: false,
-  };
+  const [newUser] = await db
+    .insert(users)
+    .values({ email: email, password_hash: hashedPassword })
+    .returning();
 
-  const userFavorites = { userId: user.userId, items: [] };
-  const userCart = { userId: user.userId, items: [] };
+  await db.insert(usersFavorites).values({ user_id: newUser.id });
+  await db.insert(usersCart).values({ user_id: newUser.id });
 
-  USERS.push(user);
-  FAVORITES.push(userFavorites);
-  CART.push(userCart);
-
-  const token = generateAccessToken(user.userId, user.email);
+  const token = generateAccessToken(newUser.id, newUser.email);
 
   return {
     message: 'Пользователь успешно зарегистрирован',
     token,
     user: {
-      userId: user.userId,
-      email: user.email,
+      userId: newUser.id,
+      email: newUser.email,
     },
   };
 };
 
 export const loginUser = async (email: string, password: string) => {
-  const userData = findUserByEmail(email);
+  const userData = await db.select().from(users).where(eq(users.email, email));
 
-  if (!userData) {
+  if (userData.length === 0) {
     throw new Error('Неверный email или пароль');
   }
 
-  const isCorrectPassword = await bcrypt.compare(password, userData.password);
+  const user = userData[0];
+  const isCorrectPassword = await bcrypt.compare(password, user.password_hash);
 
   if (!isCorrectPassword) {
     throw new Error('Неверный email или пароль');
   }
 
-  const token = generateAccessToken(userData.userId, userData.email);
+  const token = generateAccessToken(user.id, user.email);
 
   return {
     message: 'Успешная авторизация',
     token,
     user: {
-      userId: userData.userId,
-      email: userData.email,
+      userId: user.id,
+      email: user.email,
     },
   };
 };
