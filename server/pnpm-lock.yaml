@@ -28,9 +28,6 @@ importers:
       pg:
         specifier: ^8.20.0
         version: 8.20.0
-      uuid:
-        specifier: ^13.0.0
-        version: 13.0.0
     devDependencies:
       '@types/bcrypt':
         specifier: ^6.0.0
@@ -2053,13 +2050,6 @@ packages:
       }
     engines: { node: '>= 0.8' }
 
-  uuid@13.0.0:
-    resolution:
-      {
-        integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==,
-      }
-    hasBin: true
-
   v8-compile-cache-lib@3.0.1:
     resolution:
       {
@@ -3114,8 +3104,6 @@ snapshots:
   undici-types@7.18.2: {}
 
   unpipe@1.0.0: {}
-
-  uuid@13.0.0: {}
 
   v8-compile-cache-lib@3.0.1: {}
 
