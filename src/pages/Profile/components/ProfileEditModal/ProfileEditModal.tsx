@@ -53,7 +53,11 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
               <input
                 type="text"
                 id="firstName"
-                className={styles.input}
+                className={
+                  errors.firstName
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="Иван"
                 autoComplete="given-name"
                 disabled={isSubmitting}
@@ -72,7 +76,11 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
               <input
                 type="text"
                 id="lastName"
-                className={styles.input}
+                className={
+                  errors.lastName
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="Иванов"
                 autoComplete="family-name"
                 disabled={isSubmitting}
@@ -91,7 +99,11 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
               <input
                 type="tel"
                 id="phone"
-                className={styles.input}
+                className={
+                  errors.phone
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="+79876543210"
                 autoComplete="tel"
                 disabled={isSubmitting}
@@ -110,7 +122,11 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
               <input
                 type="text"
                 id="address"
-                className={styles.input}
+                className={
+                  errors.address
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="г. Москва, ул. Тверская, д. 1"
                 autoComplete="street-address"
                 disabled={isSubmitting}
@@ -129,7 +145,11 @@ const ProfileEditModal: FC<ProfileEditModalProps> = ({ closeModal }) => {
               <input
                 type="email"
                 id="email"
-                className={styles.input}
+                className={
+                  errors.email
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="email@example.com"
                 autoComplete="email"
                 disabled={isSubmitting}
