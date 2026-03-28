@@ -43,7 +43,11 @@ const Register = () => {
             <input
               type="email"
               id="email"
-              className={styles.input}
+              className={
+                errors.email
+                  ? `${styles.input} ${styles.inputError}`
+                  : styles.input
+              }
               placeholder="email@example.com"
               autoComplete="email"
               disabled={isSubmitting}
@@ -63,7 +67,11 @@ const Register = () => {
               <input
                 type={isPasswordVisible ? 'text' : 'password'}
                 id="password"
-                className={styles.input}
+                className={
+                  errors.password
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="Придумайте пароль"
                 autoComplete="new-password"
                 disabled={isSubmitting}
@@ -99,7 +107,11 @@ const Register = () => {
               <input
                 type={isConfirmPasswordVisible ? 'text' : 'password'}
                 id="confirmPassword"
-                className={styles.input}
+                className={
+                  errors.confirmPassword
+                    ? `${styles.input} ${styles.inputError}`
+                    : styles.input
+                }
                 placeholder="Повторите пароль"
                 autoComplete="new-password"
                 disabled={isSubmitting}
