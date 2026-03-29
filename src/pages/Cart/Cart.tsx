@@ -5,6 +5,7 @@ import {
   CartProductCardSkeleton,
   CartSummary,
   CartSummarySkeleton,
+  ConfirmModal,
   EmptyCart,
 } from './components';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -22,8 +23,11 @@ const Cart: FC = () => {
     error,
     sumPriceWithDiscount,
     isClearModalOpen,
+    isConfirmModalOpen,
     openClearModal,
     closeClearModal,
+    openConfirmModal,
+    closeConfirmModal,
   } = useCart();
 
   if (loading === 'idle' || loading === 'pending') {
@@ -83,10 +87,14 @@ const Cart: FC = () => {
           sumPriceWithDiscount={sumPriceWithDiscount}
           sumPrice={sumPrice}
           openClearModal={openClearModal}
+          openConfirmModal={openConfirmModal}
         />
       </div>
 
       {isClearModalOpen && <CartClearModal closeClearModal={closeClearModal} />}
+      {isConfirmModalOpen && (
+        <ConfirmModal closeConfirmModal={closeConfirmModal} />
+      )}
     </section>
   );
 };

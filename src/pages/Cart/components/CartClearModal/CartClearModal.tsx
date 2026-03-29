@@ -36,7 +36,7 @@ const CartClearModal: FC<CartClearModalProps> = ({ closeClearModal }) => {
       if (!isMobile) toast.success('Корзина очищена');
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+        error instanceof Error ? error.message : 'Ошибка корзины товаров';
 
       toast.error(message);
     }
