@@ -5,6 +5,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { clearCart, setCart } from '@/store/features/cart/cartSlice';
 import { updateCart } from '@/services/user/userApi';
 import { toast } from 'react-toastify';
+import UserData from '../UserData/UserData';
 import styles from './ConfirmModal.module.css';
 
 interface ConfirmModalProps {
@@ -27,7 +28,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
 
   const handleConfirmClick = useCallback(async () => {
     try {
-      if (!token) return;
+      if (!token || !user) return;
 
       dispatch(clearCart());
       const result = await updateCart([], token);
@@ -40,7 +41,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
 
       toast.error(message);
     }
-  }, [dispatch, closeConfirmModal, isMobile, token]);
+  }, [dispatch, closeConfirmModal, isMobile, token, user]);
 
   return (
     <div
@@ -54,28 +55,27 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
             <X size={20} />
           </button>
         </div>
+
         <div className={styles.content}>
-          <p className={styles.text}>
-            Перед оформлением заказа убедитесь в корректности ваших данных
-          </p>
-          <p className={styles.dataGrid}>
-            <div className={styles.dataWrapper}>
-              <p className={styles.dataLabel}>Фамилия</p>
-              <p className={styles.dataValue}>{user?.lastName}</p>
-            </div>
-            <div className={styles.dataWrapper}>
-              <p className={styles.dataLabel}>Имя</p>
-              <p className={styles.dataValue}>{user?.firstName}</p>
-            </div>
-            <div className={styles.dataWrapper}>
-              <p className={styles.dataLabel}>Телефон</p>
-              <p className={styles.dataValue}>{user?.phone}</p>
-            </div>
-          </p>
-          <div className={styles.dataWrapper}>
-            <p className={styles.dataLabel}>Адрес доставки</p>
-            <p className={styles.dataValue}>{user?.address}</p>
-          </div>
+          {user?.isProfileCompleted ? (
+            <>
+              <p className={styles.text}>
+                Перед оформлением заказа убедитесь в корректности ваших данных
+              </p>
+              <UserData
+                lastName={user.lastName ?? ''}
+                firstName={user.firstName ?? ''}
+                phone={user.phone ?? ''}
+                address={user.address ?? ''}
+              />
+            </>
+          ) : (
+            <p className={styles.text}>
+              Не удалось загрузить данные пользователя. Заполните свои данные в
+              личном кабинете
+            </p>
+          )}
+
           <div className={styles.buttons}>
             <button className={styles.cancelButton} onClick={closeConfirmModal}>
               Отмена
@@ -83,6 +83,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
             <button
               className={styles.confirmButton}
               onClick={handleConfirmClick}
+              disabled={!user?.isProfileCompleted}
             >
               Оформить заказ
             </button>
