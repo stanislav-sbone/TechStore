@@ -36,6 +36,7 @@ export const useRegister = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const passwordValue = useWatch({
     control,
@@ -59,6 +60,7 @@ export const useRegister = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
+      setErrorMessage('');
       const { email, password } = data;
 
       const result = await registerUser({ email, password });
@@ -73,6 +75,7 @@ export const useRegister = () => {
       const message =
         error instanceof Error ? error.message : 'Ошибка регистрации';
 
+      setErrorMessage(message);
       toast.error(message);
     }
   };
@@ -82,6 +85,7 @@ export const useRegister = () => {
     register,
     handleSubmit,
     errors,
+    errorMessage,
     isSubmitting,
     isPasswordVisible,
     passwordValue,
