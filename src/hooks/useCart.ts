@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 export const useCart = () => {
   const [isClearModalOpen, setIsClearModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const cartItems = useAppSelector((state) => state.cart.items);
   const {
     items: products,
@@ -28,12 +29,13 @@ export const useCart = () => {
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isClearModalOpen) {
+      if ((e.key === 'Escape' && isClearModalOpen) || isConfirmModalOpen) {
         setIsClearModalOpen(false);
+        setIsConfirmModalOpen(false);
       }
     };
 
-    if (isClearModalOpen) {
+    if (isClearModalOpen || isConfirmModalOpen) {
       const scrollbarWidth =
         window.innerWidth - document.documentElement.clientWidth;
       document.addEventListener('keydown', handleEscape);
@@ -46,7 +48,7 @@ export const useCart = () => {
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
     };
-  }, [isClearModalOpen]);
+  }, [isClearModalOpen, isConfirmModalOpen]);
 
   return {
     cartProducts,
@@ -56,7 +58,10 @@ export const useCart = () => {
     loading,
     error,
     isClearModalOpen,
+    isConfirmModalOpen,
     openClearModal: () => setIsClearModalOpen(true),
     closeClearModal: () => setIsClearModalOpen(false),
+    openConfirmModal: () => setIsConfirmModalOpen(true),
+    closeConfirmModal: () => setIsConfirmModalOpen(false),
   };
 };
