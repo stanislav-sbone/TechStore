@@ -1,10 +1,9 @@
+import type { User } from './user';
+
 export interface AuthSuccessResponse {
   message: string;
   token: string;
-  user: {
-    userId: string;
-    email: string;
-  };
+  user: User;
 }
 
 export interface RegisterRequest {
