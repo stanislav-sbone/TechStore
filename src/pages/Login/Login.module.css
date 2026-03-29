@@ -76,9 +76,14 @@
   border: 1px solid var(--color-error);
 }
 
-.error {
+.error,
+.errorMessage {
   font-size: 0.75rem;
   color: var(--color-error);
+}
+
+.errorMessage {
+  margin-bottom: 0.25rem;
 }
 
 .passwordWrapper {

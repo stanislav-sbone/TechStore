@@ -31,6 +31,7 @@ export const useLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const passwordValue = useWatch({
     control,
@@ -46,6 +47,7 @@ export const useLogin = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
+      setErrorMessage('');
       const result = await loginUser(data);
       const [currentUser, favorites, cart] = await Promise.all([
         getCurrentUser(result.token),
@@ -64,6 +66,7 @@ export const useLogin = () => {
       const message =
         error instanceof Error ? error.message : 'Ошибка авторизации';
 
+      setErrorMessage(message);
       toast.error(message);
     }
   };
@@ -73,6 +76,7 @@ export const useLogin = () => {
     register,
     handleSubmit,
     errors,
+    errorMessage,
     isSubmitting,
     isPasswordVisible,
     passwordValue,
