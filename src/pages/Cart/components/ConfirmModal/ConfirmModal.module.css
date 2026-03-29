@@ -63,22 +63,6 @@
   color: var(--color-text-secondary);
 }
 
-.dataGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 0.75rem;
-}
-
-.dataLabel {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-}
-
-.dataValue {
-  font-weight: 600;
-}
-
 .buttons {
   display: flex;
   align-items: center;
@@ -125,6 +109,12 @@
 .cancelButton:active {
   transform: translateY(1px) scale(0.99);
   opacity: 100%;
+}
+
+.confirmButton:disabled {
+  opacity: 70%;
+  cursor: not-allowed;
+  transform: none;
 }
 
 @keyframes fadeIn {
