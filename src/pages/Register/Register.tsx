@@ -12,6 +12,7 @@ const Register = () => {
     register,
     handleSubmit,
     errors,
+    errorMessage,
     isSubmitting,
     isPasswordVisible,
     passwordValue,
@@ -162,6 +163,8 @@ const Register = () => {
               </span>
             )}
           </div>
+
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
           <button
             type="submit"
