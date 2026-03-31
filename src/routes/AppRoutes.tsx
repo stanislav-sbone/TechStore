@@ -10,6 +10,7 @@ import {
   ProductPage,
   Profile,
   Register,
+  SuccessOrder,
 } from '@/pages';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -20,6 +21,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.PRODUCT} element={<ProductPage />} />
+      <Route path={ROUTES.SUCCESS} element={<SuccessOrder />} />
       <Route path="*" element={<NotFound />} />
 
       <Route element={<PublicRoute />}>

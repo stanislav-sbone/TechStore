@@ -1,11 +1,12 @@
 import { X } from 'lucide-react';
 import { useCallback, type FC, type MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import useIsMobile from '@/hooks/useIsMobile';
 import { clearCart, setCart } from '@/store/features/cart/cartSlice';
 import { updateCart } from '@/services/user/userApi';
 import { toast } from 'react-toastify';
 import UserData from '../UserData/UserData';
+import { useNavigate } from 'react-router';
+import { ROUTES } from '@/routes/constants/routes';
 import styles from './ConfirmModal.module.css';
 
 interface ConfirmModalProps {
@@ -15,7 +16,7 @@ interface ConfirmModalProps {
 const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
   const { user, token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const isMobile = useIsMobile(600);
+  const navigate = useNavigate();
 
   const handleBackdropClick = useCallback(
     (event: MouseEvent) => {
@@ -26,22 +27,22 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
     [closeConfirmModal]
   );
 
-  const handleConfirmClick = useCallback(async () => {
+  const handleConfirmClick = async () => {
     try {
       if (!token || !user) return;
 
+      navigate(ROUTES.SUCCESS);
       dispatch(clearCart());
       const result = await updateCart([], token);
       dispatch(setCart(result.items));
       closeConfirmModal();
-      if (!isMobile) toast.success('Заказ оформлен');
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Ошибка избранных товаров';
+        error instanceof Error ? error.message : 'Ошибка оформления заказа';
 
       toast.error(message);
     }
-  }, [dispatch, closeConfirmModal, isMobile, token, user]);
+  };
 
   return (
     <div
