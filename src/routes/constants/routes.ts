@@ -7,4 +7,5 @@ export const ROUTES = {
   REGISTER: '/register',
   PROFILE: '/profile',
   COMPLETE: '/complete-profile',
+  SUCCESS: '/success-order',
 } as const;

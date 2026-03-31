@@ -7,3 +7,4 @@ export { ProductPage } from './ProductPage';
 export { NotFound } from './NotFound';
 export { Profile } from './Profile';
 export { CompleteProfile } from './CompleteProfile';
+export { SuccessOrder } from './SuccessOrder';
