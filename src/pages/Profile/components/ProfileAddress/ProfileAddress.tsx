@@ -8,10 +8,10 @@ interface ProfileAddressProps {
 const ProfileAddress: FC<ProfileAddressProps> = ({ address }) => {
   return (
     <section className={styles.address}>
-      <h2 className={styles.addressTitle}>Адрес доставки</h2>
+      <h2 className={styles.label}>Адрес доставки</h2>
 
-      <div className={styles.addressCard}>
-        <p className={styles.addressValue}>{address}</p>
+      <div className={styles.card}>
+        <p className={styles.value}>{address}</p>
       </div>
     </section>
   );
