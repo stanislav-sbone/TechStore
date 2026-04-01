@@ -9,6 +9,16 @@ CREATE TABLE "users_favorites" (
 	"items" integer[] DEFAULT '{}' NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "orders" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"order_number" integer GENERATED ALWAYS AS IDENTITY (sequence name "orders_order_number_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 10000000 CACHE 1),
+	"user_id" uuid NOT NULL,
+	"items" jsonb NOT NULL,
+	"total_amount" integer NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	CONSTRAINT "orders_order_number_unique" UNIQUE("order_number")
+);
+--> statement-breakpoint
 CREATE TABLE "products" (
 	"id" integer PRIMARY KEY NOT NULL,
 	"title" varchar(50) NOT NULL,
@@ -37,4 +47,6 @@ CREATE TABLE "users" (
 );
 --> statement-breakpoint
 ALTER TABLE "users_cart" ADD CONSTRAINT "users_cart_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "users_favorites" ADD CONSTRAINT "users_favorites_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+ALTER TABLE "users_favorites" ADD CONSTRAINT "users_favorites_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "orders" ADD CONSTRAINT "orders_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "orders_user_id_created_at_idx" ON "orders" USING btree ("user_id","created_at" DESC NULLS LAST);
