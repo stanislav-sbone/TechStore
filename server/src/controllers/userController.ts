@@ -5,6 +5,7 @@ import {
   getFavoritesByUserId,
   setCartByUserId,
   setFavoritesByUserId,
+  createUserOrder,
   updateCurrentUser,
 } from '../services/userService';
 
@@ -175,6 +176,28 @@ export const setCart = async (req: Request, res: Response) => {
         error instanceof Error
           ? error.message
           : 'Ошибка сохранения корзины товаров',
+    });
+  }
+};
+
+export const setOrder = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: 'Пользователь не авторизован',
+      });
+    }
+
+    const userId = req.user.userId;
+    const result = await createUserOrder(userId);
+
+    return res.status(201).json(result);
+  } catch (error) {
+    console.error('Create order error: ', error);
+
+    return res.status(500).json({
+      message:
+        error instanceof Error ? error.message : 'Ошибка формирования заказа',
     });
   }
 };

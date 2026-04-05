@@ -6,6 +6,7 @@ import {
   getUserData,
   setCart,
   setFavorites,
+  setOrder,
   updateUser,
 } from '../controllers/userController';
 
@@ -19,5 +20,7 @@ userRouter.put('/me/favorites', authenticate, setFavorites);
 
 userRouter.get('/me/cart', authenticate, getCart);
 userRouter.put('/me/cart', authenticate, setCart);
+
+userRouter.post('/me/orders', authenticate, setOrder);
 
 export default userRouter;
