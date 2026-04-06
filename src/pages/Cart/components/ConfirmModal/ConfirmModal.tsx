@@ -1,8 +1,8 @@
 import { X } from 'lucide-react';
 import { useCallback, type FC, type MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { clearCart, setCart } from '@/store/features/cart/cartSlice';
-import { updateCart } from '@/services/user/userApi';
+import { clearCart } from '@/store/features/cart/cartSlice';
+import { createOrder } from '@/services/user/userApi';
 import { toast } from 'react-toastify';
 import UserData from '../UserData/UserData';
 import { useNavigate } from 'react-router';
@@ -32,9 +32,8 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
       if (!token || !user) return;
 
       navigate(ROUTES.SUCCESS);
+      createOrder(token);
       dispatch(clearCart());
-      const result = await updateCart([], token);
-      dispatch(setCart(result.items));
       closeConfirmModal();
     } catch (error) {
       const message =
