@@ -7,6 +7,7 @@ import type {
   UpdateProfileResponse,
 } from '@/types/user';
 import type { CartItem } from '@/types/cart';
+import type { OrdersResponse } from '@/types/order';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -162,5 +163,52 @@ export const updateCart = async (
     }
 
     throw new Error('Ошибка обновления корзины товаров');
+  }
+};
+
+export const createOrder = async (token: string): Promise<OrdersResponse> => {
+  try {
+    const response = await axios.post<OrdersResponse>(
+      `${API_URL}/users/me/orders`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка создания заказа', error);
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message || 'Ошибка создания заказа');
+    }
+
+    throw new Error('Ошибка создания заказа');
+  }
+};
+
+export const getOrders = async (token: string): Promise<OrdersResponse[]> => {
+  try {
+    const response = await axios.get<OrdersResponse[]>(
+      `${API_URL}/users/me/orders`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка получения заказов', error);
+    if (axios.isAxiosError(error)) {
+      const message = error.response?.data?.message;
+      throw new Error(message || 'Ошибка получения заказов');
+    }
+
+    throw new Error('Ошибка получения заказов');
   }
 };
