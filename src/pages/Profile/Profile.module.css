@@ -17,7 +17,7 @@
   margin-bottom: 1rem;
 }
 
-.layout {
+.profileData {
   display: grid;
   grid-template-columns: minmax(0, 300px) minmax(0, 1.6fr);
   gap: 1rem;
@@ -35,7 +35,7 @@
 }
 
 @media (max-width: 900px) {
-  .layout {
+  .profileData {
     grid-template-columns: 1fr;
   }
 }
