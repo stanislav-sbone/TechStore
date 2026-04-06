@@ -226,3 +226,12 @@ export const createUserOrder = async (userId: string) => {
 
   return newOrder;
 };
+
+export const getUserOrders = async (userId: string) => {
+  const userOrders = await db
+    .select()
+    .from(orders)
+    .where(eq(orders.user_id, userId));
+
+  return userOrders;
+};
