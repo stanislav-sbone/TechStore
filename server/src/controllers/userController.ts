@@ -7,6 +7,7 @@ import {
   setFavoritesByUserId,
   createUserOrder,
   updateCurrentUser,
+  getUserOrders,
 } from '../services/userService';
 
 export const getUserData = async (req: Request, res: Response) => {
@@ -180,7 +181,7 @@ export const setCart = async (req: Request, res: Response) => {
   }
 };
 
-export const setOrder = async (req: Request, res: Response) => {
+export const createOrder = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
       return res.status(401).json({
@@ -198,6 +199,28 @@ export const setOrder = async (req: Request, res: Response) => {
     return res.status(500).json({
       message:
         error instanceof Error ? error.message : 'Ошибка формирования заказа',
+    });
+  }
+};
+
+export const getOrders = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: 'Пользователь не авторизован',
+      });
+    }
+
+    const userId = req.user.userId;
+    const result = await getUserOrders(userId);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('Get orders error: ', error);
+
+    return res.status(500).json({
+      message:
+        error instanceof Error ? error.message : 'Ошибка получения заказов',
     });
   }
 };

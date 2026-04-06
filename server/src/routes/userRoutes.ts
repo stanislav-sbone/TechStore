@@ -6,8 +6,9 @@ import {
   getUserData,
   setCart,
   setFavorites,
-  setOrder,
+  createOrder,
   updateUser,
+  getOrders,
 } from '../controllers/userController';
 
 const userRouter = Router();
@@ -21,6 +22,7 @@ userRouter.put('/me/favorites', authenticate, setFavorites);
 userRouter.get('/me/cart', authenticate, getCart);
 userRouter.put('/me/cart', authenticate, setCart);
 
-userRouter.post('/me/orders', authenticate, setOrder);
+userRouter.post('/me/orders', authenticate, createOrder);
+userRouter.get('/me/orders', authenticate, getOrders);
 
 export default userRouter;
