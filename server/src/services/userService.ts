@@ -1,4 +1,4 @@
-import { eq, inArray } from 'drizzle-orm';
+import { desc, eq, inArray } from 'drizzle-orm';
 import { db } from '../db/connection';
 import { users } from '../db/schema/users';
 import { CartItem } from '../types/cart';
@@ -231,7 +231,8 @@ export const getUserOrders = async (userId: string) => {
   const userOrders = await db
     .select()
     .from(orders)
-    .where(eq(orders.user_id, userId));
+    .where(eq(orders.user_id, userId))
+    .orderBy(desc(orders.created_at));
 
   return userOrders;
 };
