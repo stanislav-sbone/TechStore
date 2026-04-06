@@ -4,6 +4,7 @@ import { logout } from '@/store/features/auth/authSlice';
 import { AUTH_TOKEN_KEY } from '@/constants/auth';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import {
+  Orders,
   ProfileAddress,
   ProfileContactInfo,
   ProfileEditModal,
@@ -74,7 +75,7 @@ const Profile = () => {
         Управляйте персональной информацией и безопасностью аккаунта
       </p>
 
-      <div className={styles.layout}>
+      <div className={styles.profileData}>
         <ProfileSidebar
           initials={initials}
           fullName={fullName}
@@ -94,6 +95,8 @@ const Profile = () => {
           <ProfileAddress address={user.address ?? 'Адрес не указан'} />
         </div>
       </div>
+
+      <Orders />
 
       {isEditModalOpen && (
         <ProfileEditModal closeModal={handleCloseModalClick} />
