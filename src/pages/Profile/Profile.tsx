@@ -10,9 +10,10 @@ import {
   ProfileEditModal,
   ProfileSidebar,
 } from './components';
-import styles from './Profile.module.css';
 import { clearCart } from '@/store/features/cart/cartSlice';
 import { clearFavorites } from '@/store/features/favorites/favoritesSlice';
+import { useOrders } from '@/hooks/useOrders';
+import styles from './Profile.module.css';
 
 const Profile = () => {
   useDocumentTitle('Личный кабинет');
@@ -20,6 +21,7 @@ const Profile = () => {
   const dispatch = useAppDispatch();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const { orders, loading, error } = useOrders();
 
   const handleLogoutClick = () => {
     localStorage.removeItem(AUTH_TOKEN_KEY);
@@ -80,6 +82,7 @@ const Profile = () => {
           initials={initials}
           fullName={fullName}
           email={user.email}
+          amountOrders={orders.length}
           onLogout={handleLogoutClick}
           openEditModal={handleOpenModalClick}
         />
@@ -96,7 +99,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <Orders />
+      <Orders orders={orders} loading={loading} error={error} />
 
       {isEditModalOpen && (
         <ProfileEditModal closeModal={handleCloseModalClick} />
