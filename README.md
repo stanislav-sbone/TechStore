@@ -32,6 +32,7 @@
      - `ProtectedRoute`: защищает `favorites/cart/profile`.
    - Заполнение профиля (complete profile): имя/фамилия/телефон/адрес.
    - Редактирование профиля: открывается модалкой из страницы `profile`.
+   - История заказов (сначала недавние) с товарами, общей стоимостью и датой заказа.
 
 ## Стек
 
@@ -116,6 +117,15 @@
   - Body: `{ items: CartItem[] }`
   - Response: `{ items: CartItem[] }`
 
+### История заказов
+
+- `POST /api/users/me/orders`
+  - Authorization: `Bearer <token>`
+  - Response: `{ orderId, userId, items, totalAmount, created_at }`, где `items = { productId, title, image, quantity, price }`
+- `GET /api/users/me/orders`
+  - Authorization: `Bearer <token>`
+  - Response: `userOrders[]`
+
 ## Данные (модель БД)
 
 Построено на Drizzle ORM:
@@ -128,6 +138,8 @@
   - `items` (integer[]), хранит id избранных товаров
 - `users_cart`
   - `items` (jsonb array), хранит `[{ productId, quantity }]`
+- `orders`
+  - `orderNumber`, `user_id`, `items`, `totalAmount`, `created_at`
 
 ## Переменные окружения
 
