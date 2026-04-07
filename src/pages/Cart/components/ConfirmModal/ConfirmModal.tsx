@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useCallback, type FC, type MouseEvent } from 'react';
+import { useCallback, useState, type FC, type MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearCart } from '@/store/features/cart/cartSlice';
 import { createOrder } from '@/services/user/userApi';
@@ -14,6 +14,7 @@ interface ConfirmModalProps {
 }
 
 const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { user, token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -29,17 +30,20 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
 
   const handleConfirmClick = async () => {
     try {
+      setIsSubmitting(true);
       if (!token || !user) return;
 
-      navigate(ROUTES.SUCCESS);
-      createOrder(token);
+      await createOrder(token);
       dispatch(clearCart());
       closeConfirmModal();
+      navigate(ROUTES.SUCCESS);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Ошибка оформления заказа';
 
       toast.error(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -83,7 +87,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ closeConfirmModal }) => {
             <button
               className={styles.confirmButton}
               onClick={handleConfirmClick}
-              disabled={!user?.isProfileCompleted}
+              disabled={!user?.isProfileCompleted || isSubmitting}
             >
               Оформить заказ
             </button>
