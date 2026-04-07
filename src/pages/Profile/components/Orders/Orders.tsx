@@ -14,7 +14,7 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
     return (
       <div className={styles.orders}>
         <h3 className={styles.title}>История заказов</h3>
-        <p>Загрузка заказов</p>
+        <p className={styles.message}>Загрузка заказов...</p>
       </div>
     );
   }
@@ -23,7 +23,7 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
     return (
       <div className={styles.orders}>
         <h3 className={styles.title}>История заказов</h3>
-        <p>Произошла ошибка загрузки заказов</p>
+        <p className={styles.message}>Произошла ошибка загрузки заказов</p>
       </div>
     );
   }
@@ -32,7 +32,7 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
     return (
       <div className={styles.orders}>
         <h3 className={styles.title}>История заказов</h3>
-        <p>Здесь будет ваша история заказов</p>
+        <p className={styles.message}>Здесь будет ваша история заказов</p>
       </div>
     );
   }
