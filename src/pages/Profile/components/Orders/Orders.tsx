@@ -1,6 +1,6 @@
 import { type FC } from 'react';
 import type { UserOrders } from '@/types/order';
-import { formatDate } from '@/utils/formatDate';
+import OrderCard from '../OrderCard/OrderCard';
 import styles from './Orders.module.css';
 
 interface OrdersProps {
@@ -42,26 +42,13 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
       <h3 className={styles.title}>История заказов</h3>
       <div className={styles.ordersList}>
         {orders.map((order) => (
-          <div className={styles.orderCard}>
-            <div className={styles.info}>
-              <h4 className={styles.orderNumber}>Заказ №{order.orderNumber}</h4>
-              <div className={styles.items}>
-                {order.items.map((item) => (
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className={styles.image}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className={styles.summary}>
-              <p className={styles.date}>от: {formatDate(order.created_at)}</p>
-              <p className={styles.totalAmount}>
-                Сумма: {order.totalAmount.toLocaleString('ru-RU')} ₽
-              </p>
-            </div>
-          </div>
+          <OrderCard
+            key={order.id}
+            items={order.items}
+            totalAmount={order.totalAmount}
+            orderNumber={order.orderNumber}
+            createdAt={order.created_at}
+          />
         ))}
       </div>
     </div>
