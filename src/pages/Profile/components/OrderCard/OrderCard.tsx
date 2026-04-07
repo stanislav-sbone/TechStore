@@ -2,6 +2,7 @@ import type { OrderItem } from '@/types/order';
 import type { FC } from 'react';
 import { formatDate } from '@/utils/formatDate';
 import styles from './OrderCard.module.css';
+import { Link } from 'react-router';
 
 interface OrderCardProps {
   items: OrderItem[];
@@ -22,12 +23,13 @@ const OrderCard: FC<OrderCardProps> = ({
         <h4 className={styles.orderNumber}>Заказ №{orderNumber}</h4>
         <div className={styles.items}>
           {items.map((item) => (
-            <img
-              src={item.image}
-              alt={item.title}
-              className={styles.image}
+            <Link
+              to={`/product/${item.productId}`}
               key={item.productId}
-            />
+              className={styles.link}
+            >
+              <img src={item.image} alt={item.title} className={styles.image} />
+            </Link>
           ))}
         </div>
       </div>

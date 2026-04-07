@@ -19,20 +19,20 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
     );
   }
 
-  if (!loading && orders.length === 0) {
-    return (
-      <div className={styles.orders}>
-        <h3 className={styles.title}>История заказов</h3>
-        <p>Здесь будет ваша история заказов</p>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className={styles.orders}>
         <h3 className={styles.title}>История заказов</h3>
         <p>Произошла ошибка загрузки заказов</p>
+      </div>
+    );
+  }
+
+  if (!loading && orders.length === 0) {
+    return (
+      <div className={styles.orders}>
+        <h3 className={styles.title}>История заказов</h3>
+        <p>Здесь будет ваша история заказов</p>
       </div>
     );
   }
