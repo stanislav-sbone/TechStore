@@ -5,6 +5,7 @@ interface ProfileSidebarProps {
   initials: string;
   fullName: string;
   email: string;
+  amountOrders: number;
   onLogout: () => void;
   openEditModal: () => void;
 }
@@ -13,6 +14,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({
   initials,
   fullName,
   email,
+  amountOrders,
   onLogout,
   openEditModal,
 }) => {
@@ -35,7 +37,7 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({
 
         <div className={styles.metaItem}>
           <span className={styles.metaLabel}>Всего заказов</span>
-          <span className={styles.metaValue}>0</span>
+          <span className={styles.metaValue}>{amountOrders}</span>
         </div>
       </div>
 

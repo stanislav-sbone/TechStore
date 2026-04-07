@@ -7,7 +7,7 @@ import type {
   UpdateProfileResponse,
 } from '@/types/user';
 import type { CartItem } from '@/types/cart';
-import type { OrdersResponse } from '@/types/order';
+import type { UserOrders } from '@/types/order';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -166,9 +166,9 @@ export const updateCart = async (
   }
 };
 
-export const createOrder = async (token: string): Promise<OrdersResponse> => {
+export const createOrder = async (token: string): Promise<UserOrders> => {
   try {
-    const response = await axios.post<OrdersResponse>(
+    const response = await axios.post<UserOrders>(
       `${API_URL}/users/me/orders`,
       {},
       {
@@ -190,9 +190,9 @@ export const createOrder = async (token: string): Promise<OrdersResponse> => {
   }
 };
 
-export const getOrders = async (token: string): Promise<OrdersResponse[]> => {
+export const getOrders = async (token: string): Promise<UserOrders[]> => {
   try {
-    const response = await axios.get<OrdersResponse[]>(
+    const response = await axios.get<UserOrders[]>(
       `${API_URL}/users/me/orders`,
       {
         headers: {

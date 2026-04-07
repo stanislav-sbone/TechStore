@@ -6,7 +6,7 @@ export interface OrderItem {
   quantity: number;
 }
 
-export interface OrdersResponse {
+export interface UserOrders {
   id: number;
   orderNumber: number;
   user_id: string;
