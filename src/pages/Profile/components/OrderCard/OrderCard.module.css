@@ -28,14 +28,23 @@
 
 .items {
   display: flex;
-  gap: 1rem;
+  align-items: center;
   overflow-x: auto;
   max-width: 100%;
+  overflow-y: hidden;
+}
+
+.link {
+  cursor: pointer;
 }
 
 .image {
   max-width: 150px;
-  flex-shrink: 0;
+  transition: transform 250ms ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .summary {
