@@ -20,7 +20,7 @@ const Pagination: FC<PaginationProps> = ({
   incrementPage,
   decrementPage,
 }) => {
-  const isMobile = useIsMobile(450);
+  const isMobile = useIsMobile(600);
 
   const firstVisiblePage = pages[0];
   const lastVisiblePage = pages[pages.length - 1];
@@ -38,7 +38,7 @@ const Pagination: FC<PaginationProps> = ({
         disabled={currentPage === 1}
         onClick={decrementPage}
       >
-        <ChevronLeft size={isMobile ? 20 : 24} />
+        <ChevronLeft size={isMobile ? 16 : 24} />
       </button>
       <div className={styles.pages}>
         {showFirstPage && (
@@ -84,7 +84,7 @@ const Pagination: FC<PaginationProps> = ({
         disabled={currentPage === totalPages}
         onClick={incrementPage}
       >
-        <ChevronRight size={isMobile ? 20 : 24} />
+        <ChevronRight size={isMobile ? 16 : 24} />
       </button>
     </div>
   );
