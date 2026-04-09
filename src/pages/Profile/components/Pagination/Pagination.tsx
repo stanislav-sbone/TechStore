@@ -22,6 +22,15 @@ const Pagination: FC<PaginationProps> = ({
 }) => {
   const isMobile = useIsMobile(450);
 
+  const firstVisiblePage = pages[0];
+  const lastVisiblePage = pages[pages.length - 1];
+
+  const showFirstPage = firstVisiblePage > 1;
+  const showLastPage = lastVisiblePage < totalPages;
+
+  const showLeftEllipsis = firstVisiblePage > 2;
+  const showRightEllipsis = lastVisiblePage < totalPages - 1;
+
   return (
     <div className={styles.pagination}>
       <button
@@ -32,6 +41,18 @@ const Pagination: FC<PaginationProps> = ({
         <ChevronLeft size={isMobile ? 20 : 24} />
       </button>
       <div className={styles.pages}>
+        {showFirstPage && (
+          <button
+            type="button"
+            className={styles.pageButton}
+            onClick={() => setCurrentPage(1)}
+          >
+            1
+          </button>
+        )}
+
+        {showLeftEllipsis && <span className={styles.ellipsis}>...</span>}
+
         {pages.map((page) => (
           <button
             key={page}
@@ -45,6 +66,18 @@ const Pagination: FC<PaginationProps> = ({
             {page}
           </button>
         ))}
+
+        {showRightEllipsis && <span className={styles.ellipsis}>...</span>}
+
+        {showLastPage && (
+          <button
+            type="button"
+            className={styles.pageButton}
+            onClick={() => setCurrentPage(totalPages)}
+          >
+            {totalPages}
+          </button>
+        )}
       </div>
       <button
         className={styles.chevron}
