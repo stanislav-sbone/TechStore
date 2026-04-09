@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { customerGrades, type GradeName } from '@/constants/customerGrades';
 import styles from './ProfileSidebar.module.css';
 
 interface ProfileSidebarProps {
@@ -18,6 +19,16 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({
   onLogout,
   openEditModal,
 }) => {
+  const getGradeByOrders = (ordersCount: number): GradeName => {
+    const customerGrade = customerGrades.find(
+      (grade) =>
+        ordersCount >= grade.minOrders &&
+        (grade.maxOrders === null || ordersCount <= grade.maxOrders)
+    );
+
+    return customerGrade?.name ?? 'Новый покупатель';
+  };
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
@@ -32,7 +43,9 @@ const ProfileSidebar: FC<ProfileSidebarProps> = ({
       <div className={styles.sidebarMeta}>
         <div className={styles.metaItem}>
           <span className={styles.metaLabel}>Статус</span>
-          <span className={styles.metaValue}>Постоянный покупатель</span>
+          <span className={styles.metaValue}>
+            {getGradeByOrders(amountOrders)}
+          </span>
         </div>
 
         <div className={styles.metaItem}>
