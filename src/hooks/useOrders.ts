@@ -1,7 +1,7 @@
 import { getOrders } from '@/services/user/userApi';
 import { useAppSelector } from '@/store/hooks';
 import type { UserOrders } from '@/types/order';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export const useOrders = () => {
   const [orders, setOrders] = useState<UserOrders[]>([]);
@@ -11,12 +11,37 @@ export const useOrders = () => {
   const token = useAppSelector((state) => state.auth.token);
 
   const ordersPerPage = 5;
+  const visiblePagesCount = 5;
+
   const lastOrderIndex = currentPage * ordersPerPage;
   const firstOrderIndex = lastOrderIndex - ordersPerPage;
   const totalPages = Math.ceil(orders.length / ordersPerPage);
 
   const currentOrders = orders.slice(firstOrderIndex, lastOrderIndex);
-  const pages = new Array(totalPages).fill(null);
+
+  const visiblePages = useMemo(() => {
+    if (totalPages <= visiblePagesCount) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+
+    let startPage = currentPage - 2;
+    let endPage = currentPage + 2;
+
+    if (currentPage <= 3) {
+      startPage = 1;
+      endPage = visiblePagesCount;
+    }
+
+    if (currentPage >= totalPages - 2) {
+      startPage = totalPages - visiblePagesCount + 1;
+      endPage = totalPages;
+    }
+
+    return Array.from(
+      { length: endPage - startPage + 1 },
+      (_, i) => startPage + i
+    );
+  }, [currentPage, totalPages]);
 
   const incrementPage = () => {
     if (currentPage < totalPages) {
@@ -34,6 +59,8 @@ export const useOrders = () => {
     const fetchOrders = async () => {
       try {
         setLoading(true);
+        setError('');
+
         if (!token) return;
         const result = await getOrders(token);
 
@@ -60,7 +87,7 @@ export const useOrders = () => {
     currentPage,
     currentOrders,
     totalPages,
-    pages,
+    visiblePages,
     setCurrentPage,
     incrementPage,
     decrementPage,

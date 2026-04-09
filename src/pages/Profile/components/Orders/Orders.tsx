@@ -16,7 +16,7 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
     currentPage,
     currentOrders,
     totalPages,
-    pages,
+    visiblePages,
     setCurrentPage,
     incrementPage,
     decrementPage,
@@ -67,7 +67,7 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          pages={pages}
+          pages={visiblePages}
           setCurrentPage={setCurrentPage}
           incrementPage={incrementPage}
           decrementPage={decrementPage}

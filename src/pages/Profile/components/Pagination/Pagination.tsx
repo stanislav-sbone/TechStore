@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import styles from './Pagination.module.css';
 import useIsMobile from '@/hooks/useIsMobile';
+import styles from './Pagination.module.css';
 
 interface PaginationProps {
   currentPage: number;
-  pages: null[];
+  pages: number[];
   totalPages: number;
   setCurrentPage: (page: number) => void;
   incrementPage: () => void;
@@ -32,17 +32,17 @@ const Pagination: FC<PaginationProps> = ({
         <ChevronLeft size={isMobile ? 20 : 24} />
       </button>
       <div className={styles.pages}>
-        {pages.map((_, i) => (
+        {pages.map((page) => (
           <button
-            key={i}
+            key={page}
             className={
-              currentPage === i + 1
+              currentPage === page
                 ? `${styles.pageButton} ${styles.currentPage}`
                 : styles.pageButton
             }
-            onClick={() => setCurrentPage(i + 1)}
+            onClick={() => setCurrentPage(page)}
           >
-            {i + 1}
+            {page}
           </button>
         ))}
       </div>
