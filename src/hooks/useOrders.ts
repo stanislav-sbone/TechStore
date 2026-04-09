@@ -88,6 +88,7 @@ export const useOrders = () => {
     currentOrders,
     totalPages,
     visiblePages,
+    visiblePagesCount,
     setCurrentPage,
     incrementPage,
     decrementPage,
