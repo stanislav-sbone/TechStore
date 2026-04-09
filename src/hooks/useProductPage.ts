@@ -8,6 +8,7 @@ import { setCart } from '@/store/features/cart/cartSlice';
 import { fetchProductById } from '@/services/products/productsApi';
 import { useRequireAuth } from './useRequireAuth';
 import { updateCart } from '@/services/user/userApi';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 
 export const useProductPage = () => {
   const { id } = useParams();
@@ -21,7 +22,7 @@ export const useProductPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
   const { requireAuth } = useRequireAuth();
 
   const isFavorite = favorites.includes(productID);

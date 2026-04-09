@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import useIsMobile from '@/hooks/useIsMobile';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 import styles from './Pagination.module.css';
 
 interface PaginationProps {
@@ -20,7 +21,7 @@ const Pagination: FC<PaginationProps> = ({
   incrementPage,
   decrementPage,
 }) => {
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
 
   const firstVisiblePage = pages[0];
   const lastVisiblePage = pages[pages.length - 1];

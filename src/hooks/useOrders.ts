@@ -3,6 +3,7 @@ import { useAppSelector } from '@/store/hooks';
 import type { UserOrders } from '@/types/order';
 import { useEffect, useMemo, useState } from 'react';
 import useIsMobile from './useIsMobile';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 
 export const useOrders = () => {
   const [orders, setOrders] = useState<UserOrders[]>([]);
@@ -10,7 +11,7 @@ export const useOrders = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const token = useAppSelector((state) => state.auth.token);
-  const isMobile = useIsMobile(500);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
 
   const ordersPerPage = 5;
   const visiblePagesCount = isMobile ? 3 : 5;

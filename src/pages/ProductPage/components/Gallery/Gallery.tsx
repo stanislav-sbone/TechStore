@@ -3,6 +3,7 @@ import type { Product } from '@/types/product';
 import { Carousel, IconButton, Image } from '@chakra-ui/react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import useIsMobile from '@/hooks/useIsMobile';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 import styles from './Gallery.module.css';
 
 interface GalleryProps {
@@ -10,7 +11,7 @@ interface GalleryProps {
 }
 
 const Gallery: FC<GalleryProps> = ({ product }) => {
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
 
   return (
     <div className={styles.gallery}>
