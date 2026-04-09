@@ -1,7 +1,8 @@
-import { useState, type FC } from 'react';
+import { type FC } from 'react';
 import type { UserOrders } from '@/types/order';
 import OrderCard from '../OrderCard/OrderCard';
 import Pagination from '../Pagination/Pagination';
+import { useOrders } from '@/hooks/useOrders';
 import styles from './Orders.module.css';
 
 interface OrdersProps {
@@ -11,27 +12,15 @@ interface OrdersProps {
 }
 
 const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const ordersPerPage = 5;
-  const lastOrderIndex = currentPage * ordersPerPage;
-  const firstOrderIndex = lastOrderIndex - ordersPerPage;
-  const totalPages = Math.ceil(orders.length / ordersPerPage);
-
-  const currentOrders = orders.slice(firstOrderIndex, lastOrderIndex);
-  const pages = new Array(totalPages).fill(null);
-
-  const incrementPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const decrementPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
+  const {
+    currentPage,
+    currentOrders,
+    totalPages,
+    pages,
+    setCurrentPage,
+    incrementPage,
+    decrementPage,
+  } = useOrders();
 
   if (loading) {
     return (
