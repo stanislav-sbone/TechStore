@@ -6,6 +6,7 @@ import styles from './CartClearModal.module.css';
 import { toast } from 'react-toastify';
 import useIsMobile from '@/hooks/useIsMobile';
 import { updateCart } from '@/services/user/userApi';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 
 interface CartClearModalProps {
   closeClearModal: () => void;
@@ -14,7 +15,7 @@ interface CartClearModalProps {
 const CartClearModal: FC<CartClearModalProps> = ({ closeClearModal }) => {
   const token = useAppSelector((state) => state.auth.token);
   const dispatch = useAppDispatch();
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
 
   const handleBackdropClick = useCallback(
     (event: MouseEvent) => {

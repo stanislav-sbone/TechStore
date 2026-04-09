@@ -6,6 +6,7 @@ import { setCart } from '@/store/features/cart/cartSlice';
 import { toast } from 'react-toastify';
 import { useRequireAuth } from './useRequireAuth';
 import { updateCart, updateFavorites } from '@/services/user/userApi';
+import { MOBILE_BREAKPOINT } from '@/constants/breakpoints';
 
 export const useProductCard = (id: number) => {
   const favorites = useAppSelector((state) => state.favorites.items);
@@ -13,7 +14,7 @@ export const useProductCard = (id: number) => {
   const cart = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
 
-  const isMobile = useIsMobile(600);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
   const { requireAuth } = useRequireAuth();
 
   const isFavorite = favorites.includes(id);
