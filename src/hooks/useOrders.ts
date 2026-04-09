@@ -2,6 +2,7 @@ import { getOrders } from '@/services/user/userApi';
 import { useAppSelector } from '@/store/hooks';
 import type { UserOrders } from '@/types/order';
 import { useEffect, useMemo, useState } from 'react';
+import useIsMobile from './useIsMobile';
 
 export const useOrders = () => {
   const [orders, setOrders] = useState<UserOrders[]>([]);
@@ -9,9 +10,11 @@ export const useOrders = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const token = useAppSelector((state) => state.auth.token);
+  const isMobile = useIsMobile(500);
 
   const ordersPerPage = 5;
-  const visiblePagesCount = 5;
+  const visiblePagesCount = isMobile ? 3 : 5;
+  const pageStep = Math.floor(visiblePagesCount / 2);
 
   const lastOrderIndex = currentPage * ordersPerPage;
   const firstOrderIndex = lastOrderIndex - ordersPerPage;
@@ -24,15 +27,15 @@ export const useOrders = () => {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    let startPage = currentPage - 2;
-    let endPage = currentPage + 2;
+    let startPage = currentPage - pageStep;
+    let endPage = currentPage + pageStep;
 
-    if (currentPage <= 3) {
+    if (currentPage <= pageStep + 1) {
       startPage = 1;
       endPage = visiblePagesCount;
     }
 
-    if (currentPage >= totalPages - 2) {
+    if (currentPage >= totalPages - pageStep) {
       startPage = totalPages - visiblePagesCount + 1;
       endPage = totalPages;
     }
@@ -41,7 +44,7 @@ export const useOrders = () => {
       { length: endPage - startPage + 1 },
       (_, i) => startPage + i
     );
-  }, [currentPage, totalPages]);
+  }, [currentPage, totalPages, visiblePagesCount, pageStep]);
 
   const incrementPage = () => {
     if (currentPage < totalPages) {
@@ -88,7 +91,6 @@ export const useOrders = () => {
     currentOrders,
     totalPages,
     visiblePages,
-    visiblePagesCount,
     setCurrentPage,
     incrementPage,
     decrementPage,

@@ -50,9 +50,14 @@
   }
 }
 
-@media (max-width: 450px) {
+.ellipsis {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 500px) {
   .pagination {
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
 
   .chevron {
@@ -61,5 +66,9 @@
 
   .pageButton {
     font-size: 1rem;
+  }
+
+  .pages {
+    gap: 0;
   }
 }
