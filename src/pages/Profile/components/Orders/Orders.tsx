@@ -1,9 +1,8 @@
 import { useState, type FC } from 'react';
 import type { UserOrders } from '@/types/order';
 import OrderCard from '../OrderCard/OrderCard';
+import Pagination from '../Pagination/Pagination';
 import styles from './Orders.module.css';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import useIsMobile from '@/hooks/useIsMobile';
 
 interface OrdersProps {
   orders: UserOrders[];
@@ -22,7 +21,17 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
   const currentOrders = orders.slice(firstOrderIndex, lastOrderIndex);
   const pages = new Array(totalPages).fill(null);
 
-  const isMobile = useIsMobile(450);
+  const incrementPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const decrementPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
   if (loading) {
     return (
@@ -66,37 +75,14 @@ const Orders: FC<OrdersProps> = ({ orders, loading, error }) => {
         ))}
       </div>
       {totalPages > 1 && (
-        <div className={styles.pagination}>
-          <button
-            className={styles.chevron}
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((prev) => prev - 1)}
-          >
-            <ChevronLeft size={isMobile ? 20 : 24} />
-          </button>
-          <div className={styles.pages}>
-            {pages.map((_, i) => (
-              <button
-                key={i}
-                className={
-                  currentPage === i + 1
-                    ? `${styles.pageButton} ${styles.currentPage}`
-                    : styles.pageButton
-                }
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
-          <button
-            className={styles.chevron}
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prev) => prev + 1)}
-          >
-            <ChevronRight size={isMobile ? 20 : 24} />
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pages={pages}
+          setCurrentPage={setCurrentPage}
+          incrementPage={incrementPage}
+          decrementPage={decrementPage}
+        />
       )}
     </div>
   );
